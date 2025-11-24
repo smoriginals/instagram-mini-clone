@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, MessageCircle, Send } from 'lucide-react'
 export default function Feedcard() {
+
     return (
         <>
             <div className='h-3/5 w-full bg-gray-200 flex justify-center items-center'>
@@ -22,6 +23,7 @@ export default function Feedcard() {
                         </div>
                         <p>Nice View! i like that.</p>
                     </div>
+
                 </div>
             </div>
         </>

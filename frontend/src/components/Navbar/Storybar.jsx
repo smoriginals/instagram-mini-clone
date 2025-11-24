@@ -1,24 +1,54 @@
-import React from 'react';
+﻿import React from 'react';
 import { Plus } from 'lucide-react';
 
 export default function Storybar() {
+    
     return (
         <>
-            <nav className="h-24 w-full bg-gray-400 flex justify-between items-center">
-                <div className='h-24 w-20 flex justify-start flex-col items-center bg-red-200 p-1 gap-1'>
-                    <div className='h-16 w-16 bg-white rounded-full border-3 border-pink-500'>
-                        <img src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png" alt="User Avatar" className="h-14.8 w-14.8 rounded-full" />
+            <nav className="relative top-14 flex h-24 w-full items-center bg-gray-400">
 
-                        <button className="relative bottom-6.5 left-10 translate-x-1 translate-y-1 bg-blue-500 h-6 w-6 rounded-full border">
-                            <Plus strokeWidth={3} color='white'/>
-                        </button>
+                {/* YOUR STORY */}
+                <div className="relative flex h-24 w-21 flex-col items-center justify-center p-1 pt-2">
+
+                    {/* Avatar Wrapper */}
+                    <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-pink-500 bg-white">
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
+                            alt="User Avatar"
+                            className="h-full w-full object-cover"
+                        />
                     </div>
-                    <p className='text-sm'>Your Story</p>
+
+                    {/* PLUS BUTTON OUTSIDE THE CIRCLE */}
+                    <button className="absolute top-13 right-3 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center">
+                        <Plus size={12} color="white" />
+                    </button>
+
+                    <p className="mt-1 text-xs">Your Story</p>
                 </div>
-                <div className='h-24 w-9/12 bg-red-300'>
-                    {/* Other user Stories will go here */}
+
+
+                {/* STORIES LIST */}
+                <div className="scrollbar-none relative flex h-24 w-full items-center gap-4 overflow-x-auto px-2">
+
+                    {/* Stories */}
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((user, index) => (
+                        <div key={index} className="mt-1 flex flex-shrink-0 flex-col items-center">
+                            <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-pink-500">
+                                <img
+                                    src={`https://i.pravatar.cc/150?img=${index + 1}`}
+                                    className="h-full w-full object-cover"
+                                    alt="story"
+                                />
+                            </div>
+                            <p className="mt-1 text-xs">user{index + 1}</p>
+                        </div>
+                    ))}
+
                 </div>
+
             </nav>
         </>
-    )
+    );
+
 }

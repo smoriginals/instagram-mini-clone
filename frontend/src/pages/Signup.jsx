@@ -10,7 +10,7 @@ export default function Signup() {
     return (
         <div className="h-screen w-full flex flex-col justify-center items-center bg-gray-50 p-4">
 
-            <h1 className="text-4xl font-bold mb-6">SM ORIGINALS</h1>
+            <h1 className="text-4xl font-bold mb-6">Instagnam</h1>
 
             <div className="w-full max-w-sm bg-white p-6 rounded-xl border border-gray-300">
 

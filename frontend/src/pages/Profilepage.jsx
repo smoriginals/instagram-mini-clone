@@ -1,7 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Editprofile from "../components/Profile/Editprofile.jsx";
 export default function Profilepage() {
+
+    const navigate = useNavigate();
+
     return (
         <>
 
@@ -59,7 +62,7 @@ export default function Profilepage() {
                     ))}
                 </div>
 
-                <div className="w-full max-w-md bg-white mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200">
+                <div className="w-full max-w-md bg-white mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/login')} }>
                     <button className='font-bold text-md cursor-pointer'>Log Out</button>
                 </div>
 

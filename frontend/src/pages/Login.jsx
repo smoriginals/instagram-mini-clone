@@ -9,12 +9,12 @@ export default function Login() {
     return (
         <div className="h-screen w-full flex flex-col justify-center items-center bg-gray-50 p-4">
             {/* Instagram Logo */}
-            <h1 className="text-4xl font-bold mb-6">MyInstagram</h1>
+            <h1 className="text-4xl font-bold mb-6">Instagnam</h1>
 
             <div className="w-full max-w-sm bg-white p-6 rounded-xl border border-gray-300">
 
-                <Input placeholder="Username or email" className="mb-3" />
-                <Input type="password" placeholder="Password" className="mb-4" />
+                <Input placeholder="Username or email" className="mb-3 px-5 rounded-full" />
+                <Input type="password" placeholder="Password" className="mb-4 px-5 rounded-full" />
 
                 <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
                     Log In

@@ -16,7 +16,7 @@ export default function Login() {
                 <Input placeholder="Username or email" className="mb-3 px-5 rounded-full" />
                 <Input type="password" placeholder="Password" className="mb-4 px-5 rounded-full" />
 
-                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
+                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" onClick={() => { navigate('/')} }>
                     Log In
                 </Button>
 

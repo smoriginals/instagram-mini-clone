@@ -19,7 +19,7 @@ export default function Signup() {
                 <Input placeholder="Username" className="mb-3 rounded-full px-4" />
                 <Input type="password" placeholder="Password" className="mb-4 rounded-full px-4" />
 
-                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" onClick={() => { navigate('/')} }>
+                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" onClick={() => { navigate('/login')} }>
                     Sign Up
                 </Button>
 

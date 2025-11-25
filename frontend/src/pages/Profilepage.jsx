@@ -62,8 +62,8 @@ export default function Profilepage() {
                     ))}
                 </div>
 
-                <div className="w-full max-w-md bg-white mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/login')} }>
-                    <button className='font-bold text-md cursor-pointer'>Log Out</button>
+                <div className="w-full max-w-md bg-white mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/settings')} }>
+                    <button className='font-bold text-md cursor-pointer'>Setting</button>
                 </div>
 
 

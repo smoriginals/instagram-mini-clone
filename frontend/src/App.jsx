@@ -10,10 +10,21 @@ import Notifications from './pages/Notifications';
 import Message from './pages/Message';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Settings from './pages/Settings';
+import Dashboard from './pages/Dashboard';
+import Admin from './pages/Admin';
+import { useLocation } from 'react-router-dom';
+import Secure from './pages/Secure';
+
 export default function App() {
+
+    const location = useLocation();
+    const hideComponentsOnThisRoutes = ['/login', '/signup', '/admin', '/settings','/smos'];
+    const shouldHideComponents = hideComponentsOnThisRoutes.includes(location.pathname);
+
     return (
         <>
-            <Navbar />
+            {!shouldHideComponents && <Navbar />}
             <Routes>
                 <Route path='/' element={<Homescreen />} />
                 <Route path='/profile' element={<Profilepage />} />
@@ -21,11 +32,13 @@ export default function App() {
                 <Route path='/messages' element={<Message />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-
-
+                <Route path='/settings' element={<Settings />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path='/admin' element={<Admin/> }/>
+                <Route path='/smos' element={<Secure/> }/>
                 <Route path='*' element={<Notfound />} />
             </Routes>
-            <Bottombar />
+            {!shouldHideComponents&& < Bottombar />}
         </>
     )
 }

@@ -5,7 +5,7 @@ export default function Storybar() {
     
     return (
         <>
-            <nav className="relative top-14 flex h-24 w-full items-center bg-gray-400">
+            <nav className="relative top-14 left-0 right-0 flex h-24 w-full items-center">
 
                 {/* YOUR STORY */}
                 <div className="relative flex h-24 w-21 flex-col items-center justify-center p-1 pt-2">
@@ -29,7 +29,7 @@ export default function Storybar() {
 
 
                 {/* STORIES LIST */}
-                <div className="scrollbar-none relative flex h-24 w-full items-center gap-4 overflow-x-auto px-2 transition-all duration-300 ease-in-out  [scroll-behavior:smooth]">
+                <div className="scrollbar-none relative pt-0.5 flex h-24 w-full items-center gap-4 overflow-x-auto px-2 transition-all duration-300 ease-in-out  [scroll-behavior:smooth]">
 
                     {/* Stories */}
                     {[1, 2, 3, 4, 5, 6, 7, 8,9,11,12,13,14,15,16,17,18,19,20].map((user, index) => (

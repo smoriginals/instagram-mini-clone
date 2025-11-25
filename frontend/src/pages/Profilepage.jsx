@@ -58,6 +58,12 @@ export default function Profilepage() {
                         <div key={i} className="aspect-square bg-gray-300 rounded-xl"></div>
                     ))}
                 </div>
+
+                <div className="w-full max-w-md bg-white mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200">
+                    <button className='font-bold text-md cursor-pointer'>Log Out</button>
+                </div>
+
+
             </div>
         </>
     );

@@ -24,7 +24,7 @@ export default function Editprofile() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-blue-500 text-white font-semibold">
+                <Button className="bg-white text-black border shadow text-md font-semibold">
                     Edit Profile
                 </Button>
             </DialogTrigger>

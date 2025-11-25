@@ -1,24 +1,174 @@
-import React from 'react';
-import { Heart, MessageCircle, Send } from 'lucide-react'
+﻿import React, { useState } from 'react';
+import { Heart, MessageCircle, Send, Bookmark, Link, Twitter, Facebook, MessageSquareMore } from 'lucide-react'
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Sheet,
+    SheetTrigger,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetDescription,
+} from "@/components/ui/sheet";
+
+
 export default function Feedcard() {
+
+    const [comments, setComments] = useState([
+        { id: 1, user: "alex", text: "Wow nice!" },
+        { id: 2, user: "john", text: "Amazing view ❤️" },
+        { id: 3, user: "sarah", text: "Love this!!" },
+    ]);
+
+    const [input, setInput] = useState("");
+
+    const sendComment = () => {
+        if (input.trim() === "") return;
+
+        setComments([...comments, { id: Date.now(), user: "you", text: input }]);
+        setInput("");
+    };
 
     return (
         <>
-            <div className='h-3/5 w-full bg-gray-200 flex justify-center items-center'>
-                <div className='h-3/5 w-full bg-red-500 p-1'>
-                    <div className='bg-white flex justify-start gap-2 p-1 items-center'>
+            <div className='h-3/5 w-full bg-white flex justify-center items-center'>
+
+                <div className='h-3/5 w-full bg-gray-150 pt-2 px-1.5'>
+
+                    <div className='bg-white flex justify-start gap-2 p-1.5 items-center rounded-t-2xl border-t border-l border-r'>
                         <div className='h-8 w-8 rounded-full border-2 border-pink-500'></div>
                         <p>Username.XYZ</p>
                     </div>
-                    <div className='h-100 w-full bg-gray-500 flex justify-center items-center object-cover'>
-                        <img src="https://th.bing.com/th/id/R.8a97c68b21bb72d8d29219a30a935f4c?rik=XOUhz40Jc9OcYg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-images-6.jpg&ehk=BQoi8QCZQtCfHkXWT0TIAxv1vTtTO1rY7ctKskX6Xfs%3d&risl=&pid=ImgRaw&r=0" alt="User Avatar" className=" h-full w-full" />
+
+
+                    <div className='h-100 w-full border-l border-r flex justify-center items-center object-cover'>
+                        <img src="https://th.bing.com/th/id/R.8a97c68b21bb72d8d29219a30a935f4c?rik=XOUhz40Jc9OcYg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-images-6.jpg&ehk=BQoi8QCZQtCfHkXWT0TIAxv1vTtTO1rY7ctKskX6Xfs%3d&risl=&pid=ImgRaw&r=0" alt="User Avatar" className=" h-full w-full border-l border-r" />
                     </div>
-                    <div className='h-10 w-full bg-green-200 flex justify-start items-center gap-2 px-1'>
-                        <button className='h-8 w-8 bg-white flex justify-center items-center'><Heart size={30} /></button>
-                        <button className='h-8 w-8 bg-white flex justify-center items-center'><MessageCircle size={30} /></button>
-                        <button className='h-8 w-8 bg-white flex justify-center items-center'><Send size={30} /></button>
+
+
+                    <div className='h-10 w-full flex justify-between items-center gap-2 px-0.5 border-l border-r'>
+                        <div className='flex justify-center items-center gap-1 '>
+
+                            <div className='flex justify-start items-center flex-row'>
+                                <button className='h-8 w-8 flex justify-center items-center'>
+                                    <Heart size={20} fill='red' stroke='red'/>                                
+                            </button>
+                            <p className='font-medium text-md'>2K</p>
+                            </div>
+
+                            {/*<button className='h-8 w-8 bg-white flex justify-center items-center'><MessageCircle size={30} /></button>*/}
+
+                            <Drawer>
+
+                                {/* Button to open drawer */}
+                                <DrawerTrigger asChild>
+
+                                    <div className='flex justify-start items-center gap-1 flex-row'>
+                                    <button className="h-8 w-8 flex justify-center items-center rounded-md">
+                                        <MessageCircle size={20} />
+                                    </button>
+
+                                    <p className='font-medium text-md'>2K+</p>
+                                    </div>
+                                </DrawerTrigger>
+
+                                {/* Drawer Content */}
+                                <DrawerContent className="rounded-t-2xl p-4">
+
+                                    {/* Header */}
+                                    <DrawerHeader className="flex justify-between items-center">
+                                        <p className="text-xl font-bold">Comments</p>
+
+                                    </DrawerHeader>
+
+                                    {/* Comments List */}
+                                    <div className="h-[50vh] overflow-y-auto mt-2 space-y-3 px-1">
+                                        {comments.map((item) => (
+                                            <div key={item.id} className="flex gap-2 items-start">
+                                                <div className="h-8 w-8 rounded-full bg-white border border-pink-500"></div>
+
+                                                <div>
+                                                    <p className="font-semibold text-sm">{item.user}</p>
+                                                    <p className="text-sm text-gray-700">{item.text}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Input */}
+                                    <div className="mt-4 flex items-center gap-2 border-t pt-3">
+                                        <Input
+                                            placeholder="Add a comment..."
+                                            value={input}
+                                            onChange={(e) => setInput(e.target.value)}
+                                            className="flex-1"
+                                        />
+
+                                        <Button onClick={sendComment} className='bg-blue-500 font-bold text-white'>
+                                            Send
+                                        </Button>
+                                    </div>
+
+                                </DrawerContent>
+                            </Drawer>
+
+
+
+
+
+
+
+
+
+
+                            {/*<button className='h-8 w-8 bg-white flex justify-center items-center'><Send size={30} /></button>*/}
+
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <button className="h-8 w-8 flex justify-center items-center">
+                                        <Send size={20} />
+                                    </button>
+                                </SheetTrigger>
+
+                                <SheetContent side="bottom" className="rounded-t-2xl">
+                                    <SheetHeader>
+                                        <SheetTitle className="text-2xl font-bold">Share</SheetTitle>
+                                        <SheetDescription className='text-sm font-bold'>Select a platform to share</SheetDescription>
+                                    </SheetHeader>
+
+                                    <div className="flex items-center justify-center gap-4 pb-8">
+
+                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                            <Link size={40} />
+                                        </button>
+
+                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                            <MessageSquareMore size={40}/>
+                                        </button>
+
+                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                            <Facebook size={40}/>
+                                        </button>
+
+                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                            <Twitter size={40}/>
+                                        </button>
+
+                                    </div>
+                                </SheetContent>
+                            </Sheet>
+
+                        </div>
+
+                        <div>
+                            <button className='h-8 w-8 flex justify-center items-center'><Bookmark size={22} /></button>
+                            
+                        </div>
                     </div>
-                    <div className='h-10 w-full bg-gray-200 flex justify-start items-center p-1 gap-1'>
+
+
+                    <div className='h-10 w-full bg-white flex justify-start items-center p-2 gap-1 rounded-b-2xl border-b border-l border-r'>
                         <div className='h-6 w-6 bg-gray-200 rounded-full border border-pink-500'>
                         </div>
                         <p>Nice View! i like that.</p>

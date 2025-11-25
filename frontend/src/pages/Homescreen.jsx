@@ -6,10 +6,10 @@ import Bottombar from '../components/Footer/Bottombar.jsx';
 export default function Homescreen() {
     return (
         <>
-            <Navbar />
+           
             <Storybar />
             <Feeds />
-            <Bottombar />
+            
         </>
     )
 }

@@ -42,8 +42,12 @@ export default function Feedcard() {
                     </div>
 
 
-                    <div className='h-100 w-full border-l border-r flex justify-center items-center object-cover'>
-                        <img src="https://th.bing.com/th/id/R.8a97c68b21bb72d8d29219a30a935f4c?rik=XOUhz40Jc9OcYg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-images-6.jpg&ehk=BQoi8QCZQtCfHkXWT0TIAxv1vTtTO1rY7ctKskX6Xfs%3d&risl=&pid=ImgRaw&r=0" alt="User Avatar" className=" h-full w-full border-l border-r" />
+                    <div className="w-full aspect-square border-l border-r px-0.5">
+                        <img
+                            src="https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"
+                            alt="User Avatar"
+                            className="w-full h-full object-cover"
+                        />
                     </div>
 
 

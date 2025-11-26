@@ -66,7 +66,6 @@ export default function Profilepage() {
                     <button className='font-bold text-md cursor-pointer'>Setting</button>
                 </div>
 
-
             </div>
         </>
     );

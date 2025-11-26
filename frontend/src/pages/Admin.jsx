@@ -32,7 +32,7 @@ export default function Admin() {
                         <Input
                             type="email"
                             placeholder="admin@example.com"
-                            className="bg-white/20 border-white/30 text-white placeholder-gray-300"
+                            className="bg-white/200 border-white/30 text-white placeholder-gray-300"
                         />
                     </div>
 
@@ -41,7 +41,7 @@ export default function Admin() {
                         <Input
                             type="password"
                             placeholder="Password"
-                            className="bg-white/20 border-white/30 text-white placeholder-gray-300"
+                            className="bg-white/200 border-white/30 text-white placeholder-gray-300"
                         />
                     </div>
 

@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { Plus } from 'lucide-react';
+import Uploadstories from '../Reusables/Uploadstories';
 
 export default function Storybar() {
     
@@ -16,13 +17,15 @@ export default function Storybar() {
                             src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
                             alt="User Avatar"
                             className="h-full w-full object-cover"
-                        />
+                            onClick={() => { console.log('image clicked')} } />
                     </div>
 
                     {/* PLUS BUTTON OUTSIDE THE CIRCLE */}
-                    <button className="absolute top-13 right-2 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center">
-                        <Plus size={12} color="white" onClick={() => { console.log("story button clicked:") }} />
-                    </button>
+                    {/*<button className="absolute top-13 right-2 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center">*/}
+                    {/*    <Plus size={12} color="white" onClick={() => { console.log("story button clicked:") }} />*/}
+                    {/*</button>*/}
+
+                    <Uploadstories/>
 
                     <p className="mt-1 text-xs font-bold">Your Story</p>
                 </div>

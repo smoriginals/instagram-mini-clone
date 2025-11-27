@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Image, BookOpen, PlusCircle} from "lucide-react";
 import {
     Drawer,
@@ -9,8 +9,13 @@ import {
     DrawerClose,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useGlobal } from "../../Context/GlobalContext";
 
 export default function PostIcon() {
+
+    const { OpenStoryDrawer } = useGlobal();
+    const uploadPhoto = useRef(null);
+
     return (
         <>
             <Drawer>
@@ -20,31 +25,41 @@ export default function PostIcon() {
 
                 <DrawerContent>
                     <DrawerHeader>
-                        <DrawerTitle className="text-center">Create</DrawerTitle>
+                        <DrawerTitle className="text-xl font-bold text-center">Create</DrawerTitle>
                     </DrawerHeader>
 
-                    <div className="flex flex-col gap-4 p-4 text-lg">
+                    <div className="flex flex-col gap-2 px-4 text-lg">
 
-                        <button className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100">
+                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg hover:bg-gray-200"
+                            onClick={() => uploadPhoto.current.click()}
+                        >
                             <Image /> Upload a Photo
                         </button>
 
-                        <button className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100">
-                            <BookOpen /> Add a Story
+                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg hover:bg-gray-200" onClick={OpenStoryDrawer}>
+                            <BookOpen  /> Add a Story
                         </button>
 
-                        <button className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100">
+                        <button className="flex font-semibold tems-center gap-3 p-3 rounded-lg hover:bg-gray-200">
                             <PlusCircle /> Post
                         </button>
 
                     </div>
 
                     <DrawerClose className="p-4">
-                        <Button variant="outline" className="w-full">Close</Button>
+                        <Button variant="outline" className="w-full text-xl py-6 font-semibold">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>
             </Drawer>
+            <input
+                ref={uploadPhoto}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => console.log("Gallery picked:", e.target.files[0])}
+            />
+            
         </>
     )
 }

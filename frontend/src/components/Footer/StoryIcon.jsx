@@ -19,7 +19,7 @@ export default function StoryIcon() {
                 </DrawerTrigger>
 
                 <DrawerContent
-                    className="fixed w-screen p-0 rounded-none bg-gray-100 text-black"
+                    className="fixed w-screen p-0 rounded-none"
                 >
 
                     {/* Rounded Progress Bar */}

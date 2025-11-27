@@ -29,20 +29,21 @@ export default function Notifications() {
     ];
 
     const iconMap = {
-        like: <Heart className="text-red-500 w-5 h-5" />,
-        follow: <UserPlus className="text-blue-500 w-5 h-5" />,
-        comment: <MessageCircle className="text-green-500 w-5 h-5" />,
+        like: <Heart className="text-red-500 fill-red-500 w-5 h-5" />,
+        follow: <UserPlus className="text-blue-500 fill-blue-500 w-5 h-5" />,
+        comment: <MessageCircle className="text-green-500 fill-green-500 w-5 h-5" />,
     };
 
     return (
-        <div className="flex flex-col p-2 mt-3">
-            <h2 className="text-xl font-semibold mb-4">Notifications</h2>
+        <div className="relative top-14 flex flex-col px-2 h-full">
+
+            <h2 className="text-4xl font-bold py-2">Notifications</h2>
 
             <div className="flex gap-2 flex-col">
                 {notifications.map((n) => (
                     <div
                         key={n.id}
-                        className="flex items-center gap-4 p-3 rounded-lg bg-white shadow-sm border"
+                        className="flex items-center gap-4 p-3 rounded-lg shadow-sm border"
                     >
                         {/* Avatar */}
                         <img
@@ -56,7 +57,7 @@ export default function Notifications() {
                             <p className="text-sm">
                                 <span className="font-semibold">{n.user}</span> {n.text}
                             </p>
-                            <p className="text-gray-500 text-xs">{n.time} ago</p>
+                            <p className=" text-xs">{n.time} ago</p>
                         </div>
 
                         {/* Icon */}

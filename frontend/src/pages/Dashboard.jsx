@@ -43,10 +43,10 @@ export default function Dashboard() {
 			{/* Stats Grid */}
 			<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 ">
 				{stats.map((item, idx) => (
-					<Card key={idx} className="shadow-md border bg-gray-50">
+					<Card key={idx} className="shadow-md border">
 						<CardHeader className="flex justify-center items-center">
 							<CardTitle className="text-sm font-medium text-center">{item.title}</CardTitle>
-							<item.icon className="h-5 w-5 text-blue-600" />
+							<item.icon className="h-5 w-5 text-blue-500 fill-blue-500" />
 						</CardHeader>
 
 						<CardContent>

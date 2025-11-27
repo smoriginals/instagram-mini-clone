@@ -33,18 +33,18 @@ export default function Message() {
 
     return (
         <>
-            <div className="h-screen bg-white">
+            <div className="relative top-14 flex flex-col px-2 h-full">
                 {/* Header */}
-                <div className="h-14 flex items-center px-4 border-b">
-                    <p className="text-xl font-bold">Messages</p>
+                <div className="h-14 flex items-center">
+                    <p className="text-4xl font-bold py-2">Messages</p>
                 </div>
 
                 {/* Chat List */}
-                <div className="p-2 flex flex-col gap-2">
+                <div className=" flex flex-col gap-2">
                     {chats.map(chat => (
                         <div
                             key={chat.id}
-                            className="flex items-center gap-3 px-4 py-3 cursor-pointer bg-gray-50 rounded-md border-2 hover:bg-gray-100"
+                            className="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-md border-2"
                             onClick={() => navigate(`/chat/${chat.id}`)}
                         >
                             {/* Avatar */}
@@ -59,8 +59,7 @@ export default function Message() {
                                 <p className="font-semibold">{chat.username}</p>
 
                                 {/* Sent vs Received message color */}
-                                <p className={`text-sm ${chat.isMe ? "text-gray-500" : "text-black"
-                                    }`}>
+                                <p className={`text-sm ${chat.isMe ? "" : ""}`}>
                                     {chat.isMe ? `You: ${chat.lastMessage}` : chat.lastMessage}
                                 </p>
                             </div>

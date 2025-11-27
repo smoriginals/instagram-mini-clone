@@ -1,39 +1,43 @@
 ﻿import React, { useRef } from "react";
 import {
     Drawer,
-    DrawerTrigger,
     DrawerContent,
+    DrawerClose
 } from "@/components/ui/drawer";
-import { Plus } from "lucide-react";
-export default function Uploadstories() {
+import { Plus, Camera, Image } from "lucide-react";
+import { useGlobal } from '../../Context/GlobalContext';
+export default function AddStoryIcon() {
+
+    const { storyDrawerOpen, OpenStoryDrawer, CloseStoryDrawer } = useGlobal();
 
     const cameraRef = useRef(null);
     const galleryRef = useRef(null);
 
     return (
         <div>
-            <Drawer>
-                <DrawerTrigger asChild>
-                    <button className="absolute top-13 right-2 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center">
-                        <Plus size={12} color="white" />
-                    </button>
-                </DrawerTrigger>
+            <button className="absolute top-13 right-2 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center" onClick={OpenStoryDrawer}>
+                <Plus size={12} color="white" />
+            </button>
+            <Drawer open={storyDrawerOpen} onOpenChange={CloseStoryDrawer}>
 
                 <DrawerContent className="p-4 flex flex-col gap-3">
                     <h1 className='text-xl font-bold text-center p-2'>Add a Story</h1>
                     <button
                         onClick={() => cameraRef.current.click()}
-                        className="p-3 border rounded text-center"
+                        className="p-3 border rounded flex justify-center items-center"
                     >
-                        📸 Camera
+                        <Camera size={30} />
                     </button>
 
                     <button
                         onClick={() => galleryRef.current.click()}
-                        className="p-3 border rounded text-center"
+                        className="p-3 border rounded flex justify-center items-center"
                     >
-                        📁 Gallery
+                        <Image size={30} />
                     </button>
+
+                    <h1 className='text-center p-4 rounded-sm text-xl font-bold'>Choose</h1>
+
                 </DrawerContent>
             </Drawer>
 

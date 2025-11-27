@@ -49,7 +49,7 @@ export default function SearchIcon() {
                             <p className="text-sm text-gray-500 text-center">Type to search...</p>
                         ) : (
                             [...Array(10)].map((_, i) => (
-                                <div key={i} className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                                <div key={i} className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-200 cursor-pointer">
                                     <img
                                         src={`https://i.pravatar.cc/150?img=${i + 1}`}
                                         className="h-10 w-10 rounded-full object-cover"

@@ -15,13 +15,13 @@ import {
 
 export default function Feedcard() {
 
+    const [input, setInput] = useState("");
+    const [like, setLike] = useState(0);
     const [comments, setComments] = useState([
         { id: 1, user: "alex", text: "Wow nice!" },
         { id: 2, user: "john", text: "Amazing view ❤️" },
         { id: 3, user: "sarah", text: "Love this!!" },
     ]);
-
-    const [input, setInput] = useState("");
 
     const sendComment = () => {
         if (input.trim() === "") return;
@@ -30,13 +30,18 @@ export default function Feedcard() {
         setInput("");
     };
 
+    const HandleLike = () => {
+        setLike(like + 1);
+    }
+
+
     return (
         <>
-            <div className='h-3/5 w-full bg-white flex justify-center items-center'>
+            <div className='h-3/5 w-full flex justify-center items-center'>
 
                 <div className='h-3/5 w-full bg-gray-150 pt-2 px-1.5'>
-
-                    <div className='bg-white flex justify-start gap-2 p-1.5 items-center rounded-t-2xl border-t border-l border-r'>
+                    
+                    <div className=' flex justify-start gap-2 p-1.5 items-center rounded-t-2xl border-t border-l border-r'>
                         <div className='h-8 w-8 rounded-full border-2 border-pink-500'></div>
                         <p>Username.XYZ</p>
                     </div>
@@ -54,26 +59,27 @@ export default function Feedcard() {
                     <div className='h-10 w-full flex justify-between items-center gap-2 px-0.5 border-l border-r'>
                         <div className='flex justify-center items-center gap-1 '>
 
+                            {/*Like Button*/}
                             <div className='flex justify-start items-center flex-row'>
-                                <button className='h-8 w-8 flex justify-center items-center'>
-                                    <Heart size={20} fill='red' stroke='red'/>                                
+                                <button className='h-8 w-8 flex justify-center items-center' onClick={HandleLike}>
+                                    <Heart size={20} />                                
                             </button>
-                            <p className='font-medium text-md'>2K</p>
+                                <p className='font-medium text-md'>{like}</p>
                             </div>
+                            {/*Like Button*/}
 
-                            {/*<button className='h-8 w-8 bg-white flex justify-center items-center'><MessageCircle size={30} /></button>*/}
-
+                            {/*Comments Button*/}
                             <Drawer>
 
                                 {/* Button to open drawer */}
                                 <DrawerTrigger asChild>
 
-                                    <div className='flex justify-start items-center gap-1 flex-row'>
-                                    <button className="h-8 w-8 flex justify-center items-center rounded-md">
+                                    <div className='flex justify-start items-center flex-row'>
+                                    <button className="h-8 w-8 flex justify-center items-center">
                                         <MessageCircle size={20} />
                                     </button>
 
-                                    <p className='font-medium text-md'>2K+</p>
+                                    <p className='font-medium text-md'>2K</p>
                                     </div>
                                 </DrawerTrigger>
 
@@ -90,7 +96,7 @@ export default function Feedcard() {
                                     <div className="h-[50vh] overflow-y-auto mt-2 space-y-3 px-1">
                                         {comments.map((item) => (
                                             <div key={item.id} className="flex gap-2 items-start">
-                                                <div className="h-8 w-8 rounded-full bg-white border border-pink-500"></div>
+                                                <div className="h-8 w-8 rounded-full border border-pink-500"></div>
 
                                                 <div>
                                                     <p className="font-semibold text-sm">{item.user}</p>
@@ -109,25 +115,16 @@ export default function Feedcard() {
                                             className="flex-1"
                                         />
 
-                                        <Button onClick={sendComment} className='bg-blue-500 font-bold text-white'>
+                                        <Button onClick={sendComment} className='bg-blue-500 font-bold'>
                                             Send
                                         </Button>
                                     </div>
 
                                 </DrawerContent>
                             </Drawer>
+                            {/*Comments Button*/}
 
-
-
-
-
-
-
-
-
-
-                            {/*<button className='h-8 w-8 bg-white flex justify-center items-center'><Send size={30} /></button>*/}
-
+                            {/*Share Button*/}
                             <Sheet>
                                 <SheetTrigger asChild>
                                     <button className="h-8 w-8 flex justify-center items-center">
@@ -162,22 +159,24 @@ export default function Feedcard() {
                                     </div>
                                 </SheetContent>
                             </Sheet>
-
+                            {/*Share Button*/}
                         </div>
 
+                        {/*Save Button*/}
                         <div>
                             <button className='h-8 w-8 flex justify-center items-center'><Bookmark size={22} /></button>
                             
                         </div>
+                        {/*Save Button*/}
                     </div>
 
-
-                    <div className='h-10 w-full bg-white flex justify-start items-center p-2 gap-1 rounded-b-2xl border-b border-l border-r'>
+                    {/*Show Comments*/}
+                    <div className='h-10 w-full flex justify-start items-center p-2 gap-1 rounded-b-2xl border-b border-l border-r'>
                         <div className='h-6 w-6 bg-gray-200 rounded-full border border-pink-500'>
                         </div>
                         <p>Nice View! i like that.</p>
                     </div>
-
+                    {/*Show Comments*/}
                 </div>
             </div>
         </>

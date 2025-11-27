@@ -24,9 +24,9 @@ export default function Editprofile() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-white text-black border shadow text-md font-semibold">
+                <button className="p-2 px-4 border-gray-600 rounded-md border shadow text-md font-semibold">
                     Edit Profile
-                </Button>
+                </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[450px]" onOpenAutoFocus={(e) => e.preventDefault()} >
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import {
@@ -14,12 +14,27 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 export default function Settings() {
 
     const navigate = useNavigate();
+    const [mode, setMode] = useState('light');
+
+    
+    useEffect(() => {
+        if (mode === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, [mode]);
+
+    const ToggleTheme = () => {
+        setMode(prev => (prev === "light" ? "dark" : "light"));
+    };
 
     return (
-        <div className="h-full w-full px-2 pt-6 flex flex-col gap-2">
+        <div className="h-full w-full px-2 pt-6 flex flex-col gap-2 pb-2">
             <h1 className="text-4xl font-bold px-2 ">Settings</h1>
 
             {/* Theme */}
@@ -29,7 +44,7 @@ export default function Settings() {
                 <div className="flex items-center justify-between">
                     <span>Dark Mode</span>
                     <div className="flex items-center space-x-2">
-                        <Switch id="airplane-mode" />
+                        <Switch onClick={ToggleTheme} />
                     </div>
                 </div>
 
@@ -38,11 +53,11 @@ export default function Settings() {
                 <div className="flex items-center justify-between">
                     <span>Two-Step Verification</span>
                     <div className="flex items-center space-x-2">
-                        <Switch id="airplane-mode" />
+                        <Switch />
                     </div>
                 </div>
 
-                <button className="w-full py-2 border bg-white text-black rounded-md text-md font-semibold shadow" onClick={() => { navigate('/dashboard')} }>
+                <button className="w-full py-2 border rounded-md text-md font-semibold shadow" onClick={() => { navigate('/dashboard')} }>
                     Dashboard
                 </button>
 
@@ -53,8 +68,10 @@ export default function Settings() {
 
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
-                        <Button variant="outline" className="w-full py-2 h-11 border rounded-md text-md font-semibold shadow">Delete Account</Button>
-                        </AlertDialogTrigger>
+                        <button variant="outline" className="w-full py-2 h-11 border rounded-md text-md font-semibold shadow">Delete Account</button>
+
+                    </AlertDialogTrigger>
+
                         <AlertDialogContent>
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -74,12 +91,12 @@ export default function Settings() {
 
             
 
-            <div className="p-3 border-2 border-gray-300 rounded-lg space-y-2">
-                <h2 className="text-lg font-semibold text-gray-600">Admin Login</h2>
+            <div className="p-3 border-2 rounded-lg space-y-2">
+                <h2 className="text-lg font-semibold">Admin Login</h2>
 
                
 
-                <button className="w-full py-2 bg-green-600 text-white rounded-md font-bold" onClick={() => { navigate('/admin') }}>
+                <button className="w-full py-2 bg-gray-700 text-white rounded-md font-bold" onClick={() => { navigate('/admin') }}>
                     Login as Admin
                 </button>
             </div>

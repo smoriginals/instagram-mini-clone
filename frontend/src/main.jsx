@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import App from './App.jsx'
 import './index.css'
-import { GlobalProvider } from '../Context/GlobalContext.jsx';
+import { GlobalProvider } from './Context/GlobalContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>

@@ -1,0 +1,26 @@
+﻿import React from "react";
+import { MessageCircleHeart } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+export default function MessageIcon() {
+
+    const navigate = useNavigate();
+    const location = useLocation();  
+
+    const HandleMessage = () => {
+        if (location.pathname === '/messages') {
+            // 🔥 Return back to where user came from
+            navigate(location.state?.from || -1);
+        } else {
+            // 🔥 Save current page before moving to messages
+            navigate('/messages', { state: { from: location.pathname } });
+        }
+    };
+
+    return (
+        <>
+            <div className='flex h-10 w-10 items-center justify-center'>
+                <MessageCircleHeart size={30} onClick={HandleMessage} />
+            </div> 
+        </>
+    );
+}

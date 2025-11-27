@@ -8,11 +8,11 @@ export default function Signup() {
     const navigate = useNavigate();
 
     return (
-        <div className="h-screen w-full flex flex-col justify-center items-center bg-gray-50 p-4">
+        <div className="h-screen w-full flex flex-col justify-center items-center p-4">
 
             <h1 className="text-4xl font-bold mb-6">Instagnam</h1>
 
-            <div className="w-full max-w-sm bg-white p-6 rounded-xl border border-gray-300">
+            <div className="w-full max-w-sm p-6 rounded-xl border border-gray-600">
 
                 <Input placeholder="Email" className="mb-3 rounded-full px-4" />
                 <Input placeholder="Full Name" className="mb-3 rounded-full px-4" />
@@ -25,7 +25,7 @@ export default function Signup() {
 
             </div>
 
-            <div className="w-full max-w-sm mt-4 bg-white p-4 rounded-xl border border-gray-300 text-center">
+            <div className="w-full max-w-sm mt-4 p-4 rounded-xl border border-gray-600 text-center">
                 <p className="text-sm">
                     Already have an account?
                     <span

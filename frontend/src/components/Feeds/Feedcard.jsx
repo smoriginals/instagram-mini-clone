@@ -41,13 +41,13 @@ export default function Feedcard() {
 
                 <div className='h-3/5 w-full bg-gray-150 pt-2 px-1.5'>
                     
-                    <div className=' flex justify-start gap-2 p-1.5 items-center rounded-t-2xl border-t border-l border-r'>
+                    <div className=' flex justify-start gap-2 p-1.5 items-center rounded-t-2xl border-t border-l border-r border-gray-600'>
                         <div className='h-8 w-8 rounded-full border-2 border-pink-500'></div>
                         <p>Username.XYZ</p>
                     </div>
 
 
-                    <div className="w-full aspect-square border-l border-r px-0.5">
+                    <div className="w-full aspect-square border-l border-r px-0.5 border-gray-600">
                         <img
                             src="https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"
                             alt="User Avatar"
@@ -56,7 +56,7 @@ export default function Feedcard() {
                     </div>
 
 
-                    <div className='h-10 w-full flex justify-between items-center gap-2 px-0.5 border-l border-r'>
+                    <div className='h-10 w-full flex justify-between items-center gap-2 px-0.5 border-l border-r border-gray-600'>
                         <div className='flex justify-center items-center gap-1 '>
 
                             {/*Like Button*/}
@@ -171,7 +171,7 @@ export default function Feedcard() {
                     </div>
 
                     {/*Show Comments*/}
-                    <div className='h-10 w-full flex justify-start items-center p-2 gap-1 rounded-b-2xl border-b border-l border-r'>
+                    <div className='h-10 w-full flex justify-start items-center p-2 gap-1 rounded-b-2xl border-b border-l border-r border-gray-600'>
                         <div className='h-6 w-6 bg-gray-200 rounded-full border border-pink-500'>
                         </div>
                         <p>Nice View! i like that.</p>

@@ -15,60 +15,71 @@ import {
 import { Button } from "@/components/ui/button"
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import MobileNo from '../components/Profile/MobileNo';
 export default function Settings() {
 
     const navigate = useNavigate();
-    const [mode, setMode] = useState('light');
-
     
+    const [mode, setMode] = useState(() => {
+        return localStorage.getItem("theme") || "light";
+    });
+
     useEffect(() => {
         if (mode === "dark") {
             document.documentElement.classList.add("dark");
         } else {
             document.documentElement.classList.remove("dark");
         }
+
+        localStorage.setItem("theme", mode);
     }, [mode]);
 
     const ToggleTheme = () => {
         setMode(prev => (prev === "light" ? "dark" : "light"));
     };
 
+
     return (
         <div className="h-full w-full px-2 pt-6 flex flex-col gap-2 pb-2">
             <h1 className="text-4xl font-bold px-2 ">Settings</h1>
 
             {/* Theme */}
-            <div className="p-4 border rounded-lg space-y-3 mt-2">
+            <div className="p-4  rounded-lg space-y-3 mt-2 border border-gray-600">
                 <h2 className="text-lg font-semibold">Theme</h2>
 
                 <div className="flex items-center justify-between">
                     <span>Dark Mode</span>
                     <div className="flex items-center space-x-2">
-                        <Switch onClick={ToggleTheme} />
+                        <Switch checked={mode === "dark"} onClick={ToggleTheme} />
                     </div>
                 </div>
+              
+
 
                 <h2 className="text-lg font-semibold">Account & Security</h2>
 
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between items-center">
                     <span>Two-Step Verification</span>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex space-x-2">
                         <Switch />
                     </div>
                 </div>
+                <div className='flex justify-start flex-col'>
+                    <MobileNo />
+                </div>
 
-                <button className="w-full py-2 border rounded-md text-md font-semibold shadow" onClick={() => { navigate('/dashboard')} }>
+                <button className="w-full py-2 border border-gray-600 rounded-md text-md font-semibold shadow" onClick={() => { navigate('/dashboard')} }>
                     Dashboard
                 </button>
 
 
-                <button className="w-full py-2 border rounded-md font-semibold shadow" onClick={() => { navigate('/login') }}>
+                <button className="w-full py-2 border border-gray-600 rounded-md font-semibold shadow" onClick={() => { navigate('/login') }}>
                     Log Out
                 </button>
 
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
-                        <button variant="outline" className="w-full py-2 h-11 border rounded-md text-md font-semibold shadow">Delete Account</button>
+                        <button variant="outline" className="w-full py-2 h-11 border border-gray-600 rounded-md text-md font-semibold shadow">Delete Account</button>
 
                     </AlertDialogTrigger>
 
@@ -91,12 +102,12 @@ export default function Settings() {
 
             
 
-            <div className="p-3 border-2 rounded-lg space-y-2">
+            <div className="p-3 border border-gray-600 rounded-lg space-y-2">
                 <h2 className="text-lg font-semibold">Admin Login</h2>
 
                
 
-                <button className="w-full py-2 bg-gray-700 text-white rounded-md font-bold" onClick={() => { navigate('/admin') }}>
+                <button className="w-full py-2 border border-gray-600 rounded-md font-bold" onClick={() => { navigate('/admin') }}>
                     Login as Admin
                 </button>
             </div>

@@ -44,7 +44,7 @@ export default function Message() {
                     {chats.map(chat => (
                         <div
                             key={chat.id}
-                            className="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-md border-2"
+                            className="flex items-center gap-3 px-3 py-3 cursor-pointer rounded-md border  border-gray-600"
                             onClick={() => navigate(`/chat/${chat.id}`)}
                         >
                             {/* Avatar */}
@@ -56,7 +56,7 @@ export default function Message() {
 
                             {/* User + Message */}
                             <div className="flex flex-col">
-                                <p className="font-semibold">{chat.username}</p>
+                                <p className="font-bold">{chat.username}</p>
 
                                 {/* Sent vs Received message color */}
                                 <p className={`text-sm ${chat.isMe ? "" : ""}`}>

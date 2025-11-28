@@ -28,7 +28,7 @@ export default function ProfileIcon() {
 
                     <div className="w-full h-full flex flex-col items-center p-6 overflow-y-auto">
                         {/* Profile Header */}
-                        <div className="w-full max-w-md border shadow rounded-2xl p-6 flex flex-col items-center border border-gray-600">
+                        <div className="w-full max-w-md shadow rounded-2xl p-6 flex flex-col items-center border border-gray-600">
                             <div className="relative h-32 w-32 rounded-full overflow-hidden shadow-md">
                                 <img
                                     src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
@@ -76,7 +76,7 @@ export default function ProfileIcon() {
                         {/* Posts Grid */}
                         <div className="w-full max-w-md mt-4 grid grid-cols-3 gap-2">
                             {[...Array(12)].map((_, i) => (
-                                <div key={i} className="aspect-square bg-gray-300 rounded-xl"></div>
+                                <div key={i} className="aspect-square bg-gray-300 border border-gray-600 rounded-xl"></div>
                             ))}
                         </div>
 

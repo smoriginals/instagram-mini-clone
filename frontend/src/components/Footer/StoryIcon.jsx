@@ -24,7 +24,7 @@ export default function StoryIcon() {
 
                     {/* Rounded Progress Bar */}
                     <div className="w-full mt-3 flex justify-center">
-                        <div className="w-[90%] h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-[90%] h-1.5 bg-gray-200 rounded-full overflow-hidden border  border-gray-600">
                             <div className="h-full w-[50%] bg-gray-400 rounded-full"></div>
                         </div>
                     </div>
@@ -39,18 +39,18 @@ export default function StoryIcon() {
                     </div>
 
                     {/* Story Photo */}
-                    <div className="mt-4 w-full h-[80vh] flex justify-center px-6">
+                    <div className="mt-4 w-full h-[80vh] flex justify-center px-6 overflow-auto">
                         <img
                             src="https://i.pravatar.cc/700"
                             alt="story"
-                            className="w-full h-full object-cover rounded-md"
+                            className="w-full h-full object-cover rounded-md border  border-gray-600"
                         />
 
                     </div>
 
                     {/* Close Button */}
                     <DrawerClose className="px-6 py-2">
-                        <Button variant="outline" className="w-full">Close</Button>
+                        <Button variant="outline" className="w-full border  border-gray-600">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>

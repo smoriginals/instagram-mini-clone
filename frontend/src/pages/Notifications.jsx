@@ -43,7 +43,7 @@ export default function Notifications() {
                 {notifications.map((n) => (
                     <div
                         key={n.id}
-                        className="flex items-center gap-4 p-3 rounded-lg shadow-sm border"
+                        className="flex items-center gap-4 p-3 rounded-lg shadow-sm border  border-gray-600"
                     >
                         {/* Avatar */}
                         <img
@@ -54,8 +54,8 @@ export default function Notifications() {
 
                         {/* Text */}
                         <div className="flex-1">
-                            <p className="text-sm">
-                                <span className="font-semibold">{n.user}</span> {n.text}
+                            <p className="text-md">
+                                <span className="font-bold">{n.user}</span> {n.text}
                             </p>
                             <p className=" text-xs">{n.time} ago</p>
                         </div>

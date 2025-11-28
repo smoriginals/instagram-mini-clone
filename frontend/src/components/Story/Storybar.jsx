@@ -23,7 +23,7 @@ export default function Storybar() {
 
 
                     {/*Add Story icon Button Rendered above.*/}
-                    <AddStoryIcon/>
+                    <AddStoryIcon />
                     {/*Add Story icon Button Rendered above.*/}
 
                     <p className="mt-1 text-xs font-bold">Your Story</p>
@@ -31,10 +31,31 @@ export default function Storybar() {
 
 
                 {/* STORIES LIST */}
-                <div className="scrollbar-none relative flex h-24 w-full items-center gap-4 overflow-x-auto px-1 transition-all duration-300 ease-in-out  [scroll-behavior:smooth]">
+                {/*<div className="scrollbar-none relative flex h-24 w-full items-center gap-4 overflow-x-auto px-1 transition-all duration-300 ease-in-out  [scroll-behavior:smooth]">*/}
 
-                    {/* Stories */}
-                    {[1, 2, 3, 4, 5, 6, 7, 8,9,11,12,13,14,15,16,17,18,19,20].map((user, index) => (
+                {/*    */}{/* Stories */}
+                {/*    {[1, 2, 3, 4, 5, 6, 7, 8,9,11,12,13,14,15,16,17,18,19,20].map((user, index) => (*/}
+                {/*        <div key={index} className="pt-1 flex flex-shrink-0 flex-col items-center ">*/}
+                {/*            <div className="h-15 w-15 overflow-hidden rounded-full scroll border-2 border-pink-500">*/}
+                {/*                <img*/}
+                {/*                    src={`https://i.pravatar.cc/150?img=${index + 1}`}*/}
+                {/*                    className="h-full w-full object-cover"*/}
+                {/*                    alt="story"*/}
+                {/*                />*/}
+                {/*            </div>*/}
+                {/*            <p className="text-xs font-bold pt-1">user{index + 1}</p>*/}
+                {/*        </div>*/}
+                {/*    ))}*/}
+
+                {/*</div>*/}
+
+                <div className="relative flex h-24 w-full items-center gap-4
+                overflow-x-auto px-1
+                [scrollbar-width:none]
+                [&::-webkit-scrollbar]:hidden
+                transition-all duration-300 ease-in-out  [scroll-behavior:smooth]">
+
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((user, index) => (
                         <div key={index} className="pt-1 flex flex-shrink-0 flex-col items-center">
                             <div className="h-15 w-15 overflow-hidden rounded-full border-2 border-pink-500">
                                 <img
@@ -46,8 +67,8 @@ export default function Storybar() {
                             <p className="text-xs font-bold pt-1">user{index + 1}</p>
                         </div>
                     ))}
-
                 </div>
+
 
             </nav>
         </>

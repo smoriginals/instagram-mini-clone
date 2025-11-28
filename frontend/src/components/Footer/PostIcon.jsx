@@ -30,24 +30,24 @@ export default function PostIcon() {
 
                     <div className="flex flex-col gap-2 px-4 text-lg">
 
-                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg hover:bg-gray-200"
+                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg"
                             onClick={() => uploadPhoto.current.click()}
                         >
                             <Image /> Upload a Photo
                         </button>
 
-                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg hover:bg-gray-200" onClick={OpenStoryDrawer}>
+                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg" onClick={OpenStoryDrawer}>
                             <BookOpen  /> Add a Story
                         </button>
 
-                        <button className="flex font-semibold tems-center gap-3 p-3 rounded-lg hover:bg-gray-200">
+                        <button className="flex font-semibold tems-center gap-3 p-3 rounded-lg ">
                             <PlusCircle /> Post
                         </button>
 
                     </div>
 
                     <DrawerClose className="p-4">
-                        <Button variant="outline" className="w-full text-xl py-6 font-semibold">Close</Button>
+                        <Button variant="outline" className="w-full text-xl py-6 font-semibold border  border-gray-600">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>

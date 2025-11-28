@@ -21,14 +21,16 @@ import {
 } from "@/components/ui/select";
 
 export default function Editprofile() {
+
     return (
+
         <Dialog>
             <DialogTrigger asChild>
                 <button className="p-2 px-4 border-gray-600 rounded-md border shadow text-md font-semibold">
                     Edit Profile
                 </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[450px]" onOpenAutoFocus={(e) => e.preventDefault()} >
+            <DialogContent className="sm:max-w-[450px] border border-gray-600" onOpenAutoFocus={(e) => e.preventDefault()} >
 
                 <DialogHeader>
                     <DialogTitle>Edit Profile</DialogTitle>
@@ -45,39 +47,39 @@ export default function Editprofile() {
                         className="h-18 w-18 rounded-full object-cover border-2 p-0.5 border-pink-500"
                     />
                     <input type="file" accept="image/*" onChange={(e) => console.log(e.target.files[0])} className="hidden" id="imgPick" />
-                    <label htmlFor="imgPick" className="cursor-pointer font-bold p-1.5 rounded-md border border-gray-400">Upload Image</label>
+                    <label htmlFor="imgPick" className="cursor-pointer font-bold p-1.5 rounded-md border border-gray-600">Upload Image</label>
 
                 </div>
 
                 {/* Name */}
                 <div className="">
-                    <label className="text-sm font-medium">Name</label>
-                    <Input placeholder="Full Name" />
+                    <label className="text-sm font-medium px-2">Name</label>
+                    <Input placeholder="Full Name" className='border border-gray-400' />
                 </div>
 
                 {/* Username */}
                 <div className="mt-4">
-                    <label className="text-sm font-medium">Username</label>
-                    <Input placeholder="yourusername" />
+                    <label className="text-sm font-medium px-2">Username</label>
+                    <Input placeholder="yourusername" className='border border-gray-400' />
                 </div>
 
                 {/* Bio */}
                 <div className="">
-                    <label className="text-sm font-medium">Bio</label>
+                    <label className="text-sm font-medium px-2">Bio</label>
                     <Textarea
                         placeholder="Tell something about yourself..."
-                        className="resize-none"
+                        className="resize-none border border-gray-400"
                     />
                 </div>
 
                 {/* Gender */}
                 <div className="">
-                    <label className="text-sm font-medium">Gender</label>
+                    <label className="text-sm font-medium ">Gender</label>
                     <Select>
                         <SelectTrigger>
                             <SelectValue placeholder="Select gender" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='border '>
                             <SelectItem value="male">Male</SelectItem>
                             <SelectItem value="female">Female</SelectItem>
                             <SelectItem value="other">Other</SelectItem>
@@ -88,26 +90,25 @@ export default function Editprofile() {
 
                 {/* Website */}
                 <div className="">
-                    <label className="text-sm font-medium">Website</label>
-                    <Input placeholder="https://yourwebsite.com" />
+                    <label className="text-sm font-medium px-2">Website</label>
+                    <Input placeholder="https://yourwebsite.com" className='border border-gray-400' />
                 </div>
 
                 {/* Email */}
                 <div className="">
-                    <label className="text-sm font-medium">Email</label>
-                    <Input placeholder="your@email.com" />
+                    <label className="text-sm font-medium px-2">Email</label>
+                    <Input placeholder="your@email.com" className='border border-gray-400'/>
                 </div>
 
                 <DialogFooter className="mt-2">
                     <DialogClose asChild>
-                        <Button variant="outline" className='font-bold'>Cancel</Button>
+                        <Button variant="outline" className='font-bold border border-gray-600'>Cancel</Button>
                     </DialogClose>
                     <DialogClose asChild>
-                        <Button className='bg-blue-500 font-bold'>Save Changes</Button>
+                        <Button className='border border-gray-600 font-bold'>Save Changes</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>
-
         </Dialog>
     );
 }

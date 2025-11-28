@@ -9,7 +9,7 @@ export default function Admin() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4">
+        <div className="h-dvh flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4">
 
             {/* Card */}
             <Card className="w-full max-w-sm bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl rounded-2xl">

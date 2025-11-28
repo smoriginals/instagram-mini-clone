@@ -1,6 +1,6 @@
+import React, { useEffect,useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Button } from "@/components/ui/button"
-import React from 'react';
 import Homescreen from './pages/Homescreen';
 import Profilepage from "./pages/Profilepage";
 import Navbar from './components/Navbar/Navbar';
@@ -18,6 +18,20 @@ import Secure from './pages/Secure';
 
 export default function App() {
 
+    const [mode, setMode] = useState(() => {
+        return localStorage.getItem("theme") || "light";
+    });
+
+    useEffect(() => {
+        if (mode === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+        localStorage.setItem("theme", mode);
+    }, [mode]);
+
+
     const location = useLocation();
     const hideComponentsOnThisRoutes = ['/login', '/signup', '/admin', '/settings','/smos'];
     const shouldHideComponents = hideComponentsOnThisRoutes.includes(location.pathname);
@@ -32,7 +46,7 @@ export default function App() {
                 <Route path='/messages' element={<Message />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path='/settings' element={<Settings />} />
+                <Route path='/settings' element={<Settings mode={mode} setMode={setMode}  />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path='/admin' element={<Admin/> }/>
                 <Route path='/smos' element={<Secure/> }/>

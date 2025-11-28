@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import {
@@ -14,25 +14,24 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import MobileNo from '../components/Profile/MobileNo';
-export default function Settings() {
+export default function Settings({ mode,setMode}) {
 
     const navigate = useNavigate();
     
-    const [mode, setMode] = useState(() => {
-        return localStorage.getItem("theme") || "light";
-    });
+    //const [mode, setMode] = useState(() => {
+    //    return localStorage.getItem("theme") || "light";
+    //});
 
-    useEffect(() => {
-        if (mode === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+    //useEffect(() => {
+    //    if (mode === "dark") {
+    //        document.documentElement.classList.add("dark");
+    //    } else {
+    //        document.documentElement.classList.remove("dark");
+    //    }
 
-        localStorage.setItem("theme", mode);
-    }, [mode]);
+    //    localStorage.setItem("theme", mode);
+    //}, [mode]);
 
     const ToggleTheme = () => {
         setMode(prev => (prev === "light" ? "dark" : "light"));

@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const mongoURI = "mongodb+srv://surajmauryahomework_db_user:iXIS7nOys0zN8i1o@instagramclusters.nngrbdx.mongodb.net/";
+dotenv.config();
+
+
+const mongoURI = process.env.CONNECTION_STRING;
 
 async function connectDB () {
 

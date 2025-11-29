@@ -4,7 +4,6 @@ import axios from 'axios';
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
     const OpenStoryDrawer = () => setStoryDrawerOpen(true);
     const CloseStoryDrawer = () => setStoryDrawerOpen(false);
@@ -20,15 +19,11 @@ export const GlobalProvider = ({ children }) => {
                 userData
             );
 
-            console.log("Response received from server:", res.data);
-
             setUser(res.data.newUser);
             localStorage.setItem("user", JSON.stringify(res.data.newUser));
-
             return { ok: true, user: res.data.newUser };
 
         } catch (error) {
-            console.error("Signup Error:", error);
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     };

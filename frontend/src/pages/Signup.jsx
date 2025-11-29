@@ -16,7 +16,7 @@ export default function Signup() {
         username: '',
         password: ''
     })
-    const [error, setError] = useState("Error Found");
+    //const [error, setError] = useState("Error Found");
 
     const HandleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -26,13 +26,14 @@ export default function Signup() {
         const res = await createUser(userData);
 
         if (!res.ok) {
-            setError(res.message);
+            console.log("❌ Signup failed:", res.message);
+            //setError(res.message);
             return;
         }
 
         navigate("/");
 
-        console.log("User Data Submitted:", userData,"Error Checking:", error);
+        console.log("User Data Submitted:", userData,"Error Checking:");
     };
 
 

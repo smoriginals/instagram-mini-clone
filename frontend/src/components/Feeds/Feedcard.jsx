@@ -11,10 +11,11 @@ import {
     SheetTitle,
     SheetDescription,
 } from "@/components/ui/sheet";
+import { useGlobal } from '../../Context/GlobalContext';
 
 
 export default function Feedcard() {
-
+    const { user } = useGlobal();
     const [input, setInput] = useState("");
     const [like, setLike] = useState(0);
     const [comments, setComments] = useState([
@@ -37,34 +38,34 @@ export default function Feedcard() {
 
     return (
         <>
-            <div className='h-3/5 w-full flex justify-center items-center'>
+            <div className='flex h-3/5 w-full items-center justify-center'>
 
-                <div className='h-3/5 w-full bg-gray-150 pt-2 px-1.5'>
+                <div className='bg-gray-150 h-3/5 w-full px-1.5 pt-2'>
                     
-                    <div className=' flex justify-start gap-2 p-1.5 items-center rounded-t-2xl border-t border-l border-r border-gray-600'>
+                    <div className=' flex items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-1.5'>
                         <div className='h-8 w-8 rounded-full border-2 border-pink-500'></div>
-                        <p>Username.XYZ</p>
+                        <p>{user?.name}</p>
                     </div>
 
 
-                    <div className="w-full aspect-square border-l border-r px-0.5 border-gray-600">
+                    <div className="aspect-square w-full border-r border-l border-gray-600 px-0.5">
                         <img
                             src="https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"
                             alt="User Avatar"
-                            className="w-full h-full object-cover"
+                            className="h-full w-full object-cover"
                         />
                     </div>
 
 
-                    <div className='h-10 w-full flex justify-between items-center gap-2 px-0.5 border-l border-r border-gray-600'>
-                        <div className='flex justify-center items-center gap-1 '>
+                    <div className='flex h-10 w-full items-center justify-between gap-2 border-r border-l border-gray-600 px-0.5'>
+                        <div className='flex items-center justify-center gap-1'>
 
                             {/*Like Button*/}
-                            <div className='flex justify-start items-center flex-row'>
-                                <button className='h-8 w-8 flex justify-center items-center' onClick={HandleLike}>
+                            <div className='flex flex-row items-center justify-start'>
+                                <button className='flex h-8 w-8 items-center justify-center' onClick={HandleLike}>
                                     <Heart size={20} />                                
                             </button>
-                                <p className='font-medium text-md'>{like}</p>
+                                <p className='text-md font-medium'>{like}</p>
                             </div>
                             {/*Like Button*/}
 
@@ -74,12 +75,12 @@ export default function Feedcard() {
                                 {/* Button to open drawer */}
                                 <DrawerTrigger asChild>
 
-                                    <div className='flex justify-start items-center flex-row'>
-                                    <button className="h-8 w-8 flex justify-center items-center">
+                                    <div className='flex flex-row items-center justify-start'>
+                                    <button className="flex h-8 w-8 items-center justify-center">
                                         <MessageCircle size={20} />
                                     </button>
 
-                                    <p className='font-medium text-md'>2K</p>
+                                    <p className='text-md font-medium'>2K</p>
                                     </div>
                                 </DrawerTrigger>
 
@@ -87,19 +88,19 @@ export default function Feedcard() {
                                 <DrawerContent className="rounded-t-2xl p-4">
 
                                     {/* Header */}
-                                    <DrawerHeader className="flex justify-between items-center">
+                                    <DrawerHeader className="flex items-center justify-between">
                                         <p className="text-xl font-bold">Comments</p>
 
                                     </DrawerHeader>
 
                                     {/* Comments List */}
-                                    <div className="h-[50vh] overflow-y-auto mt-2 space-y-3 px-1">
+                                    <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
                                         {comments.map((item) => (
-                                            <div key={item.id} className="flex gap-2 items-start">
+                                            <div key={item.id} className="flex items-start gap-2">
                                                 <div className="h-8 w-8 rounded-full border border-pink-500"></div>
 
                                                 <div>
-                                                    <p className="font-semibold text-sm">{item.user}</p>
+                                                    <p className="text-sm font-semibold">{user?.name}</p>
                                                     <p className="text-sm text-gray-700">{item.text}</p>
                                                 </div>
                                             </div>
@@ -127,7 +128,7 @@ export default function Feedcard() {
                             {/*Share Button*/}
                             <Sheet>
                                 <SheetTrigger asChild>
-                                    <button className="h-8 w-8 flex justify-center items-center">
+                                    <button className="flex h-8 w-8 items-center justify-center">
                                         <Send size={20} />
                                     </button>
                                 </SheetTrigger>
@@ -140,19 +141,19 @@ export default function Feedcard() {
 
                                     <div className="flex items-center justify-center gap-4 pb-8">
 
-                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
                                             <Link size={40} />
                                         </button>
 
-                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
                                             <MessageSquareMore size={40}/>
                                         </button>
 
-                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
                                             <Facebook size={40}/>
                                         </button>
 
-                                        <button className="h-20 w-20 rounded-full border-2 flex justify-center items-center">
+                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
                                             <Twitter size={40}/>
                                         </button>
 
@@ -164,15 +165,14 @@ export default function Feedcard() {
 
                         {/*Save Button*/}
                         <div>
-                            <button className='h-8 w-8 flex justify-center items-center'><Bookmark size={22} /></button>
-                            
+                            <button className='flex h-8 w-8 items-center justify-center'><Bookmark size={22} /></button>
                         </div>
                         {/*Save Button*/}
                     </div>
 
                     {/*Show Comments*/}
-                    <div className='h-10 w-full flex justify-start items-center p-2 gap-1 rounded-b-2xl border-b border-l border-r border-gray-600'>
-                        <div className='h-6 w-6 bg-gray-200 rounded-full border border-pink-500'>
+                    <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-r border-b border-l border-gray-600 p-2'>
+                        <div className='h-6 w-6 rounded-full border border-pink-500 bg-gray-200'>
                         </div>
                         <p>Nice View! i like that.</p>
                     </div>

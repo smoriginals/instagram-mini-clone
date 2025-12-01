@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import {PlayCircle } from "lucide-react";
 import {
     Drawer,
@@ -9,48 +9,52 @@ import {
     DrawerClose,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useGlobal } from "../../Context/GlobalContext";
 
 export default function StoryIcon() {
+
+    const { user } = useGlobal();
+
     return (
         <>
             <Drawer>
                 <DrawerTrigger asChild>
-                    <PlayCircle className="w-7 h-7 hover:scale-120 transition-all duration-300 ease-in-out" />
+                    <PlayCircle className="h-7 w-7 transition-all duration-300 ease-in-out hover:scale-120" />
                 </DrawerTrigger>
 
                 <DrawerContent
-                    className="fixed w-screen p-0 rounded-none"
+                    className="fixed w-screen rounded-none p-0"
                 >
-
+                    
                     {/* Rounded Progress Bar */}
-                    <div className="w-full mt-3 flex justify-center">
-                        <div className="w-[90%] h-1.5 bg-gray-200 rounded-full overflow-hidden border  border-gray-600">
-                            <div className="h-full w-[50%] bg-gray-400 rounded-full"></div>
+                    <div className="mt-3 flex w-full justify-center">
+                        <div className="h-1.5 w-[90%] overflow-hidden rounded-full border border-gray-600 bg-gray-200">
+                            <div className="h-full w-[50%] rounded-full bg-gray-400"></div>
                         </div>
                     </div>
 
                     {/* Username */}
-                    <div className="mt-4 text-center flex justify-start items-center gap-2 px-6">
-                        <div className='flex justify-start items-center gap-2'>
-                            <div className='h-7 w-7 rounded-full bg-amber-100 border border-pink-500 flex'>
+                    <div className="mt-4 flex items-center justify-start gap-2 px-6 text-center">
+                        <div className='flex items-center justify-start gap-2'>
+                            <div className='flex h-7 w-7 rounded-full border border-pink-500 bg-amber-100'>
                             </div>
-                            <p className="text-lg font-semibold tracking-wide">username_here</p>
+                            <p className="text-lg font-semibold tracking-wide">{user?.name}</p>
                         </div>
                     </div>
 
                     {/* Story Photo */}
-                    <div className="mt-4 w-full h-[80vh] flex justify-center px-6 overflow-auto">
+                    <div className="mt-4 flex h-[80vh] w-full justify-center overflow-auto px-6">
                         <img
                             src="https://i.pravatar.cc/700"
                             alt="story"
-                            className="w-full h-full object-cover rounded-md border  border-gray-600"
+                            className="h-full w-full rounded-md border border-gray-600 object-cover"
                         />
 
                     </div>
 
                     {/* Close Button */}
                     <DrawerClose className="px-6 py-2">
-                        <Button variant="outline" className="w-full border  border-gray-600">Close</Button>
+                        <Button variant="outline" className="w-full border border-gray-600">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>

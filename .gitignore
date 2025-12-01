@@ -25,3 +25,9 @@ dist-ssr
 
 # Visual Studio folder
 .vs/
+
+
+# Environment files
+.env
+.env.local
+.env.*.local

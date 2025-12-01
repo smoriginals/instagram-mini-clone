@@ -12,11 +12,13 @@ export const GlobalProvider = ({ children }) => {
     //============================================================
 
 
-    //================ User State Management ===========================
+    //================ User State Management ========================
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user"))||null
     );
+    //===============================================================
 
+    // Create User Function
     const createUser = async (userData) => {
         try {
             const res = await axios.post(
@@ -32,7 +34,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     };
-
+    // Login User Function
     const LoginUser = async (loginData) => {
         try {
             const res = await axios.post("http://localhost:5000/api/user/login", loginData);
@@ -47,11 +49,22 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
+    // Logout User Function
     const LogoutUser = () => {
         setUser(null);
         localStorage.removeItem("user");
     };
-
+    //Update User profile function
+    const UpdateUserProfile = async (updatedData) => {
+        try {
+            const res = await axios.put("http://localhost:5000/api/user/updateProfile", updatedData);
+            setUser(res.data.updatedUser);
+            localStorage.setItem("user", JSON.stringify(res.data.updatedUser));
+            return { ok: true, user: res.data.updatedUser };
+        } catch (error) {
+            return { ok: false, message: error.response?.data?.message || "Network Error" };
+        }
+    }
 
     console.log('Global Provider is Running');
     console.table(user)
@@ -62,7 +75,7 @@ export const GlobalProvider = ({ children }) => {
                 OpenStoryDrawer,
                 CloseStoryDrawer,
                 createUser, user,
-                LoginUser, LogoutUser
+                LoginUser, LogoutUser, UpdateUserProfile
             }}
         >
             {children}

@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -19,8 +19,24 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { useGlobal } from "../../Context/GlobalContext";
 
 export default function Editprofile() {
+
+    const { user } = useGlobal();
+
+    const [profileData, setProfileData] = useState({
+        name: user?.name || "",
+        username: user?.username || "",
+    })
+
+    const UpdateProfile = (e) => {
+        const { name, value } = e.target;
+        setProfileData((prev) => ({...prev,[name]: value,}));
+    };
+    const HandleSaveProfileData = () => {
+        console.log("Profile Data Saved:", profileData);
+    }
 
     return (
 
@@ -54,13 +70,13 @@ export default function Editprofile() {
                 {/* Name */}
                 <div className="">
                     <label className="px-2 text-sm font-medium">Name</label>
-                    <Input placeholder="Full Name" className='border border-gray-400' />
+                    <Input placeholder="Full Name" name="name" value={profileData.name} className='border border-gray-400' onChange={UpdateProfile} />
                 </div>
 
                 {/* Username */}
                 <div className="">
                     <label className="px-2 text-sm font-medium">Username</label>
-                    <Input placeholder="yourusername" className='border border-gray-400' />
+                    <Input placeholder="yourusername" name="username" value={profileData.username}  className='border border-gray-400' onChange={UpdateProfile} />
                 </div>
 
                 {/* Bio */}
@@ -105,7 +121,7 @@ export default function Editprofile() {
                         <Button variant="outline" className='border border-gray-600 font-bold'>Cancel</Button>
                     </DialogClose>
                     <DialogClose asChild>
-                        <Button className='border border-gray-600 font-bold'>Save Changes</Button>
+                        <Button className='border border-gray-600 font-bold' onClick={HandleSaveProfileData}>Save Changes</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

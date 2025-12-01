@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../Context/GlobalContext";
-
+import toast from "react-hot-toast";
 export default function Signup() {
 
     const navigate = useNavigate();
@@ -23,17 +23,16 @@ export default function Signup() {
     };
 
     const HandleSubmit = async () => {
+
         const res = await createUser(userData);
 
         if (!res.ok) {
-            console.log("❌ Signup failed:", res.message);
-            //setError(res.message);
+            toast.error(res.message);
             return;
         }
-
-        navigate("/");
-
-        console.log("User Data Submitted:", userData,"Error Checking:");
+        //toast.success("Signup Successful");
+        toast.success("Account created!");
+        navigate("/login");
     };
 
 
@@ -53,7 +52,7 @@ export default function Signup() {
                 {/*Password*/}
                 <Input name='password' type="password" placeholder="Password" className="mb-4 rounded-full border border-gray-600 px-4" onChange={HandleChange}/>
                 {/*Submit form*/}
-                <Button className="w-full bg-blue-500 text-white hover:bg-blue-600" onClick={HandleSubmit }>
+                <Button className="w-full bg-blue-500 text-white hover:bg-blue-600 cursor-pointer" onClick={HandleSubmit }>
                     Sign Up
                 </Button>
 

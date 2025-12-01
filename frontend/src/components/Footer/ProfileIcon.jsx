@@ -7,12 +7,16 @@ import {
     DrawerContent,
     DrawerHeader,
     DrawerTitle,
-    DrawerClose,
 } from "@/components/ui/drawer";
 import Editprofile from "../Profile/Editprofile";
+import { useGlobal } from "../../Context/GlobalContext";
 
 export default function ProfileIcon() {
     const navigate = useNavigate();
+    const { user } = useGlobal();
+
+    if (!user) return null; // prevent crash BEFORE login
+
     return (
         <>
 
@@ -38,8 +42,8 @@ export default function ProfileIcon() {
                             </div>
 
 
-                            <h1 className="mt-4 text-xl font-semibold">John Doe</h1>
-                            <p className="text-sm">@johndoe</p>
+                            <h1 className="mt-4 text-xl font-semibold">{user?.name}</h1>
+                            <p className="text-sm">{user?.username}</p>
 
 
                             <div className="flex gap-6 mt-4 text-center">

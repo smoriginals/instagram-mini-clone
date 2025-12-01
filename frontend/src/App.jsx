@@ -33,19 +33,21 @@ export default function App() {
 
 
     const location = useLocation();
-    const hideComponentsOnThisRoutes = ['/login', '/signup', '/admin', '/settings','/smos'];
+    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings','/smos'];
     const shouldHideComponents = hideComponentsOnThisRoutes.includes(location.pathname);
 
     return (
         <>
             {!shouldHideComponents && <Navbar />}
+            
             <Routes>
-                <Route path='/' element={<Homescreen />} />
+
+                <Route path="/" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path='/home' element={<Homescreen />} />
                 <Route path='/profile' element={<Profilepage />} />
                 <Route path='/notifications' element={<Notifications />} />
                 <Route path='/messages' element={<Message />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
                 <Route path='/settings' element={<Settings mode={mode} setMode={setMode}  />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path='/admin' element={<Admin/> }/>

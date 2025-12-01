@@ -1,15 +1,20 @@
-import { createContext, useContext, useState } from "react";
+﻿import { createContext, useContext, useState } from "react";
 import axios from 'axios';
 
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-    const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
-    const OpenStoryDrawer = () => setStoryDrawerOpen(true);
-    const CloseStoryDrawer = () => setStoryDrawerOpen(false);
 
+    //========Story Drawer Handle=================================
+    const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
+    const CloseStoryDrawer = () => setStoryDrawerOpen(false);
+    const OpenStoryDrawer = () => setStoryDrawerOpen(true);
+    //============================================================
+
+
+    //================ User State Management ===========================
     const [user, setUser] = useState(
-        JSON.parse(localStorage.getItem("user"))
+        JSON.parse(localStorage.getItem("user"))||null
     );
 
     const createUser = async (userData) => {
@@ -28,14 +33,36 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const LoginUser = async (loginData) => {
+        try {
+            const res = await axios.post("http://localhost:5000/api/user/login", loginData);
+            // ❗ Save logged-in user here
+            setUser(res.data.user);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+
+            return { ok: true, user:res.data.user};
+            //return { ok: true, data: res.data };
+        }
+        catch (error) {
+            return { ok: false, message: error.response?.data?.message || "Network Error" };
+        }
+    }
+    const LogoutUser = () => {
+        setUser(null);
+        localStorage.removeItem("user");
+    };
+
+
     console.log('Global Provider is Running');
+    console.table(user)
     return (
         <GlobalContext.Provider
             value={{
                 storyDrawerOpen,
                 OpenStoryDrawer,
                 CloseStoryDrawer,
-                createUser, user
+                createUser, user,
+                LoginUser, LogoutUser
             }}
         >
             {children}

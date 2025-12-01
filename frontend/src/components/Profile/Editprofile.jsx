@@ -97,7 +97,7 @@ export default function Editprofile() {
                 {/* Email */}
                 <div className="">
                     <label className="text-sm font-medium px-2">Email</label>
-                    <Input placeholder="your@email.com" className='border border-gray-400'/>
+                    <Input placeholder="your@email.com" className='border border-gray-400' />
                 </div>
 
                 <DialogFooter className="mt-2">

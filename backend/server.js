@@ -3,7 +3,7 @@ import connectDB from './db.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import usersignupRoute from './Routes/usersignup.route.js';
-
+import userloginRoute from './Routes/userlogin.route.js';
 
 dotenv.config();
 connectDB();
@@ -22,8 +22,9 @@ app.use(cors({
 
 
 //Home location
-app.use('/api/user',usersignupRoute)
-app.use('/', (req,res) => res.send(`${PORT} API Port is Running...`));
+app.use('/api/user', usersignupRoute)
+app.use('/api/user', userloginRoute)
+app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 
 
 //Listen to the server

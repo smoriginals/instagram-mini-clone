@@ -79,15 +79,20 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
-    const DeleteUser = async (user) => {
+
+    const DeleteUser = async (_id) => {
         try {
-            const res = await axios.delete("http://localhost:5000/api/user/delete", user);
+            const res = await axios.delete("http://localhost:5000/api/user/deleteuser", { data: {_id}});
             setUser(null);
+            localStorage.removeItem('user');
+            return { ok: true, user: res.data.message};
         }
         catch (error) {
-            return
+            return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
+
+
     console.log('Global Provider is Running');
     console.table(user)
     return (
@@ -97,7 +102,7 @@ export const GlobalProvider = ({ children }) => {
                 OpenStoryDrawer,
                 CloseStoryDrawer,
                 createUser, user,
-                LoginUser, LogoutUser, UpdateUserProfile
+                LoginUser, LogoutUser, UpdateUserProfile, DeleteUser
             }}
         >
             {children}

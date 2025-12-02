@@ -20,12 +20,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useGlobal } from "../../Context/GlobalContext";
-
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 export default function Editprofile() {
 
-    const { user } = useGlobal();
+    const navigate = useNavigate();
+    const { user, UpdateUserProfile } = useGlobal();
 
     const [profileData, setProfileData] = useState({
+        _id:user?._id||"",
         name: user?.name || "",
         username: user?.username || "",
     })
@@ -34,9 +37,50 @@ export default function Editprofile() {
         const { name, value } = e.target;
         setProfileData((prev) => ({...prev,[name]: value,}));
     };
-    const HandleSaveProfileData = () => {
-        console.log("Profile Data Saved:", profileData);
-    }
+    //const HandleSaveProfileData = async () => {
+    //    //const res = await UpdateUserProfile(profileData);
+    //    //if (!res.ok) {
+    //    //    toast.error(res.message);
+    //    //    return;
+    //    //}
+
+    //    //toast.success("Profile Update");
+    //    //navigate("/profile");
+
+    //    //UpdateUserProfile({ _id: user?._id, name: profileData.name, username: profileData.username, });
+    //    const res = await UpdateUserProfile({
+    //        _id: user?._id,               // MUST BE SENT
+    //        name: profileData.name,
+    //        username: profileData.username
+    //    });
+
+    //    if (!res.ok) {
+    //        toast.error(res.message);
+    //        return;
+    //    }
+
+    //    toast.success("Profile Updated");
+
+    //}
+
+    const HandleSaveProfileData = async () => {
+
+        const res = await UpdateUserProfile({
+            _id: user?._id,
+            name: profileData.name,
+            username: profileData.username
+        });
+
+        if (!res.ok) {
+            toast.error(res.message);
+            return;
+        }
+
+        toast.success("Profile Updated");
+        navigate("/profile");
+    };
+
+
 
     return (
 

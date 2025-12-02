@@ -5,6 +5,7 @@ import cors from 'cors';
 import usersignupRoute from './Routes/usersignup.route.js';
 import userloginRoute from './Routes/userlogin.route.js';
 import userprofileupdateRoute from './Routes/userprofileupdate.route.js';
+import deleteuserRoute from './Routes/deleteuser.route.js';
 
 dotenv.config();
 connectDB();
@@ -25,7 +26,8 @@ app.use(cors({
 //Home location
 app.use('/api/user', usersignupRoute)
 app.use('/api/user', userloginRoute)
-app.use('/api/user',userprofileupdateRoute)
+app.use('/api/user', userprofileupdateRoute)
+app.use('/api/user',deleteuserRoute)
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 
 

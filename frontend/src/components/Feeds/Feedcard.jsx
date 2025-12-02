@@ -41,7 +41,7 @@ export default function Feedcard() {
             <div className='flex h-3/5 w-full items-center justify-center'>
 
                 <div className='bg-gray-150 h-3/5 w-full px-1.5 pt-2'>
-                    
+
                     <div className=' flex items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-1.5'>
                         <div className='h-8 w-8 rounded-full border-2 border-pink-500'></div>
                         <p>{user?.name}</p>
@@ -63,8 +63,8 @@ export default function Feedcard() {
                             {/*Like Button*/}
                             <div className='flex flex-row items-center justify-start'>
                                 <button className='flex h-8 w-8 items-center justify-center' onClick={HandleLike}>
-                                    <Heart size={20} />                                
-                            </button>
+                                    <Heart size={20} />
+                                </button>
                                 <p className='text-md font-medium'>{like}</p>
                             </div>
                             {/*Like Button*/}
@@ -76,11 +76,11 @@ export default function Feedcard() {
                                 <DrawerTrigger asChild>
 
                                     <div className='flex flex-row items-center justify-start'>
-                                    <button className="flex h-8 w-8 items-center justify-center">
-                                        <MessageCircle size={20} />
-                                    </button>
+                                        <button className="flex h-8 w-8 items-center justify-center">
+                                            <MessageCircle size={20} />
+                                        </button>
 
-                                    <p className='text-md font-medium'>2K</p>
+                                        <p className='text-md font-medium'>2K</p>
                                     </div>
                                 </DrawerTrigger>
 
@@ -146,15 +146,15 @@ export default function Feedcard() {
                                         </button>
 
                                         <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <MessageSquareMore size={40}/>
+                                            <MessageSquareMore size={40} />
                                         </button>
 
                                         <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <Facebook size={40}/>
+                                            <Facebook size={40} />
                                         </button>
 
                                         <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <Twitter size={40}/>
+                                            <Twitter size={40} />
                                         </button>
 
                                     </div>

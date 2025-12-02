@@ -38,7 +38,7 @@ export default function Signup() {
 
     return (
 
-        <div className="flex h-dvh w-full flex-col items-center justify-center p-4">
+        <div className="flex h-dvh w-full flex-col items-center justify-center p-4 ">
 
 
             <div className="w-full max-w-sm rounded-xl border border-gray-600 p-6">

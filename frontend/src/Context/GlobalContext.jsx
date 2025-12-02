@@ -12,11 +12,22 @@ export const GlobalProvider = ({ children }) => {
     //============================================================
 
 
-    //================ User State Management ========================
-    const [user, setUser] = useState(
-        JSON.parse(localStorage.getItem("user"))||null
-    );
-    //===============================================================
+    //================ User State Management =====================
+    //const [user, setUser] = useState(
+    //    JSON.parse(localStorage.getItem("user"))||null
+    //);
+
+    const [user, setUser] = useState(() => {
+        const storeUser = localStorage.getItem('user');
+        try {
+            return storeUser ? JSON.parse(storeUser) : null;
+        }
+        catch {
+            localStorage.removeItem('user');
+            return null;
+        }
+    })
+    //============================================================
 
     // Create User Function
     const createUser = async (userData) => {
@@ -34,6 +45,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     };
+
     // Login User Function
     const LoginUser = async (loginData) => {
         try {
@@ -49,11 +61,13 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
+
     // Logout User Function
     const LogoutUser = () => {
         setUser(null);
         localStorage.removeItem("user");
     };
+
     //Update User profile function
     const UpdateUserProfile = async (updatedData) => {
         try {
@@ -65,7 +79,15 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
-
+    const DeleteUser = async (user) => {
+        try {
+            const res = await axios.delete("http://localhost:5000/api/user/delete", user);
+            setUser(null);
+        }
+        catch (error) {
+            return
+        }
+    }
     console.log('Global Provider is Running');
     console.table(user)
     return (

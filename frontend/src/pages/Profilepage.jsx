@@ -1,10 +1,11 @@
 import React from "react";
 import { Link,useNavigate } from "react-router-dom";
 import Editprofile from "../components/Profile/Editprofile.jsx";
+import { useGlobal } from "../Context/GlobalContext.jsx";
 export default function Profilepage() {
 
     const navigate = useNavigate();
-
+    const { user } = useGlobal();
     return (
         <>
 
@@ -20,8 +21,8 @@ export default function Profilepage() {
                     </div>
 
 
-                    <h1 className="mt-4 text-xl font-semibold">John Doe</h1>
-                    <p className="text-gray-500 text-sm">@johndoe</p>
+                    <h1 className="mt-4 text-xl font-semibold">{user?.name}</h1>
+                    <p className="text-gray-500 text-sm">{user?.username}</p>
 
 
                     <div className="flex gap-6 mt-4 text-center">

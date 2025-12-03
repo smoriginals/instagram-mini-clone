@@ -16,7 +16,6 @@ export default function Signup() {
         username: '',
         password: ''
     })
-    //const [error, setError] = useState("Error Found");
 
     const HandleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -30,7 +29,6 @@ export default function Signup() {
             toast.error(res.message);
             return;
         }
-        //toast.success("Signup Successful");
         toast.success("Account created!");
         navigate("/login");
     };
@@ -38,7 +36,7 @@ export default function Signup() {
 
     return (
 
-        <div className="flex h-dvh w-full flex-col items-center justify-center p-4 ">
+        <div className="flex h-dvh w-full flex-col items-center justify-center p-4">
 
 
             <div className="w-full max-w-sm rounded-xl border border-gray-600 p-6">
@@ -52,7 +50,7 @@ export default function Signup() {
                 {/*Password*/}
                 <Input name='password' type="password" placeholder="Password" className="mb-4 rounded-full border border-gray-600 px-4" onChange={HandleChange}/>
                 {/*Submit form*/}
-                <Button className="w-full bg-blue-500 text-white hover:bg-blue-600 cursor-pointer" onClick={HandleSubmit }>
+                <Button className="w-full cursor-pointer bg-blue-500 text-white hover:bg-blue-600" onClick={HandleSubmit }>
                     Sign Up
                 </Button>
 

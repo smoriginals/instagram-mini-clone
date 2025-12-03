@@ -1,60 +1,189 @@
-import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Heart, MessageCircle, Share2, ImageIcon, Users, UserPlus } from "lucide-react";
+﻿import React from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+    Heart,
+    MessageCircle,
+    Share2,
+    ImageIcon,
+    Users,
+    UserPlus,
+    Edit,
+} from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+    Field,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+    FieldLegend,
+    FieldSeparator,
+    FieldSet,
+} from "@/components/ui/field"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import {
+    Card,
+    CardAction,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Camera } from "lucide-react";
+
+import { BookmarkIcon, HeartIcon, Send, MessageCircleMore } from "lucide-react"
+import {
+    ToggleGroup,
+    ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
 
 export default function Dashboard() {
-	const stats = [
-		{
-			title: "Total Likes",
-			value: "12.4k",
-			icon: Heart,
-		},
-		{
-			title: "Comments",
-			value: "3.1k",
-			icon: MessageCircle,
-		},
-		{
-			title: "Shares",
-			value: "980",
-			icon: Share2,
-		},
-		{
-			title: "Posts",
-			value: "220",
-			icon: ImageIcon,
-		},
-		{
-			title: "Followers",
-			value: "8,530",
-			icon: Users,
-		},
-		{
-			title: "Following",
-			value: "1,120",
-			icon: UserPlus,
-		},
-	];
+    const stats = [
+        { title: "Total Likes", value: "12.4k", icon: Heart },
+        { title: "Comments", value: "3.1k", icon: MessageCircle },
+        { title: "Shares", value: "980", icon: Share2 },
+        { title: "Posts", value: "220", icon: ImageIcon },
+        { title: "Followers", value: "8,530", icon: Users },
+        { title: "Following", value: "1,120", icon: UserPlus },
+    ];
+    console.table(stats);
+    return (
+        <>
+            <div className="w-full p-3 mt-14 pb-18">
+                <h1 className='text-4xl font-bold'>Dashboard</h1>
 
-	return (
-		<div className="p-4 mt-14">
-			<h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+                <Card className="w-full mt-4 mb-6 border border-gray-600">
+                    <CardHeader>
+                        <CardTitle>Profile</CardTitle>
+                        <CardDescription>
+                            Update your profile Picture.
+                        </CardDescription>
+                        <CardAction>
+                            <button className='cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center'><Camera size={30 } className='opacity-80'/></button>
+                        </CardAction>
+                    </CardHeader>
 
-			{/* Stats Grid */}
-			<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 ">
-				{stats.map((item, idx) => (
-					<Card key={idx} className="shadow-md border">
-						<CardHeader className="flex justify-center items-center">
-							<CardTitle className="text-sm font-medium text-center">{item.title}</CardTitle>
-							<item.icon className="h-5 w-5 text-blue-500 fill-blue-500" />
-						</CardHeader>
+                    <CardContent>
+                        <CardTitle>Lifetime Data</CardTitle>
 
-						<CardContent>
-							<p className="text-2xl font-bold text-center">{item.value}</p>
-						</CardContent>
-					</Card>
-				))}
-			</div>
-		</div>
-	);
+                        <ToggleGroup type="multiple" variant="outline" spacing={2} size="sm" className='py-2 flex justify-start flex-wrap'>
+
+                            <ToggleGroupItem
+                                value="star"
+                                aria-label="Toggle star"
+                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-red-500 data-[state=on]:*:[svg]:stroke-black border border-gray-600"
+                            >
+                                <HeartIcon />
+                                Likes
+                            </ToggleGroupItem>
+
+                            <ToggleGroupItem
+                                value="heart"
+                                aria-label="Toggle heart"
+                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-black data-[state=on]:*:[svg]:stroke-black border border-gray-600 "
+                            >
+                                <Send />
+                                Shares
+                            </ToggleGroupItem>
+
+                            <ToggleGroupItem
+                                value="bookmark"
+                                aria-label="Toggle bookmark"
+                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-yellow-500 data-[state=on]:*:[svg]:stroke-black border border-gray-600 "
+                            >
+                                <BookmarkIcon />
+                                Saves
+                            </ToggleGroupItem>
+
+                            <ToggleGroupItem
+                                value="comment"
+                                aria-label="Toggle comment"
+                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-blue-500 data-[state=on]:*:[svg]:stroke-black border border-gray-600 "
+                            >
+                               
+                                <MessageCircleMore />
+                                Comments
+                            </ToggleGroupItem>
+                           
+                        </ToggleGroup>
+                    </CardContent>
+                    
+                </Card>
+
+                <form>
+                    <FieldGroup>
+                        <FieldSet>
+                            <FieldLegend className='text-xl font-bold mt-4'>Privacy Setting</FieldLegend>
+                            {/*<FieldDescription>*/}
+                            {/*    All transactions are secure and encrypted*/}
+                            {/*</FieldDescription>*/}
+                            <FieldGroup>
+                                <Field>
+                                    <FieldLabel className='text-md font-bold'>
+                                        Name
+                                    </FieldLabel>
+                                    <Input placeholder="Your Name" className='border border-gray-600' />
+                                </Field>
+                                <Field>
+                                    <FieldLabel className='text-md font-bold'>
+                                        Username
+                                    </FieldLabel>
+                                    <Input placeholder="Username" className='border border-gray-600' />
+                                </Field>
+                                <Field>
+                                    <FieldLabel className='text-md font-bold'>
+                                        Email
+                                    </FieldLabel>
+                                    <Input placeholder="example@email.com" className='border border-gray-600' />
+                                </Field>
+                                <Field>
+                                    <FieldLabel className='text-md font-bold'>
+                                        Password
+                                    </FieldLabel>
+                                    <Input placeholder="New Password" className='border border-gray-600' />
+                                    <Input placeholder="Re-Enter Password" className='border border-gray-600' />
+                                </Field>
+                                <Field>
+                                    <FieldLabel className='text-md font-bold'>
+                                        Bio
+                                    </FieldLabel>
+                                    <Textarea placeholder="Update your bio..." className='border border-gray-600' />
+                                </Field>
+                            </FieldGroup>
+
+                        </FieldSet>
+
+                        <div className="flex justify-start gap-4 flex-col">
+                            <div className='flex justify-between items-center space-x-2'>
+                                <Label className='text-xl'>Private Profile</Label>
+                                <Switch />
+                            </div>
+                            <div className='flex justify-between items-center space-x-2'>
+                                <Label className='text-xl'>Step-To-Verification</Label>
+                                <Switch />
+                            </div>
+                        </div>
+
+                        <Field orientation="vertical">
+                            <Button type="button" className='border border-gray-600'>Submit</Button>
+                            <Button variant="outline" type="button" className='border border-gray-600'>
+                                Cancel
+                            </Button>
+                        </Field>
+                    </FieldGroup>
+                </form>
+            </div>
+        </>
+    );
 }

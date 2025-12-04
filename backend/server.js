@@ -27,7 +27,8 @@ app.use(cors({
 app.use('/api/user', usersignupRoute)
 app.use('/api/user', userloginRoute)
 app.use('/api/user', userprofileupdateRoute)
-app.use('/api/user',deleteuserRoute)
+app.use('/api/user', deleteuserRoute)
+app.use('/api/user', uploadavaterRoute);
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 
 

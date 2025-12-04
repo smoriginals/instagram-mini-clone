@@ -79,7 +79,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
-
+    // Delete User function
     const DeleteUser = async (_id) => {
         try {
             const res = await axios.delete("http://localhost:5000/api/user/deleteuser", { data: {_id}});
@@ -91,7 +91,19 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
+    //Upload User Profile Picture
 
+    const UploadProfilePicture = async (file) => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/user/upload-picture', file)
+            if (!res.ok) {
+                return res.status(400).json({message:"Picture not upload..."})
+            }
+        }
+        catch (error) {
+            return { ok: false, message: error.response?.data?.message || "Network Error" };
+        }
+    }
 
     console.log('Global Provider is Running');
     console.table(user)
@@ -102,7 +114,9 @@ export const GlobalProvider = ({ children }) => {
                 OpenStoryDrawer,
                 CloseStoryDrawer,
                 createUser, user,
-                LoginUser, LogoutUser, UpdateUserProfile, DeleteUser
+                LoginUser, LogoutUser, UpdateUserProfile, DeleteUser,
+                UploadProfilePicture
+
             }}
         >
             {children}

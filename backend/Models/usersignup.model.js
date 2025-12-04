@@ -33,7 +33,10 @@ const UserSignup = new Schema({
     website: {
         type: String
     },
-    profilePic: {
+    avatar: {
+        type: String
+    },
+    avatarId: {
         type: String
     },
     timestamp: {

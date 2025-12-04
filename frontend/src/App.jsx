@@ -33,7 +33,7 @@ export default function App() {
 
 
     const location = useLocation();
-    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings','/smos'];
+    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings','/smos','/dashboard'];
     const shouldHideComponents = hideComponentsOnThisRoutes.includes(location.pathname);
 
     return (

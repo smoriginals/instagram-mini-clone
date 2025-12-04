@@ -72,7 +72,7 @@ export default function ProfileIcon() {
                         <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-4 shadow">
                             <h2 className="text-lg font-semibold">About</h2>
                             <p className="mt-1 text-sm">
-                                Web Developer | React | Node.js | UI/UX Enthusiast
+                                {user?.bio}
                             </p>
                         </div>
 

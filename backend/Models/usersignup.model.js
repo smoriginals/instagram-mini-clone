@@ -24,6 +24,18 @@ const UserSignup = new Schema({
         type: String,
         required: true
     },
+    bio: {
+        type: String
+    },
+    gender: {
+        type: String
+    },
+    website: {
+        type: String
+    },
+    profilePic: {
+        type: String
+    },
     timestamp: {
         type: Date,
         default: Date.now

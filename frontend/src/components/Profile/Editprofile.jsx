@@ -31,6 +31,7 @@ export default function Editprofile() {
         _id:user?._id||"",
         name: user?.name || "",
         username: user?.username || "",
+        bio: user?.bio || "",
     })
 
     const UpdateProfile = (e) => {
@@ -68,7 +69,8 @@ export default function Editprofile() {
         const res = await UpdateUserProfile({
             _id: user?._id,
             name: profileData.name,
-            username: profileData.username
+            username: profileData.username,
+            bio: profileData.bio
         });
 
         if (!res.ok) {
@@ -129,6 +131,7 @@ export default function Editprofile() {
                     <Textarea
                         placeholder="Tell something about yourself..."
                         className="resize-none border border-gray-400"
+                        name="bio" value={profileData.bio} onChange={UpdateProfile}
                     />
                 </div>
 

@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Editprofile() {
 
     const navigate = useNavigate();
-    const { user, UpdateUserProfile } = useGlobal();
+    const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
 
     const [profileData, setProfileData] = useState({
         _id:user?._id||"",
@@ -108,7 +108,11 @@ export default function Editprofile() {
                         alt="Profile"
                         className="h-18 w-18 rounded-full border-2 border-pink-500 object-cover p-0.5"
                     />
-                    <input type="file" accept="image/*" onChange={(e) => console.log(e.target.files[0])} className="hidden" id="imgPick" />
+
+                    {/*//Handle Image upload here*/}
+                    <input type="file" accept="image/*" onChange={(e) => { UploadProfilePicture(e.target.files[0], user._id) }} className="hidden" id="imgPick" />
+                    {/*//Handle Image upload here*/}
+
                     <label htmlFor="imgPick" className="cursor-pointer rounded-md border border-gray-600 px-2 py-1 font-semibold">Upload Profile Photo</label>
 
                 </div>

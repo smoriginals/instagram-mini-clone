@@ -93,12 +93,24 @@ export const GlobalProvider = ({ children }) => {
     }
     //Upload User Profile Picture
 
-    const UploadProfilePicture = async (file) => {
+    const UploadProfilePicture = async (file, userId) => {
+
+
+        const formData = new FormData();
+        formData.append('profilepicture', file);
+        formData.append("userId", userId);
+            
         try {
-            const res = await axios.post('http://localhost:5000/api/user/upload-picture', file)
-            if (!res.ok) {
-                return res.status(400).json({message:"Picture not upload..."})
-            }
+            const res = await axios.post('http://localhost:5000/api/user/upload-picture', formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            })
+            //if (!res.ok) {
+            //    return res.status(400).json({message:"Picture not upload..."})
+            //}
+            console.log("SERVER RESPONSE:", res.data);
+            setUser(prev => ({
+                ...prev,profilepicture:res.data.profilepicture
+            }))
         }
         catch (error) {
             return { ok: false, message: error.response?.data?.message || "Network Error" };

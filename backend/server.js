@@ -6,6 +6,7 @@ import usersignupRoute from './Routes/usersignup.route.js';
 import userloginRoute from './Routes/userlogin.route.js';
 import userprofileupdateRoute from './Routes/userprofileupdate.route.js';
 import deleteuserRoute from './Routes/deleteuser.route.js';
+import profilepictureRoute from './Routes/profilepicture.route.js';
 
 dotenv.config();
 connectDB();
@@ -28,7 +29,7 @@ app.use('/api/user', usersignupRoute)
 app.use('/api/user', userloginRoute)
 app.use('/api/user', userprofileupdateRoute)
 app.use('/api/user', deleteuserRoute)
-app.use('/api/user', uploadavaterRoute);
+app.use('/api/user', profilepictureRoute);
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 
 

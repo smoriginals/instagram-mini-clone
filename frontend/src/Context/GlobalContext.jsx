@@ -54,7 +54,7 @@ export const GlobalProvider = ({ children }) => {
             setUser(res.data.user);
             localStorage.setItem("user", JSON.stringify(res.data.user));
 
-            return { ok: true, user:res.data.user};
+            return { ok: true, user: res.data.user };
             //return { ok: true, data: res.data };
         }
         catch (error) {
@@ -82,10 +82,10 @@ export const GlobalProvider = ({ children }) => {
     // Delete User function
     const DeleteUser = async (_id) => {
         try {
-            const res = await axios.delete("http://localhost:5000/api/user/deleteuser", { data: {_id}});
+            const res = await axios.delete("http://localhost:5000/api/user/deleteuser", { data: { _id } });
             setUser(null);
             localStorage.removeItem('user');
-            return { ok: true, user: res.data.message};
+            return { ok: true, user: res.data.message };
         }
         catch (error) {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
@@ -95,30 +95,33 @@ export const GlobalProvider = ({ children }) => {
 
     const UploadProfilePicture = async (file, userId) => {
 
-
-        const formData = new FormData();
-        formData.append('profilepicture', file);
-        formData.append("userId", userId);
-            
         try {
-            const res = await axios.post('http://localhost:5000/api/user/upload-picture', formData, {
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append("userId", userId);
+
+            const res = await axios.post('http://localhost:5000/api/user/upload', formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
             //if (!res.ok) {
             //    return res.status(400).json({message:"Picture not upload..."})
             //}
-            console.log("SERVER RESPONSE:", res.data);
-            setUser(prev => ({
-                ...prev,profilepicture:res.data.profilepicture
-            }))
+            //console.log("SERVER RESPONSE:", res.data);
+            //setUser(prev => ({
+            //    ...prev, profilepicture: res.data.profilePhoto
+            //}))
+
+            //return { ok: true, data: res.data };
+            return res.data;
         }
-        catch (error) {
-            return { ok: false, message: error.response?.data?.message || "Network Error" };
+        catch (err) {
+            //return { ok: false, message: error.response?.data?.message || "Network Error" };
+            return { ok: false, message: "upload failed", err };
         }
     }
 
-    console.log('Global Provider is Running');
-    console.table(user)
+
     return (
         <GlobalContext.Provider
             value={{

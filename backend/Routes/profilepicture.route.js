@@ -1,10 +1,9 @@
 import express from 'express';
-import multerupload from '../Middleware/multerupload.js';
-import profilepictureController from '../Controllers/profilepicture.controller.js';
-
+import upload from '../Middleware/upload.js';
+import profilePicture from '../Controllers/profilepicture.controller.js';
 
 const router = express.Router();
 
-router.post('/upload-picture', multerupload.single('profilepicture'), profilepictureController);
+router.post('/upload', upload.single('image'), profilePicture);
 
 export default router;

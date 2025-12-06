@@ -25,7 +25,27 @@ import { useNavigate } from 'react-router-dom';
 export default function Editprofile() {
 
     const navigate = useNavigate();
+
     const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
+
+    //const [upload, setUpload] = useState(false);    
+
+    const HandleProfilePictureUpload = async (file) => {
+
+        const toastId = toast.loading("Uploading Profile Picture...");
+
+        const res = await UploadProfilePicture(file, user?._id);
+
+        if (!res.ok) {
+            toast.error(res.message, { id: toastId });
+            return;
+        }
+
+        toast.success('Prodile Picture Updated :', { id: toast });
+        // update the user profile image in global context:
+        //setUser(prev => ({ ...prev, profilePic: res.url }));
+
+    }
 
     const [profileData, setProfileData] = useState({
         _id:user?._id||"",
@@ -110,10 +130,11 @@ export default function Editprofile() {
                     />
 
                     {/*//Handle Image upload here*/}
-                    <input type="file" accept="image/*" onChange={(e) => { UploadProfilePicture(e.target.files[0], user._id) }} className="hidden" id="imgPick" />
+                    <input type="file" accept="image/*" onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} className="hidden" id="imgPick" />
                     {/*//Handle Image upload here*/}
 
-                    <label htmlFor="imgPick" className="cursor-pointer rounded-md border border-gray-600 px-2 py-1 font-semibold">Upload Profile Photo</label>
+                    <label htmlFor="imgPick" className="cursor-pointer rounded-md border border-gray-600 px-2 py-1 font-semibold"> Upload Profile Photo
+                    </label>
 
                 </div>
 

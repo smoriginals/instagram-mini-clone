@@ -33,10 +33,10 @@ const UserSignup = new Schema({
     website: {
         type: String
     },
-    avatar: {
+    userProfile: {
         type: String
     },
-    avatarId: {
+    userProfileId: {
         type: String
     },
     timestamp: {

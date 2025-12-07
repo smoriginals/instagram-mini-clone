@@ -15,6 +15,9 @@ import { useGlobal } from '../../Context/GlobalContext';
 
 
 export default function Feedcard() {
+
+    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+
     const { user } = useGlobal();
     const [input, setInput] = useState("");
     const [like, setLike] = useState(0);
@@ -41,21 +44,28 @@ export default function Feedcard() {
             <div className='flex h-3/5 w-full items-center justify-center'>
 
                 <div className='bg-gray-150 h-3/5 w-full px-1.5 pt-2'>
-
+                    {/*feed card top user photo*/}
                     <div className=' flex items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-1.5'>
-                        <div className='h-8 w-8 rounded-full border-2 border-pink-500'></div>
+                        <div className='h-8 w-8 rounded-full border-2 border-pink-500'>
+                            <img
+                                src={`${user?.userProfile || sampleImage}`}
+                                alt="User Avatar"
+                                className="h-auto w-auto object-cover rounded-full"
+                            />
+                        </div>
                         <p>{user?.name}</p>
                     </div>
+                    {/*feed card top user photo*/}
 
-
+                    {/*main user feed photo*/}
                     <div className="aspect-square w-full border-r border-l border-gray-600 px-0.5">
                         <img
                             src="https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"
                             alt="User Avatar"
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-cover rounded-sm"
                         />
                     </div>
-
+                    {/*main user feed photo*/}
 
                     <div className='flex h-10 w-full items-center justify-between gap-2 border-r border-l border-gray-600 px-0.5'>
                         <div className='flex items-center justify-center gap-1'>
@@ -97,7 +107,13 @@ export default function Feedcard() {
                                     <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
                                         {comments.map((item) => (
                                             <div key={item.id} className="flex items-start gap-2">
-                                                <div className="h-8 w-8 rounded-full border border-pink-500"></div>
+                                                <div className="h-8 w-8 rounded-full border-2 border-pink-500 flex justify-center items-center">
+                                                    <img
+                                                        src={`${user?.userProfile || sampleImage}`}
+                                                        alt="User Avatar"
+                                                        className="h-auto w-auto object-cover rounded-full"
+                                                    />
+                                                </div>
 
                                                 <div>
                                                     <p className="text-sm font-semibold">{user?.name}</p>
@@ -172,7 +188,12 @@ export default function Feedcard() {
 
                     {/*Show Comments*/}
                     <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-r border-b border-l border-gray-600 p-2'>
-                        <div className='h-6 w-6 rounded-full border border-pink-500 bg-gray-200'>
+                        <div className='h-6 w-6 rounded-full border-2 border-pink-500 flex justify-center items-center'>
+                            <img
+                                src={`${user?.userProfile || sampleImage}`}
+                                alt="User Avatar"
+                                className="h-auto w-auto object-cover rounded-full"
+                            />
                         </div>
                         <p>Nice View! i like that.</p>
                     </div>

@@ -20,7 +20,7 @@ export default function Admin() {
                         <Shield className="h-12 w-12 text-white" />
                     </div>
                     <CardTitle className="text-2xl font-bold text-white">
-                       SM ORIGINALS
+                       SM ORIGINALS STUDIO
                     </CardTitle>
                     <p className="text-gray-300 text-sm">Secure Access Only</p>
                 </CardHeader>

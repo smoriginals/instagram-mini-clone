@@ -92,7 +92,7 @@ export default function Editprofile() {
         const toastId = toast.loading("Uploading Profile Picture...");
 
         const res = await UploadProfilePicture(file, user?._id);
-
+        
         if (res.success) {
             setHasUploading(false);
         }
@@ -104,9 +104,10 @@ export default function Editprofile() {
             return;
         }
 
-        toast.success('Profile Picture Updated :', { id: toastId });
+        toast.success('Profile Picture Updated', { id: toastId });
      
     }
+    
    
     return (
 
@@ -128,7 +129,7 @@ export default function Editprofile() {
                 {/* Profile Photo */}
                 <div className="flex items-center justify-start gap-4">
                     <img
-                        src="https://i.pravatar.cc/150?img=5"
+                        src={`${user?.userProfile || 'https://i.pravatar.cc/150?img=5'}`}
                         alt="Profile"
                         className="h-18 w-18 rounded-full border-2 border-pink-500 object-cover p-0.5"
                     />

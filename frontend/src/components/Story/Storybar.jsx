@@ -1,9 +1,11 @@
 ﻿import React from 'react';
 import AddStoryIcon from './AddStoryIcon';
 import { useGlobal } from '../../Context/GlobalContext';
+
 export default function Storybar() {
 
-    const { OpenStoryDrawer } = useGlobal();
+    const { OpenStoryDrawer, user } = useGlobal();
+    const sampleImage = 'https://i.pravatar.cc/150?img=65';
 
     return (
         <>
@@ -13,11 +15,11 @@ export default function Storybar() {
                 <div className="relative flex h-24 w-21 flex-col items-center justify-center p-1 px-3 pt-2">
 
                     {/* Avatar Wrapper */}
-                    <div className="relative h-15 w-15 overflow-hidden rounded-full border-2 border-pink-500 bg-white">
+                    <div className="relative h-15 w-15 overflow-hidden rounded-full border-3 border-pink-500 bg-white">
                         <img
-                            src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
+                            src={`${user?.userProfile||sampleImage}` }
                             alt="User Avatar"
-                            className="h-full w-full object-cover"
+                            className="h-auto w-auto object-cover rounded-full"
                             onClick={OpenStoryDrawer} />
                     </div>
 

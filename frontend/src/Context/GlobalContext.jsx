@@ -93,6 +93,8 @@ export const GlobalProvider = ({ children }) => {
     const UploadProfilePicture = async (file, userId) => {
 
         try {
+            console.log("file data:", file)
+            console.log("user data:", userId)
 
             const formData = new FormData();
             formData.append('image', file);
@@ -101,7 +103,16 @@ export const GlobalProvider = ({ children }) => {
             const res = await axios.post('http://localhost:5000/api/user/upload', formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
-           
+
+            if (res.data.success) {
+                // IMPORTANT: update global user object
+                setUser(prev => ({
+                    ...prev,
+                    userProfile: res.data.url,
+                    userProfileId: res.data.user.userProfileId
+                }));
+            }
+
             return res.data;
             //return { ok: true, ...res.data };
         }
@@ -110,7 +121,7 @@ export const GlobalProvider = ({ children }) => {
             //return { ok: false, message: "upload failed", err };
         }
     }
-
+    console.log(user);
 
     return (
         <GlobalContext.Provider

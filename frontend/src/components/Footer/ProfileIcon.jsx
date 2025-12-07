@@ -15,6 +15,7 @@ export default function ProfileIcon() {
     const navigate = useNavigate();
     const { user } = useGlobal();
 
+    const sampleImage = 'https://i.pravatar.cc/150?img=65';
     if (!user) return null; // prevent crash BEFORE login
 
     return (
@@ -35,7 +36,7 @@ export default function ProfileIcon() {
                         <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow">
                             <div className="relative h-32 w-32 overflow-hidden rounded-full shadow-md">
                                 <img
-                                    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
+                                    src={user?.userProfile||sampleImage }
                                     alt="Profile Avatar"
                                     className="h-full w-full object-cover"
                                 />

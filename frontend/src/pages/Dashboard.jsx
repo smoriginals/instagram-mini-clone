@@ -115,6 +115,8 @@ export default function Dashboard() {
     //];
 
     //console.table(userData);
+
+    const sampleImage = 'https://i.pravatar.cc/150?img=65';
     return (
         <>
             <div className="w-full p-3 my-4">
@@ -128,7 +130,9 @@ export default function Dashboard() {
                             <p className='text-md font-semibold text-black'>Update your profile Picture.</p>
                         </CardDescription>
                         <CardAction>
-                            <button className='cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center'><Camera size={30} className='opacity-80' /></button>
+                            <button className='cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center'>
+                                <img src={user?.userProfile || sampleImage } alt="user Avatar" className='h-auto w-auto object-cover rounded-full'/>
+                                </button>
                         </CardAction>
                     </CardHeader>
 

@@ -28,6 +28,8 @@ export default function Editprofile() {
 
     const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
 
+    const [hasUploading, setHasUploading] = useState(false);
+
     const [profileData, setProfileData] = useState({
         _id:user?._id||"",
         name: user?.name || "",
@@ -85,17 +87,25 @@ export default function Editprofile() {
 
     const HandleProfilePictureUpload = async (file) => {
 
+        setHasUploading(true);
+
         const toastId = toast.loading("Uploading Profile Picture...");
 
         const res = await UploadProfilePicture(file, user?._id);
 
+        if (res.success) {
+            setHasUploading(false);
+        }
+        
         if (!res.success) {
+            
             toast.error(res.message, { id: toastId });
+            
             return;
         }
 
         toast.success('Profile Picture Updated :', { id: toastId });
-       
+     
     }
    
     return (
@@ -124,10 +134,10 @@ export default function Editprofile() {
                     />
 
                     {/*//Handle Image upload here*/}
-                    <input type="file" accept="image/*" onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} className="hidden" id="imgPick" />
+                    <input type="file" accept="image/*" onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} className="hidden" id="imgPick" disabled={hasUploading} />
                     {/*//Handle Image upload here*/}
 
-                    <label htmlFor="imgPick" className="cursor-pointer rounded-md border border-gray-600 px-2 py-1 font-semibold"> Upload Profile Photo
+                    <label htmlFor="imgPick" className={`rounded-md border border-gray-600 px-2 py-1 font-semibold ${hasUploading ? 'opacity-50 cursor-not-allowed' :'cursor-pointer'}`}> {hasUploading ?"Uploading..." :"Upload Profile Photo"}
                     </label>
 
                 </div>
@@ -135,13 +145,13 @@ export default function Editprofile() {
                 {/* Name */}
                 <div className="">
                     <label className="px-2 text-sm font-medium">Name</label>
-                    <Input placeholder="Full Name" name="name" value={profileData.name} className='border border-gray-400' onChange={UpdateProfile} />
+                    <Input placeholder="Full Name" name="name" value={profileData.name} className='border border-gray-400' onChange={UpdateProfile} disabled={hasUploading}  />
                 </div>
 
                 {/* Username */}
                 <div className="">
                     <label className="px-2 text-sm font-medium">Username</label>
-                    <Input placeholder="yourusername" name="username" value={profileData.username}  className='border border-gray-400' onChange={UpdateProfile} />
+                    <Input placeholder="yourusername" name="username" value={profileData.username}  className='border border-gray-400' onChange={UpdateProfile} disabled={hasUploading} />
                 </div>
 
                 {/* Bio */}
@@ -150,7 +160,7 @@ export default function Editprofile() {
                     <Textarea
                         placeholder="Tell something about yourself..."
                         className="resize-none border border-gray-400"
-                        name="bio" value={profileData.bio} onChange={UpdateProfile}
+                        name="bio" value={profileData.bio} onChange={UpdateProfile} disabled={hasUploading} 
                     />
                 </div>
 
@@ -184,10 +194,10 @@ export default function Editprofile() {
 
                 <DialogFooter className="mt-2">
                     <DialogClose asChild>
-                        <Button variant="outline" className='border border-gray-600 font-bold'>Cancel</Button>
+                        <Button variant="outline" className='border border-gray-600 font-bold' disabled={hasUploading}>Cancel</Button>
                     </DialogClose>
                     <DialogClose asChild>
-                        <Button className='border border-gray-600 font-bold' onClick={HandleSaveProfileData}>Save Changes</Button>
+                        <Button className='border border-gray-600 font-bold' onClick={HandleSaveProfileData} disabled={hasUploading}>Save Changes</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

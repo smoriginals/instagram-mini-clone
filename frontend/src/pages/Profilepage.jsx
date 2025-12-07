@@ -6,12 +6,13 @@ export default function Profilepage() {
 
     const navigate = useNavigate();
     const { user } = useGlobal();
+
     return (
         <>
 
-            <div className="w-full min-h-screen bg-gray-100 flex flex-col items-center p-6 py-20">
+            <div className="w-full min-h-screen flex flex-col items-center p-6 py-20">
                 {/* Profile Header */}
-                <div className="w-full max-w-md bg-white shadow-md rounded-2xl p-6 flex flex-col items-center">
+                <div className="w-full max-w-md shadow-md rounded-2xl p-6 flex flex-col items-center border border-gray-600">
                     <div className="relative h-32 w-32 rounded-full overflow-hidden shadow-md">
                         <img
                             src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
@@ -48,7 +49,7 @@ export default function Profilepage() {
 
 
                 {/* Bio Section */}
-                <div className="w-full max-w-md bg-white mt-4 p-4 rounded-2xl shadow border border-gray-600">
+                <div className="w-full max-w-md mt-4 p-4 rounded-2xl shadow border border-gray-600">
                     <h2 className="font-semibold text-lg">About</h2>
                     <p className="text-sm text-gray-600 mt-1">
                         {user?.bio}
@@ -59,11 +60,11 @@ export default function Profilepage() {
                 {/* Posts Grid */}
                 <div className="w-full max-w-md mt-4 grid grid-cols-3 gap-2">
                     {[...Array(12)].map((_, i) => (
-                        <div key={i} className="aspect-square bg-gray-300 rounded-xl border border-gray-600"></div>
+                        <div key={i} className="aspect-square rounded-xl border border-gray-600"></div>
                     ))}
                 </div>
 
-                <div className="border border-gray-600 w-full max-w-md bg-white mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/settings')} }>
+                <div className="border border-gray-600 w-full max-w-md mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/settings')} }>
                     <button className='font-bold text-md cursor-pointer'>Setting</button>
                 </div>
 

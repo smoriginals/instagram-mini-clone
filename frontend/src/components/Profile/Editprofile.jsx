@@ -28,25 +28,6 @@ export default function Editprofile() {
 
     const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
 
-    //const [upload, setUpload] = useState(false);    
-
-    const HandleProfilePictureUpload = async (file) => {
-
-        const toastId = toast.loading("Uploading Profile Picture...");
-
-        const res = await UploadProfilePicture(file, user?._id);
-
-        if (!res.ok) {
-            toast.error(res.message, { id: toastId });
-            return;
-        }
-
-        toast.success('Prodile Picture Updated :', { id: toast });
-        // update the user profile image in global context:
-        //setUser(prev => ({ ...prev, profilePic: res.url }));
-
-    }
-
     const [profileData, setProfileData] = useState({
         _id:user?._id||"",
         name: user?.name || "",
@@ -102,8 +83,21 @@ export default function Editprofile() {
         navigate("/profile");
     };
 
+    const HandleProfilePictureUpload = async (file) => {
 
+        const toastId = toast.loading("Uploading Profile Picture...");
 
+        const res = await UploadProfilePicture(file, user?._id);
+
+        if (!res.success) {
+            toast.error(res.message, { id: toastId });
+            return;
+        }
+
+        toast.success('Profile Picture Updated :', { id: toastId });
+       
+    }
+   
     return (
 
         <Dialog>

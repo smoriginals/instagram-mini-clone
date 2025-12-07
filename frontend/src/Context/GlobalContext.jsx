@@ -5,18 +5,16 @@ const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
 
-    //========Story Drawer Handle=================================
+    // Story Drawer Handle
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
     const CloseStoryDrawer = () => setStoryDrawerOpen(false);
     const OpenStoryDrawer = () => setStoryDrawerOpen(true);
-    //============================================================
-
-
-    //================ User State Management =====================
+    
     //const [user, setUser] = useState(
     //    JSON.parse(localStorage.getItem("user"))||null
     //);
 
+    // User State Management
     const [user, setUser] = useState(() => {
         const storeUser = localStorage.getItem('user');
         try {
@@ -27,7 +25,6 @@ export const GlobalProvider = ({ children }) => {
             return null;
         }
     })
-    //============================================================
 
     // Create User Function
     const createUser = async (userData) => {
@@ -104,20 +101,13 @@ export const GlobalProvider = ({ children }) => {
             const res = await axios.post('http://localhost:5000/api/user/upload', formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
-            //if (!res.ok) {
-            //    return res.status(400).json({message:"Picture not upload..."})
-            //}
-            //console.log("SERVER RESPONSE:", res.data);
-            //setUser(prev => ({
-            //    ...prev, profilepicture: res.data.profilePhoto
-            //}))
-
-            //return { ok: true, data: res.data };
+           
             return res.data;
+            //return { ok: true, ...res.data };
         }
         catch (err) {
-            //return { ok: false, message: error.response?.data?.message || "Network Error" };
-            return { ok: false, message: "upload failed", err };
+            return { ok: false, message: err.response?.data?.message || "Network Error" };
+            //return { ok: false, message: "upload failed", err };
         }
     }
 

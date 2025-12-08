@@ -38,7 +38,7 @@ export default function StoryIcon() {
                     {/* Username */}
                     <div className="mt-4 flex items-center justify-start gap-2 px-6 text-center">
                         <div className='flex items-center justify-start gap-2'>
-                            <div className='flex h-7 w-7 rounded-full border-2 border-pink-500 bg-amber-100'>
+                            <div className='flex h-7 w-7 rounded-full border-2 border-pink-500 justify-center items-center'>
                                 <img src={`${user?.userProfile || sampleImage}` } alt='User Avatar' className='h-auto w-auto object-cover rounded-full'/>
                             </div>
                             <p className="text-lg font-semibold tracking-wide">{user?.name}</p>

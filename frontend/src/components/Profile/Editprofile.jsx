@@ -41,32 +41,7 @@ export default function Editprofile() {
         const { name, value } = e.target;
         setProfileData((prev) => ({...prev,[name]: value,}));
     };
-    //const HandleSaveProfileData = async () => {
-    //    //const res = await UpdateUserProfile(profileData);
-    //    //if (!res.ok) {
-    //    //    toast.error(res.message);
-    //    //    return;
-    //    //}
-
-    //    //toast.success("Profile Update");
-    //    //navigate("/profile");
-
-    //    //UpdateUserProfile({ _id: user?._id, name: profileData.name, username: profileData.username, });
-    //    const res = await UpdateUserProfile({
-    //        _id: user?._id,               // MUST BE SENT
-    //        name: profileData.name,
-    //        username: profileData.username
-    //    });
-
-    //    if (!res.ok) {
-    //        toast.error(res.message);
-    //        return;
-    //    }
-
-    //    toast.success("Profile Updated");
-
-    //}
-
+    
     const HandleSaveProfileData = async () => {
 
         const res = await UpdateUserProfile({

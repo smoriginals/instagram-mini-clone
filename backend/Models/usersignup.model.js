@@ -33,6 +33,9 @@ const UserSignup = new Schema({
     website: {
         type: String
     },
+    businessEmail: {
+        type: String
+    },
     userProfile: {
         type: String
     },

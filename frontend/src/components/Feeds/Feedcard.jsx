@@ -46,7 +46,7 @@ export default function Feedcard() {
                 <div className='bg-gray-150 h-3/5 w-full px-1.5 pt-2'>
                     {/*feed card top user photo*/}
                     <div className=' flex items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-1.5'>
-                        <div className='h-8 w-8 rounded-full border-2 border-pink-500'>
+                        <div className='h-8 w-8 rounded-full border-2 border-pink-500 flex justify-center items-center'>
                             <img
                                 src={`${user?.userProfile || sampleImage}`}
                                 alt="User Avatar"

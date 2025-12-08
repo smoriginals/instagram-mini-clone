@@ -50,7 +50,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
 
-    const { user, UpdateUserProfile } = useGlobal();
+    const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
     const navigate = useNavigate();
 
     const [userData, setUserData] = useState({
@@ -69,7 +69,38 @@ export default function Dashboard() {
         setUserData((prev => ({ ...prev, [name]: value })));
     }
 
+    //const HandleSubmit = async () => {
+
+    //    if (userData.password !== userData.confirmPassword) {
+    //        toast.error("Passwords do not match");
+    //        return;
+    //    }
+
+    //    const paylode = {
+    //        _id: userData._id,
+    //        name: userData.name,
+    //        username: userData.username,
+    //        bio: userData.bio,
+    //        email: userData.email,
+    //    }
+
+    //    if (userData.password.trim().length > 0) {
+    //        paylode.password = userData.password;
+    //    }
+
+    //    const res = await UpdateUserProfile(paylode);
+    //    if (!res.ok) {
+    //        toast.error(res.message);
+    //        return;
+    //    }
+    //    toast.success("Profile Updated Successfully");
+    //    navigate('/dashboard');
+    //}
     const HandleSubmit = async () => {
+        if (!userData.name || !userData.username || !userData.email) {
+            toast.error("Please fill in all required fields.");
+            return;
+        }
 
         if (userData.password !== userData.confirmPassword) {
             toast.error("Passwords do not match");
@@ -82,19 +113,11 @@ export default function Dashboard() {
             username: userData.username,
             bio: userData.bio,
             email: userData.email,
-        }
+        };
 
         if (userData.password.trim().length > 0) {
             paylode.password = userData.password;
         }
-        //const res = await UpdateUserProfile({
-        //    _id: userData._id,
-        //    name: userData.name,
-        //    username: userData.username,
-        //    bio: userData.bio,
-        //    email: userData.email,
-        //    password:userData.password
-        //});
 
         const res = await UpdateUserProfile(paylode);
         if (!res.ok) {
@@ -103,18 +126,31 @@ export default function Dashboard() {
         }
         toast.success("Profile Updated Successfully");
         navigate('/dashboard');
+    };
+
+    const [hasUploading, setHasUploading] = useState(false);
+    const HandleProfilePictureUpload = async (file) => {
+
+        setHasUploading(true);
+
+        const toastId = toast.loading("Uploading Profile Picture...");
+
+        const res = await UploadProfilePicture(file, user?._id);
+
+        if (res.success) {
+            setHasUploading(false);
+        }
+
+        if (!res.success) {
+
+            toast.error(res.message, { id: toastId });
+
+            return;
+        }
+
+        toast.success('Profile Picture Updated', { id: toastId });
+
     }
-
-    //const stats = [
-    //    { title: "Total Likes", value: "12.4k", icon: Heart },
-    //    { title: "Comments", value: "3.1k", icon: MessageCircle },
-    //    { title: "Shares", value: "980", icon: Share2 },
-    //    { title: "Posts", value: "220", icon: ImageIcon },
-    //    { title: "Followers", value: "8,530", icon: Users },
-    //    { title: "Following", value: "1,120", icon: UserPlus },
-    //];
-
-    //console.table(userData);
 
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
     return (
@@ -129,10 +165,26 @@ export default function Dashboard() {
                         <CardDescription>
                             <p className='text-md font-semibold text-black'>Update your profile Picture.</p>
                         </CardDescription>
+                        {/*<CardAction>*/}
+                        {/*    <button type="file" accept="image/*" id="imgPick"  className='cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center' onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} disabled={hasUploading} >*/}
+
+                        {/*        <img src={user?.userProfile || sampleImage} alt="user Avatar" className='h-auto w-auto object-cover rounded-full'*/}
+                        {/*        />*/}
+
+                        {/*    </button>*/}
+                        {/*</CardAction>*/}
                         <CardAction>
-                            <button className='cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center'>
-                                <img src={user?.userProfile || sampleImage } alt="user Avatar" className='h-auto w-auto object-cover rounded-full'/>
-                                </button>
+                            <label htmlFor="imgPick" className="cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center">
+                                <img src={user?.userProfile || sampleImage} alt="user Avatar" className="h-20 w-20 object-cover rounded-full" />
+                            </label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                id="imgPick"
+                                className="hidden"
+                                onChange={(e) => HandleProfilePictureUpload(e.target.files[0])}
+                                disabled={hasUploading}
+                            />
                         </CardAction>
                     </CardHeader>
 
@@ -254,7 +306,7 @@ export default function Dashboard() {
 
                         <Field orientation="vertical">
                             <Button type="button" className='border border-gray-600' onClick={HandleSubmit}>Submit</Button>
-                            <Button variant="outline" type="button" className='border border-gray-600' onClick={() => {navigate('/settings')} }>
+                            <Button variant="outline" type="button" className='border border-gray-600' onClick={() => { navigate('/settings') }}>
                                 Back to Settings
                             </Button>
                         </Field>

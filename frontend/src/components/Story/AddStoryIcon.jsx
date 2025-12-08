@@ -15,7 +15,7 @@ export default function AddStoryIcon() {
 
     return (
         <div>
-            <button className="absolute top-13 right-2 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center" onClick={OpenStoryDrawer}>
+            <button className="absolute top-27 left-13 md:opacity-0 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center" onClick={OpenStoryDrawer}>
                 <Plus size={12} color="white" />
             </button>
             <Drawer open={storyDrawerOpen} onOpenChange={CloseStoryDrawer}>

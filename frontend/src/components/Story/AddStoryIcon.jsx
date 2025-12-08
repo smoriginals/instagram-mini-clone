@@ -15,13 +15,13 @@ export default function AddStoryIcon() {
 
     return (
         <div>
-            <button className="absolute top-27 left-13 md:opacity-0 h-5 w-5 bg-blue-500 border-2 border-white rounded-full flex items-center justify-center" onClick={OpenStoryDrawer}>
+            <button className="top-27 left-13 absolute flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-blue-500 opacity-0" onClick={OpenStoryDrawer}>
                 <Plus size={12} color="white" />
             </button>
             <Drawer open={storyDrawerOpen} onOpenChange={CloseStoryDrawer}>
 
-                <DrawerContent className="p-4 flex flex-col gap-3">
-                    <h1 className='text-xl font-bold text-center p-2'>Add a Story</h1>
+                <DrawerContent className="flex flex-col gap-3 p-4">
+                    <h1 className='p-2 text-center text-xl font-bold'>Add a Story</h1>
                     <button
                         onClick={() => cameraRef.current.click()}
                         className="p-3 border rounded flex justify-center items-center"
@@ -36,7 +36,7 @@ export default function AddStoryIcon() {
                         <Image size={30} />
                     </button>
 
-                    <h1 className='text-center p-4 rounded-sm text-xl font-bold'>Choose</h1>
+                    <h1 className='rounded-sm p-4 text-center text-xl font-bold'>Choose</h1>
 
                 </DrawerContent>
             </Drawer>

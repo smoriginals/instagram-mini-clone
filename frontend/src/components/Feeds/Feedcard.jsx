@@ -41,16 +41,16 @@ export default function Feedcard() {
 
     return (
         <>
-            <div className='flex h-3/5 w-full items-center justify-center'>
+            <div className='flex h-1/2 w-full items-center justify-center'>
 
-                <div className='bg-gray-150 h-3/5 w-full px-1.5 pt-2'>
+                <div className='flex h-1/2 w-full flex-col items-center justify-center'>
                     {/*feed card top user photo*/}
-                    <div className=' flex items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-1.5'>
-                        <div className='h-8 w-8 rounded-full border-2 border-pink-500 flex justify-center items-center'>
+                    <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-l border-r border-t border-gray-600 p-2 pt-3'>
+                        <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
                                 src={`${user?.userProfile || sampleImage}`}
                                 alt="User Avatar"
-                                className="h-auto w-auto object-cover rounded-full"
+                                className="h-7 w-7 rounded-full object-cover"
                             />
                         </div>
                         <p>{user?.name}</p>
@@ -58,17 +58,18 @@ export default function Feedcard() {
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
-                    <div className="aspect-square w-full border-r border-l border-gray-600 px-0.5">
+                    <div className="aspect-square w-full border-l border-r border-gray-600 p-1">
                         <img
                             src="https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"
                             alt="User Avatar"
-                            className="h-full w-full object-cover rounded-sm"
+                            className="h-full w-full rounded-sm object-cover"
                         />
                     </div>
                     {/*main user feed photo*/}
 
-                    <div className='flex h-10 w-full items-center justify-between gap-2 border-r border-l border-gray-600 px-0.5'>
-                        <div className='flex items-center justify-center gap-1'>
+
+                    <div className='flex h-10 w-full items-center justify-between gap-2 border-l border-r border-gray-600 p-1'>
+                        <div className='flex h-10 items-center justify-center gap-1'>
 
                             {/*Like Button*/}
                             <div className='flex flex-row items-center justify-start'>
@@ -107,11 +108,11 @@ export default function Feedcard() {
                                     <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
                                         {comments.map((item) => (
                                             <div key={item.id} className="flex items-start gap-2">
-                                                <div className="h-8 w-8 rounded-full border-2 border-pink-500 flex justify-center items-center">
+                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500">
                                                     <img
                                                         src={`${user?.userProfile || sampleImage}`}
                                                         alt="User Avatar"
-                                                        className="h-auto w-auto object-cover rounded-full"
+                                                        className="h-auto w-auto rounded-full object-cover"
                                                     />
                                                 </div>
 
@@ -181,21 +182,21 @@ export default function Feedcard() {
 
                         {/*Save Button*/}
                         <div>
-                            <button className='flex h-8 w-8 items-center justify-center'><Bookmark size={22} /></button>
+                            <button className='flex h-10 w-10 items-center justify-center'><Bookmark size={22} /></button>
                         </div>
                         {/*Save Button*/}
                     </div>
 
                     {/*Show Comments*/}
-                    <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-r border-b border-l border-gray-600 p-2'>
-                        <div className='h-6 w-6 rounded-full border-2 border-pink-500 flex justify-center items-center'>
+                    <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-b border-l border-r border-gray-600 px-2 pb-2'>
+                        <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
                                 src={`${user?.userProfile || sampleImage}`}
                                 alt="User Avatar"
-                                className="h-auto w-auto object-cover rounded-full"
+                                className="h-7 w-7 rounded-full object-cover"
                             />
                         </div>
-                        <p>Nice View! i like that.</p>
+                        <p>Here is your Caption...</p>
                     </div>
                     {/*Show Comments*/}
                 </div>

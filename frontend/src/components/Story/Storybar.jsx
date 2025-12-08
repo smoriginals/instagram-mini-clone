@@ -9,31 +9,31 @@ export default function Storybar() {
 
     return (
         <>
-            <nav className="mt-14 flex justify-start items-center bg-gray-600 p-1">
+            <nav className="mt-14 flex items-center justify-start p-1">
 
                 {/* YOUR STORY */}
-                <div className="h-24 w-24 flex flex-col justify-center items-center p-1.5">
+                <div className="flex h-24 w-24 flex-col items-center justify-center p-1.5">
 
                     {/* Avatar Wrapper */}
-                    <div className="overflow-hidden flex justify-center items-center rounded-full h-16 w-16 border-5 border-double border-pink-500">
+                    <div className="border-5 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-double border-pink-500">
                         <img
                             src={`${user?.userProfile||sampleImage}` }
                             alt="User Avatar"
-                            className="h-auto w-auto object-cover rounded-full"
+                            className="h-auto w-auto rounded-full object-cover"
                             onClick={OpenStoryDrawer} />
                     </div>
                     <AddStoryIcon/>
                     <p className="mt-1 text-xs font-bold">Your Story</p>
                 </div>
 
-                <div className="flex p-1.5 gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden transition-all duration-300 ease-in-out  [scroll-behavior:smooth]">
+                <div className="flex gap-2 overflow-x-auto p-1.5 transition-all duration-300 ease-in-out [scrollbar-width:none] [scroll-behavior:smooth] [&::-webkit-scrollbar]:hidden">
 
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((user, index) => (
                         <div key={index} className="flex flex-shrink-0 flex-col items-center justify-start gap-1">
-                            <div className="h-16 w-16 overflow-hidden rounded-full border-3 border-pink-500">
+                            <div className="border-3 h-16 w-16 overflow-hidden rounded-full border-pink-500">
                                 <img
                                     src={`https://i.pravatar.cc/150?img=${index + 1}`}
-                                    className="h-auto w-auto object-cover rounded-full"
+                                    className="h-auto w-auto rounded-full object-cover"
                                     alt="Story"
                                 />
                             </div>

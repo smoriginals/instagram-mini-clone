@@ -42,6 +42,17 @@ const UserSignup = new Schema({
     userProfileId: {
         type: String
     },
+    followers: [
+        { type: Schema.Types.ObjectId, ref: "UserSignup" }
+    ],
+
+    following: [
+        { type: Schema.Types.ObjectId, ref: "UserSignup" }
+    ],
+
+    posts: [
+        { type: Schema.Types.ObjectId, ref: "Post" }
+    ],
     timestamp: {
         type: Date,
         default: Date.now

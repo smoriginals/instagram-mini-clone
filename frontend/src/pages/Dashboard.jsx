@@ -155,27 +155,27 @@ export default function Dashboard() {
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
     return (
         <>
-            <div className="w-full p-3 my-4">
+            <div className="my-4 w-full p-3">
                 <h1 className='text-4xl font-bold'>Dashboard</h1>
 
-                <Card className="w-full mt-4 mb-6 border border-gray-600 bg-gradient-to-tr from-yellow-300 via-yellow-500 to-yellow-400">
+                <Card className="mt-4 mb-6 w-full border border-gray-600">
 
                     <CardHeader>
                         <CardTitle>Profile</CardTitle>
                         <CardDescription>
-                            <p className='text-md font-semibold text-black'>Update your profile Picture.</p>
+                            <p className='text-md font-semibold'>Update your profile Picture.</p>
                         </CardDescription>
                         {/*<CardAction>*/}
-                        {/*    <button type="file" accept="image/*" id="imgPick"  className='cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center' onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} disabled={hasUploading} >*/}
+                        {/*    <button type="file" accept="image/*" id="imgPick"  className='flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-gray-600' onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} disabled={hasUploading} >*/}
 
-                        {/*        <img src={user?.userProfile || sampleImage} alt="user Avatar" className='h-auto w-auto object-cover rounded-full'*/}
+                        {/*        <img src={user?.userProfile || sampleImage} alt="user Avatar" className='h-auto w-auto rounded-full object-cover'*/}
                         {/*        />*/}
 
                         {/*    </button>*/}
                         {/*</CardAction>*/}
                         <CardAction>
-                            <label htmlFor="imgPick" className="cursor-pointer h-20 w-20 rounded-full border border-gray-600 flex justify-center items-center">
-                                <img src={user?.userProfile || sampleImage} alt="user Avatar" className="h-20 w-20 object-cover rounded-full" />
+                            <label htmlFor="imgPick" className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-gray-600">
+                                <img src={user?.userProfile || sampleImage} alt="user Avatar" className="h-20 w-20 rounded-full border-4 border-double border-gray-400 object-cover" />
                             </label>
                             <input
                                 type="file"
@@ -191,12 +191,12 @@ export default function Dashboard() {
                     <CardContent>
                         <CardTitle>Lifetime Data</CardTitle>
 
-                        <ToggleGroup type="multiple" variant="outline" spacing={2} size="sm" className='py-2 flex justify-start flex-wrap'>
+                        <ToggleGroup type="multiple" variant="outline" spacing={2} size="sm" className='flex flex-wrap justify-start py-2'>
 
                             <ToggleGroupItem
                                 value="star"
                                 aria-label="Toggle star"
-                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-red-500 data-[state=on]:*:[svg]:stroke-black border border-gray-600"
+                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-red-500 data-[state=on]:*:[svg]:stroke-black"
                             >
                                 <HeartIcon />
                                 Likes
@@ -205,7 +205,7 @@ export default function Dashboard() {
                             <ToggleGroupItem
                                 value="heart"
                                 aria-label="Toggle heart"
-                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-black data-[state=on]:*:[svg]:stroke-black border border-gray-600 "
+                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-black data-[state=on]:*:[svg]:stroke-black"
                             >
                                 <Send />
                                 Shares
@@ -214,7 +214,7 @@ export default function Dashboard() {
                             <ToggleGroupItem
                                 value="bookmark"
                                 aria-label="Toggle bookmark"
-                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-yellow-500 data-[state=on]:*:[svg]:stroke-black border border-gray-600 "
+                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-yellow-500 data-[state=on]:*:[svg]:stroke-black"
                             >
                                 <BookmarkIcon />
                                 Saves
@@ -223,7 +223,7 @@ export default function Dashboard() {
                             <ToggleGroupItem
                                 value="comment"
                                 aria-label="Toggle comment"
-                                className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-blue-500 data-[state=on]:*:[svg]:stroke-black border border-gray-600 "
+                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-blue-500 data-[state=on]:*:[svg]:stroke-black"
                             >
 
                                 <MessageCircleMore />
@@ -238,7 +238,7 @@ export default function Dashboard() {
                 <form>
                     <FieldGroup>
                         <FieldSet>
-                            <FieldLegend className='text-xl font-bold mt-4'>Privacy Setting</FieldLegend>
+                            <FieldLegend className='mt-4 text-xl font-bold'>Privacy Setting</FieldLegend>
                             {/*<FieldDescription>*/}
                             {/*    All transactions are secure and encrypted*/}
                             {/*</FieldDescription>*/}
@@ -293,12 +293,12 @@ export default function Dashboard() {
 
                         </FieldSet>
 
-                        <div className="flex justify-start gap-4 flex-col">
-                            <div className='flex justify-between items-center space-x-2'>
+                        <div className="flex flex-col justify-start gap-4">
+                            <div className='flex items-center justify-between space-x-2'>
                                 <Label className='text-xl'>Private Profile</Label>
                                 <Switch />
                             </div>
-                            <div className='flex justify-between items-center space-x-2'>
+                            <div className='flex items-center justify-between space-x-2'>
                                 <Label className='text-xl'>Step-To-Verification</Label>
                                 <Switch />
                             </div>

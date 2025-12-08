@@ -34,7 +34,7 @@ export default function ProfileIcon() {
                     <div className="flex h-full w-full flex-col items-center overflow-y-auto p-6">
                         {/* Profile Header */}
                         <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow">
-                            <div className="relative h-32 w-32 overflow-hidden rounded-full shadow-md">
+                            <div className="relative h-32 w-32 overflow-hidden rounded-full border-8 border-double border-green-600">
                                 <img
                                     src={user?.userProfile||sampleImage }
                                     alt="Profile Avatar"

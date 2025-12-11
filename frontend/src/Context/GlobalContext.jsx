@@ -9,12 +9,8 @@ export const GlobalProvider = ({ children }) => {
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
     const CloseStoryDrawer = () => setStoryDrawerOpen(false);
     const OpenStoryDrawer = () => setStoryDrawerOpen(true);
-    
-    //const [user, setUser] = useState(
-    //    JSON.parse(localStorage.getItem("user"))||null
-    //);
 
-    // User State Management
+    // User Profile State Management
     const [user, setUser] = useState(() => {
         const storeUser = localStorage.getItem('user');
         try {
@@ -26,6 +22,19 @@ export const GlobalProvider = ({ children }) => {
         }
     })
 
+    //User Post State Management
+    //const [userPost, setUserPost] = useState(() => {
+    //    const storeUserPosts = localStorage.get('userposts');
+    //    try {
+    //        return storeUserPosts ? JSON.parse(storeUserPosts) : null;
+    //    }
+    //    catch {
+    //        localStorage.removeItem('userposts');
+    //    }
+    //    console.log(userPost);
+    //})
+
+
     // Create User Function
     const createUser = async (userData) => {
         try {
@@ -33,7 +42,7 @@ export const GlobalProvider = ({ children }) => {
                 "http://localhost:5000/api/user/create",
                 userData
             );
-
+            console.log(res);
             setUser(res.data.newUser);
             localStorage.setItem("user", JSON.stringify(res.data.newUser));
             return { ok: true, user: res.data.newUser };
@@ -121,6 +130,20 @@ export const GlobalProvider = ({ children }) => {
             //return { ok: false, message: "upload failed", err };
         }
     }
+
+    //User creating a Post
+    const AddUserPost = async (postData) => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/user/post/create', postData);
+            console.log(res);
+            
+        }
+        catch (error) {
+            console.log("Unable to make Post, Server error:",error.message)
+        }
+    }
+    AddUserPost();
+    createUser();
     console.log(user);
 
     return (
@@ -131,8 +154,8 @@ export const GlobalProvider = ({ children }) => {
                 CloseStoryDrawer,
                 createUser, user,
                 LoginUser, LogoutUser, UpdateUserProfile, DeleteUser,
-                UploadProfilePicture
-
+                UploadProfilePicture,
+                AddUserPost
             }}
         >
             {children}

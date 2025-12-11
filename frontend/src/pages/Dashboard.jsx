@@ -69,33 +69,6 @@ export default function Dashboard() {
         setUserData((prev => ({ ...prev, [name]: value })));
     }
 
-    //const HandleSubmit = async () => {
-
-    //    if (userData.password !== userData.confirmPassword) {
-    //        toast.error("Passwords do not match");
-    //        return;
-    //    }
-
-    //    const paylode = {
-    //        _id: userData._id,
-    //        name: userData.name,
-    //        username: userData.username,
-    //        bio: userData.bio,
-    //        email: userData.email,
-    //    }
-
-    //    if (userData.password.trim().length > 0) {
-    //        paylode.password = userData.password;
-    //    }
-
-    //    const res = await UpdateUserProfile(paylode);
-    //    if (!res.ok) {
-    //        toast.error(res.message);
-    //        return;
-    //    }
-    //    toast.success("Profile Updated Successfully");
-    //    navigate('/dashboard');
-    //}
     const HandleSubmit = async () => {
         if (!userData.name || !userData.username || !userData.email) {
             toast.error("Please fill in all required fields.");

@@ -1,4 +1,4 @@
-﻿import React from "react"
+﻿import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Drawer,
@@ -30,14 +30,52 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Image, SendHorizontal } from "lucide-react";
+import toast from 'react-hot-toast';
+import { useGlobal } from "../../Context/GlobalContext"
+
+
 export default function AddPost() {
+
+    const { AddUserPost } = useGlobal();
+
+    const [Submitted, setSubmitted] = useState(false);
+
+    const [postData, setPostData] = useState({
+        title: '',
+        image: '',
+        caption: '',
+    });
+
+    const HandleChange = (e) => {
+        const { name, value,files } = e.target;
+        setPostData((prev) => ({ ...prev, [name]:name==='image'?files[0]: value }))
+    }
+
+    const HandleSubmit = async (e) => {
+        e.preventDefault();
+        if (!postData.postTitle || !postData.postImage || !postData.postCaption) {
+            toast.error("All Field Required")
+            setSubmitted(false);
+            return;
+        }
+
+        const res = await AddUserPost(postData);
+        if (!res.success) {
+            toast.error("Internal server Error");
+            setSubmitted(false);
+            return;
+        }
+        toast.success("Your Post has been Published");
+        setSubmitted(true);
+        console.log(postData);
+    }
 
     return (
         <>
             <Drawer>
                 <DrawerTrigger asChild>
                     {/*<button variant="outline">Add a Post</button>*/}
-                    <button className="flex items-center font-semibold gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-600"
+                    <button className="flex cursor-pointer items-center gap-3 rounded-lg p-3 font-semibold hover:bg-gray-600"
 
                     >
                         <Image /> Add a Post
@@ -45,39 +83,41 @@ export default function AddPost() {
                 </DrawerTrigger>
 
                 <DrawerContent>
-                    <div className="overflow-y-auto w-full p-4">
+                    <div className="w-full overflow-y-auto p-4">
                         <form>
                             <FieldGroup>
                                 <FieldSet>
-                                    <FieldLegend className='font-bold text-center'><p className='text-2xl'>Add New Post</p></FieldLegend>
+                                    <FieldLegend className='text-center font-bold'><p className='text-2xl'>Add New Post</p></FieldLegend>
 
                                     <FieldGroup>
                                         <Field>
-                                            <FieldLabel className='text-lg font-bold px-1'>
+                                            <FieldLabel className='px-1 text-lg font-bold'>
                                                 Post Title
                                             </FieldLabel>
                                             <Input
                                                 placeholder="#Asia to Russia📍"
                                                 className='border border-gray-600'
+                                                name='title'
+                                                onChange={HandleChange }
                                             />
                                         </Field>
                                         <Field>
-                                            <FieldLabel className='text-lg font-bold px-1'>
+                                            <FieldLabel className='px-1 text-lg font-bold'>
                                                 Select Media
                                             </FieldLabel>
-                                            <Input placeholder="Add Image or Video" className='h-96 w-96 aspect-square border border-gray-600' type='file' />
+                                            <Input placeholder="Add Image or Video" className='aspect-square h-96 w-96 border border-gray-600' type='file' name='image' onChange={HandleChange} />
 
                                         </Field>
                                         <Field>
 
-                                            <FieldLabel className='text-lg font-bold px-1'>
+                                            <FieldLabel className='px-1 text-lg font-bold'>
                                                 Caption
                                             </FieldLabel>
 
-                                            <div className='flex justify-between items-center p-1 gap-2'>
-                                                <Input placeholder="Add a Caption for Your Post..." className="resize-none border border-gray-600 rounded-full px-4"
+                                            <div className='flex items-center justify-between gap-2 p-1'>
+                                                <Input placeholder="Add a Caption for Your Post..." className="resize-none rounded-full border border-gray-600 px-4" name='caption' onChange={HandleChange}
                                                 />
-                                                <button className='border border-gray-600 p-1.5 rounded-full active:bg-black active:text-white'><SendHorizontal /></button>
+                                                <button className='rounded-full border border-gray-600 p-1.5 active:bg-black active:text-white' onClick={HandleSubmit}><SendHorizontal /></button>
                                             </div>
 
                                         </Field>

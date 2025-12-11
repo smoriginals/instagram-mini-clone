@@ -1,24 +1,26 @@
 ﻿import mongoose, { Schema } from "mongoose";
 
 const UserPosts = new Schema({
+
+    title: {
+        type:String
+    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: "UserSignup",
         required: true,
     },
-
     image: {
         type: String,
         required: true,
     },
-
-    imageId: String, // cloudinary ID or any storage ID
-
+    imageId: {
+        type: String, // cloudinary ID or any storage ID
+    },
     caption: {
         type: String,
         trim: true,
     },
-
     // 👍 multiple likes from different users
     likes: [
         {
@@ -26,7 +28,6 @@ const UserPosts = new Schema({
             ref: "UserSignup",
         }
     ],
-
     // 👍 multiple comments (referenced from comment model)
     comments: [
         {
@@ -34,7 +35,6 @@ const UserPosts = new Schema({
             ref: "Comment",
         }
     ],
-
     // 👍 multiple users can save this post
     savedBy: [
         {
@@ -42,7 +42,6 @@ const UserPosts = new Schema({
             ref: "UserSignup",
         }
     ],
-
     // optional shares
     shares: [
         {
@@ -50,7 +49,6 @@ const UserPosts = new Schema({
             ref: "Share",
         }
     ],
-
     timestamp: {
         type: Date,
         default: Date.now,

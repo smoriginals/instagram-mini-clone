@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useGlobal } from "../../Context/GlobalContext";
+import AddPost from "../Post/AddPost";
 
 export default function PostIcon() {
 
@@ -30,24 +31,26 @@ export default function PostIcon() {
 
                     <div className="flex flex-col gap-2 px-4 text-lg">
 
-                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg"
-                            onClick={() => uploadPhoto.current.click()}
-                        >
-                            <Image /> Upload a Photo
-                        </button>
+                        {/*<button className="flex items-center font-semibold gap-3 p-3 rounded-lg cursor-pointer hover:bg-blue-900"*/}
+                        {/*    onClick={() => uploadPhoto.current.click()}*/}
+                        {/*>*/}
+                        {/*    <Image /> Add a Post*/}
+                        {/*</button>*/}
 
-                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg" onClick={OpenStoryDrawer}>
+                        <AddPost/>
+
+                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-600" onClick={OpenStoryDrawer}>
                             <BookOpen  /> Add a Story
                         </button>
 
-                        <button className="flex font-semibold tems-center gap-3 p-3 rounded-lg ">
-                            <PlusCircle /> Post
-                        </button>
+                        {/*<button className="flex font-semibold tems-center gap-3 p-3 rounded-lg ">*/}
+                        {/*    <PlusCircle /> Post*/}
+                        {/*</button>*/}
 
                     </div>
 
                     <DrawerClose className="p-4">
-                        <Button variant="outline" className="w-full text-xl py-6 font-semibold border  border-gray-600">Close</Button>
+                        <Button variant="outline" className="w-full text-xl py-6 font-semibold cursor-pointer border  border-gray-600">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>

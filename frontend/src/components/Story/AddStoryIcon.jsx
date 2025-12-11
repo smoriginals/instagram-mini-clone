@@ -20,7 +20,7 @@ export default function AddStoryIcon() {
             </button>
             <Drawer open={storyDrawerOpen} onOpenChange={CloseStoryDrawer}>
 
-                <DrawerContent className="flex flex-col gap-3 p-4">
+                <DrawerContent className="flex flex-col gap-2 p-1">
                     <h1 className='p-2 text-center text-xl font-bold'>Add a Story</h1>
                     <button
                         onClick={() => cameraRef.current.click()}

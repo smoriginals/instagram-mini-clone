@@ -44,13 +44,19 @@ export default function Feedcard() {
             <div className='flex h-1/2 w-full items-center justify-center'>
 
                 <div className='flex h-1/2 w-full flex-col items-center justify-center'>
+
+                    {/*Uncomment this when require better view in PC screebs*/}
+                    {/* <div className='flex w-full items-center justify-center'>
+                        <div className='flex w-full max-w-[500px] flex-col'>*/}
+                    {/*Uncomment this when require better view in PC screebs*/}
+
                     {/*feed card top user photo*/}
                     <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-l border-r border-t border-gray-600 p-2 pt-3'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
                                 src={`${user?.userProfile || sampleImage}`}
                                 alt="User Avatar"
-                                className="h-7 w-7 rounded-full object-cover"
+                                className="h-6 w-6 rounded-full object-cover"
                             />
                         </div>
                         <p>{user?.name}</p>
@@ -112,7 +118,7 @@ export default function Feedcard() {
                                                     <img
                                                         src={`${user?.userProfile || sampleImage}`}
                                                         alt="User Avatar"
-                                                        className="h-auto w-auto rounded-full object-cover"
+                                                        className="h-6 w-6 rounded-full object-cover"
                                                     />
                                                 </div>
 
@@ -193,7 +199,7 @@ export default function Feedcard() {
                             <img
                                 src={`${user?.userProfile || sampleImage}`}
                                 alt="User Avatar"
-                                className="h-7 w-7 rounded-full object-cover"
+                                className="h-6 w-6 rounded-full object-cover"
                             />
                         </div>
                         <p>Here is your Caption...</p>

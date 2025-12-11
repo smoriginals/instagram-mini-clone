@@ -19,7 +19,7 @@ export default function Storybar() {
                         <img
                             src={`${user?.userProfile||sampleImage}` }
                             alt="User Avatar"
-                            className="h-auto w-auto rounded-full object-cover"
+                            className="h-13 w-13 rounded-full object-cover"
                             onClick={OpenStoryDrawer} />
                     </div>
                     <AddStoryIcon/>

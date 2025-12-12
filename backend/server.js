@@ -8,11 +8,13 @@ import userprofileupdateRoute from './Routes/userprofileupdate.route.js';
 import deleteuserRoute from './Routes/deleteuser.route.js';
 import profilepictureRoute from './Routes/profilepicture.route.js';
 import adduserpostRoute from './Routes/adduserpost.route.js';
+
 dotenv.config();
 connectDB();
 
 const app = express();
 app.use(express.json());
+
 const PORT = process.env.SERVER_PORT;
 app.use(cors({
     origin: "*", // Allow requests from any origin
@@ -21,14 +23,15 @@ app.use(cors({
 }));
 
 //Bottom 5 endpoints use for user sign up,login,profile updation(Minimal)
-app.use('/api/user', usersignupRoute)
-app.use('/api/user', userloginRoute)
-app.use('/api/user', userprofileupdateRoute)
-app.use('/api/user', deleteuserRoute)
+app.use('/api/user', usersignupRoute);
+app.use('/api/user', userloginRoute);
+app.use('/api/user', userprofileupdateRoute);
+app.use('/api/user', deleteuserRoute);
 app.use('/api/user', profilepictureRoute);
 //Above 5 endpoints use for user sign up,login,profile updation(Minimal)
 
-app.use('/api/user/post',adduserpostRoute);
+
+app.use('/api/user/post', adduserpostRoute);
 
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));

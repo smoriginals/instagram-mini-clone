@@ -12,7 +12,6 @@ const UserPosts = new Schema({
     },
     image: {
         type: String,
-        required: true,
     },
     imageId: {
         type: String, // cloudinary ID or any storage ID

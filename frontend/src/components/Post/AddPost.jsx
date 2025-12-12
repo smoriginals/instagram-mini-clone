@@ -29,50 +29,94 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Image, SendHorizontal } from "lucide-react";
+import { Image, SendHorizontal, Loader } from "lucide-react";
 import toast from 'react-hot-toast';
 import { useGlobal } from "../../Context/GlobalContext"
+import { usePosts } from '../../Context/PostContext';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function AddPost() {
 
-    const { AddUserPost } = useGlobal();
+    const navigate = useNavigate();
 
-    const [Submitted, setSubmitted] = useState(false);
+    const { user } = useGlobal();
+    const { createPost } = usePosts();
+
+    const [loading, setLoading] = useState(false);
+    const [preview, setPreview] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const [postData, setPostData] = useState({
         title: '',
-        image: '',
         caption: '',
+        image: null,
     });
 
     const HandleChange = (e) => {
-        const { name, value,files } = e.target;
-        setPostData((prev) => ({ ...prev, [name]:name==='image'?files[0]: value }))
+
+        const { name, value, files } = e.target
+
+        if (name === 'image') {
+
+            const file = files[0];
+            setPostData(prev => ({ ...prev, image: file }))
+            setPreview(URL.createObjectURL(file))
+
+        } else {
+            setPostData(prev => ({ ...prev, [name]: value }))
+        }
     }
 
-    const HandleSubmit = async (e) => {
+    const HandleSubmitPost = async (e) => {
+        
         e.preventDefault();
-        if (!postData.postTitle || !postData.postImage || !postData.postCaption) {
-            toast.error("All Field Required")
-            setSubmitted(false);
+
+        if (!postData.title || !postData.image || !postData.caption) {
+            toast.error('All fields are required!')
             return;
         }
 
-        const res = await AddUserPost(postData);
-        if (!res.success) {
-            toast.error("Internal server Error");
-            setSubmitted(false);
+        setLoading(true);
+
+        const response = await createPost(
+            postData.image,
+            postData.title,
+            postData.caption,
+            user._id
+        );
+
+        setLoading(false);
+
+        console.log(response);
+
+        if (!response.success || response.success !== true) {
+            toast.error('field to upload...');
             return;
         }
-        toast.success("Your Post has been Published");
-        setSubmitted(true);
-        console.log(postData);
-    }
+
+        toast.success('post added successfully');
+        setOpen(false);
+
+        setPostData({
+            title: "",
+            image: null,
+            caption: "",
+        })
+
+        setPreview(null);
+
+        setTimeout(() => {
+            navigate("/home");
+        }, 500);
+
+    };
+
 
     return (
         <>
-            <Drawer>
+            <Drawer open={open} onOpenChange={setOpen}>
                 <DrawerTrigger asChild>
                     {/*<button variant="outline">Add a Post</button>*/}
                     <button className="flex cursor-pointer items-center gap-3 rounded-lg p-3 font-semibold hover:bg-gray-600"
@@ -84,48 +128,71 @@ export default function AddPost() {
 
                 <DrawerContent>
                     <div className="w-full overflow-y-auto p-4">
-                        <form>
-                            <FieldGroup>
-                                <FieldSet>
-                                    <FieldLegend className='text-center font-bold'><p className='text-2xl'>Add New Post</p></FieldLegend>
+                        <FieldGroup>
+                            <FieldSet>
+                                <FieldLegend className='text-center font-bold'>
+                                    <p className='text-2xl'>Add New Post</p>
+                                </FieldLegend>
 
-                                    <FieldGroup>
-                                        <Field>
-                                            <FieldLabel className='px-1 text-lg font-bold'>
-                                                Post Title
-                                            </FieldLabel>
-                                            <Input
-                                                placeholder="#Asia to Russia📍"
-                                                className='border border-gray-600'
-                                                name='title'
-                                                onChange={HandleChange }
-                                            />
-                                        </Field>
-                                        <Field>
-                                            <FieldLabel className='px-1 text-lg font-bold'>
-                                                Select Media
-                                            </FieldLabel>
-                                            <Input placeholder="Add Image or Video" className='aspect-square h-96 w-96 border border-gray-600' type='file' name='image' onChange={HandleChange} />
+                                <FieldGroup>
+                                    <Field>
+                                        <FieldLabel className='px-1 text-lg font-bold'>
+                                            Post Title
+                                        </FieldLabel>
+                                        <Input
+                                            placeholder="#Asia to Russia📍"
+                                            className='border border-gray-600'
+                                            name='title'
+                                            onChange={HandleChange}
+                                        />
+                                    </Field>
+                                    <Field>
+                                        <FieldLabel className='px-1 text-lg font-bold'>
+                                            Select Media
+                                        </FieldLabel>
 
-                                        </Field>
-                                        <Field>
+                                        <Input placeholder="Add Image or Video" className='aspect-square border border-gray-600' type='file' name='image' accept="image/*" onChange={HandleChange}
+                                            disabled={loading}
+                                        />
 
-                                            <FieldLabel className='px-1 text-lg font-bold'>
-                                                Caption
-                                            </FieldLabel>
-
-                                            <div className='flex items-center justify-between gap-2 p-1'>
-                                                <Input placeholder="Add a Caption for Your Post..." className="resize-none rounded-full border border-gray-600 px-4" name='caption' onChange={HandleChange}
-                                                />
-                                                <button className='rounded-full border border-gray-600 p-1.5 active:bg-black active:text-white' onClick={HandleSubmit}><SendHorizontal /></button>
+                                        <div className='flex flex-col justify-start'>
+                                            <p className='py-2 text-lg font-bold'>{loading ? "Do not Close : Uploading..." : "Media Preview"}</p>
+                                            <div className='h-96 rounded-md bg-gray-300'>
+                                                {preview ? (
+                                                    <img
+                                                        src={preview}
+                                                        alt="Preview"
+                                                        className="h-full w-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <p className="text-gray-600 text-lg font-bold p-2">No image selected</p>
+                                                )}
                                             </div>
+                                        </div>
 
-                                        </Field>
-                                    </FieldGroup>
-                                </FieldSet>
+                                    </Field>
+                                    <Field>
 
-                            </FieldGroup>
-                        </form>
+                                        <FieldLabel className='px-1 text-lg font-bold'>
+                                            Caption
+                                        </FieldLabel>
+
+                                        <div className='flex items-center justify-between gap-2 p-1'>
+                                            <Input placeholder="Add a Caption for Your Post..." className="resize-none rounded-full border border-gray-600 px-4" name='caption' onChange={HandleChange}
+                                            />
+                                            <button type="button" className='rounded-full border border-gray-600 p-1.5 active:bg-black active:text-white ' onClick={HandleSubmitPost} disabled={loading}>
+
+                                                {/*<SendHorizontal />*/}
+                                                {loading ? <Loader className="animate-spin" /> : <SendHorizontal />}
+
+                                            </button>
+                                        </div>
+
+                                    </Field>
+                                </FieldGroup>
+                            </FieldSet>
+
+                        </FieldGroup>
                     </div>
                 </DrawerContent>
             </Drawer>

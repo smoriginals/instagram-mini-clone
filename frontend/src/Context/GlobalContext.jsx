@@ -22,19 +22,6 @@ export const GlobalProvider = ({ children }) => {
         }
     })
 
-    //User Post State Management
-    //const [userPost, setUserPost] = useState(() => {
-    //    const storeUserPosts = localStorage.get('userposts');
-    //    try {
-    //        return storeUserPosts ? JSON.parse(storeUserPosts) : null;
-    //    }
-    //    catch {
-    //        localStorage.removeItem('userposts');
-    //    }
-    //    console.log(userPost);
-    //})
-
-
     // Create User Function
     const createUser = async (userData) => {
         try {
@@ -102,9 +89,6 @@ export const GlobalProvider = ({ children }) => {
     const UploadProfilePicture = async (file, userId) => {
 
         try {
-            console.log("file data:", file)
-            console.log("user data:", userId)
-
             const formData = new FormData();
             formData.append('image', file);
             formData.append("userId", userId);
@@ -131,19 +115,6 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
-    //User creating a Post
-    const AddUserPost = async (postData) => {
-        try {
-            const res = await axios.post('http://localhost:5000/api/user/post/create', postData);
-            console.log(res);
-            
-        }
-        catch (error) {
-            console.log("Unable to make Post, Server error:",error.message)
-        }
-    }
-    AddUserPost();
-    createUser();
     console.log(user);
 
     return (
@@ -155,7 +126,6 @@ export const GlobalProvider = ({ children }) => {
                 createUser, user,
                 LoginUser, LogoutUser, UpdateUserProfile, DeleteUser,
                 UploadProfilePicture,
-                AddUserPost
             }}
         >
             {children}

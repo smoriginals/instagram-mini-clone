@@ -1,8 +1,9 @@
 import express from 'express';
-import CreatingPost from '../Controllers/creatingpost.controller.js';
+import upload from '../Middleware/upload.js';
+import createUserPost from '../Controllers/createuserpost.controller.js';
 
 const router = express.Router();
 
-router.post('/create', CreatingPost);
+router.post('/addpost',upload.single('image'),createUserPost);
 
 export default router;

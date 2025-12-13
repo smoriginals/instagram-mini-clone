@@ -8,6 +8,8 @@ import userprofileupdateRoute from './Routes/userprofileupdate.route.js';
 import deleteuserRoute from './Routes/deleteuser.route.js';
 import profilepictureRoute from './Routes/profilepicture.route.js';
 import adduserpostRoute from './Routes/adduserpost.route.js';
+import getuserpostsRoute from './Routes/getuserposts.route.js';
+
 
 dotenv.config();
 connectDB();
@@ -32,7 +34,7 @@ app.use('/api/user', profilepictureRoute);
 
 
 app.use('/api/user/post', adduserpostRoute);
-
+app.use('/api/user/post', getuserpostsRoute)
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 

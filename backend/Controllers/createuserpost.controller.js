@@ -1,7 +1,7 @@
-import usersignupModel from '../Models/usersignup.model.js';
+﻿import usersignupModel from '../Models/usersignup.model.js';
 import userpostsModel from '../Models/userposts.model.js';
 import cloudinary from '../Middleware/cloudinary.js';
-
+import fs from 'fs';
 
 export default async function createUserPost(req, res) {
 
@@ -13,12 +13,15 @@ export default async function createUserPost(req, res) {
             return res.status(400).json({success:false,message:"Upload Field!"})
         }
 
-        const postResult = await cloudinary.uploader.upload(req.file.path)
+        const postResult = await cloudinary.uploader.upload(req.file.path, {folder:'User Posts'})
         const user = await usersignupModel.findById(userId);
 
         if (!user) {
             return res.status(404).json({success:false,message:"User Not Found"})
         }
+
+        // 2️⃣ Delete local image
+        fs.unlinkSync(req.file.path);
 
         const newPost = new userpostsModel({
             title, caption, userId,

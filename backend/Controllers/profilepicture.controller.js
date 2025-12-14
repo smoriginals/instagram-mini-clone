@@ -13,7 +13,7 @@ export default async function profilePicture(req, res) {
         const { userId } = req.body;
 
         // Upload to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path);
+        const result = await cloudinary.uploader.upload(req.file.path, {folder:'Profile Pictures'});
 
         // Find user
         const user = await usersignupModel.findById(userId);

@@ -34,7 +34,8 @@ app.use('/api/user', profilepictureRoute);
 
 
 app.use('/api/user/post', adduserpostRoute);
-app.use('/api/user/post', getuserpostsRoute)
+app.use('/api/user/post', getuserpostsRoute);
+app.use('/api/user/post', userpostslikeRoute)
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 

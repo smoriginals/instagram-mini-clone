@@ -91,7 +91,7 @@ export default function Settings({ mode, setMode }) {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                             <AlertDialogCancel className='text-md bg-gray-50 font-semibold'>Cancel</AlertDialogCancel>
-                            <AlertDialogAction className='text-md font-semibold' onClick={() => { LogoutUser();navigate('/') } }>Continue</AlertDialogAction>
+                            <AlertDialogAction className='text-md font-semibold' onClick={() => { LogoutUser();navigate('/login') } }>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>

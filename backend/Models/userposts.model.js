@@ -6,7 +6,7 @@ const UserPosts = new Schema({
         type:String
     },
     userId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "UserSignup",
         required: true,
     },
@@ -23,15 +23,15 @@ const UserPosts = new Schema({
     // 👍 multiple likes from different users
     likes: [
         {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "UserSignup",
         }
     ],
     // 👍 multiple comments (referenced from comment model)
     comments: [
         {
-            type: Schema.Types.ObjectId,
-            ref: "Comment",
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UserSignup",
         }
     ],
     // 👍 multiple users can save this post
@@ -45,7 +45,7 @@ const UserPosts = new Schema({
     shares: [
         {
             type: Schema.Types.ObjectId,
-            ref: "Share",
+            ref: "UserSignup",
         }
     ],
     timestamp: {

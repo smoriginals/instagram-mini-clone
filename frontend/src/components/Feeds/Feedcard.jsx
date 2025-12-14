@@ -14,13 +14,17 @@ import {
 import { useGlobal } from '../../Context/GlobalContext';
 
 
-export default function Feedcard() {
+export default function Feedcard({post }) {
 
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
-
+    // eslint-disable-next-line no-unused-vars
     const { user } = useGlobal();
+   
+    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+   
+
     const [input, setInput] = useState("");
     const [like, setLike] = useState(0);
+
     const [comments, setComments] = useState([
         { id: 1, user: "alex", text: "Wow nice!" },
         { id: 2, user: "john", text: "Amazing view ❤️" },
@@ -36,13 +40,19 @@ export default function Feedcard() {
 
     const HandleLike = () => {
         setLike(like + 1);
+        console.log(post.image);
+        console.log(post.caption);
+        console.log(post.userId.name);
+        console.log(post._id);
     }
 
+  
 
     return (
         <>
+          
             <div className='flex h-1/2 w-full items-center justify-center'>
-
+                
                 <div className='flex h-1/2 w-full flex-col items-center justify-center'>
 
                     {/*Uncomment this when require better view in PC screebs*/}
@@ -54,21 +64,21 @@ export default function Feedcard() {
                     <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-l border-r border-t border-gray-600 p-2 pt-3'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
-                                src={`${user?.userProfile || sampleImage}`}
+                                src={`${post.userId?.userProfile || sampleImage}`}
                                 alt="User Avatar"
                                 className="h-6 w-6 rounded-full object-cover"
                             />
                         </div>
-                        <p>{user?.name}</p>
+                        <p>{post.userId?.name}</p>
                     </div>
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
                     <div className="aspect-square w-full border-l border-r border-gray-600 p-1">
                         <img
-                            src="https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"
+                            src={post.image || "https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"}
                             alt="User Avatar"
-                            className="h-full w-full rounded-sm object-cover"
+                            className="h-full w-full rounded-sm object-cover border border-gray-600"
                         />
                     </div>
                     {/*main user feed photo*/}
@@ -116,14 +126,14 @@ export default function Feedcard() {
                                             <div key={item.id} className="flex items-start gap-2">
                                                 <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500">
                                                     <img
-                                                        src={`${user?.userProfile || sampleImage}`}
+                                                        src={`${post.userId?.userProfile || sampleImage}`}
                                                         alt="User Avatar"
                                                         className="h-6 w-6 rounded-full object-cover"
                                                     />
                                                 </div>
 
                                                 <div>
-                                                    <p className="text-sm font-semibold">{user?.name}</p>
+                                                    <p className="text-sm font-semibold">{post.user?.name}</p>
                                                     <p className="text-sm text-gray-700">{item.text}</p>
                                                 </div>
                                             </div>
@@ -197,12 +207,12 @@ export default function Feedcard() {
                     <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-b border-l border-r border-gray-600 px-2 pb-2'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
-                                src={`${user?.userProfile || sampleImage}`}
+                                src={`${post.userId?.userProfile || sampleImage}`}
                                 alt="User Avatar"
                                 className="h-6 w-6 rounded-full object-cover"
                             />
                         </div>
-                        <p>Here is your Caption...</p>
+                        <p>{post.caption}</p>
                     </div>
                     {/*Show Comments*/}
                 </div>

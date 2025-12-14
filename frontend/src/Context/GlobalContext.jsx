@@ -1,9 +1,9 @@
 ﻿import { createContext, useContext, useState } from "react";
 import axios from 'axios';
-
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
+
 
     // Story Drawer Handle
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
@@ -115,7 +115,6 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
-    console.log(user);
 
     return (
         <GlobalContext.Provider

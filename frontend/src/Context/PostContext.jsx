@@ -1,15 +1,41 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
 
+    //const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(false);
+
     const [posts, setPosts] = useState(() => {
         const saved = localStorage.getItem("posts");
         return saved ? JSON.parse(saved) : [];
     });
 
+    const fetchPosts = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get('http://localhost:5000/api/user/post/getposts');
+            if (res.data.success) {
+                setPosts(res.data.posts);
+                localStorage.setItem('posts', JSON.stringify(res.data.posts))
+            }
+
+        }
+        catch (error) {
+            console.log("error:", error)
+        }
+        finally {
+            setLoading(false);
+        }
+
+    }
+    useEffect(() => {
+        fetchPosts();
+    }, [])
+
+    //console.log("loading:",posts,loading)
     // Create a new Post
     const createPost = async (file, title, caption, userId) => {
 
@@ -50,10 +76,14 @@ export const PostProvider = ({ children }) => {
                 message: err.response?.data?.message || "Network error"
             };
         }
+
+    };
+    const ResetPosts = () => {
+        setPosts([]);
     };
 
     return (
-        <PostContext.Provider value={{ posts, createPost }}>
+        <PostContext.Provider value={{ posts, createPost, fetchPosts, ResetPosts }}>
             {children}
         </PostContext.Provider>
     );

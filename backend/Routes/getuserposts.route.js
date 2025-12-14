@@ -3,6 +3,6 @@ import fetchUsersPosts from '../Controllers/fetchusersposts.controller.js';
 
 const router = express.Router();
 
-router.post('/getposts', fetchUsersPosts);
+router.get('/getposts', fetchUsersPosts);
 
 export default router;

@@ -2,12 +2,20 @@ import React from "react";
 import { Link,useNavigate } from "react-router-dom";
 import Editprofile from "../components/Profile/Editprofile.jsx";
 import { useGlobal } from "../Context/GlobalContext.jsx";
+import { usePosts } from "../Context/PostContext.jsx";
 export default function Profilepage() {
 
     const navigate = useNavigate();
     const { user } = useGlobal();
-
+    const { posts } = usePosts();
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
+
+
+    const myPosts = posts.filter(
+        (post) => post.userId?._id === user?._id
+    );
+
+
     return (
         <>
 
@@ -60,9 +68,25 @@ export default function Profilepage() {
 
                 {/* Posts Grid */}
                 <div className="w-full max-w-md mt-4 grid grid-cols-3 gap-2">
-                    {[...Array(12)].map((_, i) => (
-                        <div key={i} className="aspect-square rounded-xl border border-gray-600"></div>
-                    ))}
+                    {/*{[...Array(posts.length)].map((_, i) => (*/}
+                    {/*    <div key={i} className="aspect-square rounded-xl border border-gray-600">*/}
+                    {/*        <img src={_.userId.userProfile } className='h-auto w-auto object-cover'/>*/}
+                    {/*    </div>*/}
+                    {/*))}*/}
+                    {
+                        myPosts.map((post) => (
+                            <div
+                                key={post._id}
+                                className="aspect-square rounded-xl border border-gray-600 overflow-hidden"
+                            >
+                                <img
+                                    src={post.image}
+                                    alt="post"
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                        ))
+                    }
                 </div>
 
                 <div className="border border-gray-600 w-full max-w-md mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/settings')} }>

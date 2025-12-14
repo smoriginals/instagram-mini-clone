@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState,useEffect } from 'react';
 import { Heart, MessageCircle, Send, Bookmark, Link, Twitter, Facebook, MessageSquareMore } from 'lucide-react'
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
@@ -12,24 +12,25 @@ import {
     SheetDescription,
 } from "@/components/ui/sheet";
 import { useGlobal } from '../../Context/GlobalContext';
+import axios from 'axios';
 
-
-export default function Feedcard({post }) {
+export default function Feedcard({ post }) {
 
     // eslint-disable-next-line no-unused-vars
     const { user } = useGlobal();
-   
+
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
-   
+
 
     const [input, setInput] = useState("");
-    const [like, setLike] = useState(0);
 
-    const [comments, setComments] = useState([
-        { id: 1, user: "alex", text: "Wow nice!" },
-        { id: 2, user: "john", text: "Amazing view ❤️" },
-        { id: 3, user: "sarah", text: "Love this!!" },
-    ]);
+    //const [like, setLike] = useState(post.likes?.includes(user?._id));
+    //const [likeCount, setLikeCount] = useState(post.likes.length);
+
+    const [like, setLike] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
+
+    const [comments, setComments] = useState([]);
 
     const sendComment = () => {
         if (input.trim() === "") return;
@@ -38,21 +39,49 @@ export default function Feedcard({post }) {
         setInput("");
     };
 
-    const HandleLike = () => {
-        setLike(like + 1);
-        console.log(post.image);
-        console.log(post.caption);
-        console.log(post.userId.name);
-        console.log(post._id);
+    const HandleLike = async () => {
+       
+        try {
+
+            const res = await axios.post(`http://localhost:5000/api/user/post/${post._id}/like`, { userId: user._id },);
+            if (res.data.success) {
+                setLike(res.data.liked);
+                setLikeCount(res.data.totalLikes)
+            }
+
+        } catch (error) {
+            console.log("Error:", error.message, error.response?.data || error.message);
+        }
     }
 
-  
+    const HandleComments = async () => {
+        if (!input.trim()) {
+            return;
+        }
+        try {
+            const res = await axios.post(`http://localhost:5000/api/user/post/${post._id}/comments`, { userId: user._id, text: input })
+
+            if (res.data.success) {
+                setComments(res.data.comments);
+                setInput("");
+            }
+        } catch (error) {
+            console.log(error.response?.data||error.message)
+        }
+    }
+
+    useEffect(() => {
+        if (!user) return;
+        setLike(post.likes?.includes(user?._id));
+        setLikeCount(post.likes?.length || 0);
+        setComments(post.comments||[])
+    },[post.likes,user?._id,post.comments])
 
     return (
         <>
-          
+
             <div className='flex h-1/2 w-full items-center justify-center'>
-                
+
                 <div className='flex h-1/2 w-full flex-col items-center justify-center'>
 
                     {/*Uncomment this when require better view in PC screebs*/}
@@ -90,9 +119,9 @@ export default function Feedcard({post }) {
                             {/*Like Button*/}
                             <div className='flex flex-row items-center justify-start'>
                                 <button className='flex h-8 w-8 items-center justify-center' onClick={HandleLike}>
-                                    <Heart size={20} />
+                                    <Heart size={20} className={like ? "fill-red-500 text-red-500" : ""} />
                                 </button>
-                                <p className='text-md font-medium'>{like}</p>
+                                <p className='text-md font-medium'>{likeCount}</p>
                             </div>
                             {/*Like Button*/}
 
@@ -107,7 +136,7 @@ export default function Feedcard({post }) {
                                             <MessageCircle size={20} />
                                         </button>
 
-                                        <p className='text-md font-medium'>2K</p>
+                                        <p className='text-md font-medium'>{comments.length}</p>
                                     </div>
                                 </DrawerTrigger>
 
@@ -122,19 +151,19 @@ export default function Feedcard({post }) {
 
                                     {/* Comments List */}
                                     <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
-                                        {comments.map((item) => (
-                                            <div key={item.id} className="flex items-start gap-2">
+                                        {comments.map((comment) => (
+                                            <div key={comment._id} className="flex items-start gap-2">
                                                 <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500">
                                                     <img
-                                                        src={`${post.userId?.userProfile || sampleImage}`}
+                                                        src={`${comment.user?.userProfile || sampleImage}`}
                                                         alt="User Avatar"
                                                         className="h-6 w-6 rounded-full object-cover"
                                                     />
                                                 </div>
 
                                                 <div>
-                                                    <p className="text-sm font-semibold">{post.user?.name}</p>
-                                                    <p className="text-sm text-gray-700">{item.text}</p>
+                                                    <p className="text-sm font-semibold">{comment.user?.name}</p>
+                                                    <p className="text-sm text-gray-700">{comment.text}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -149,7 +178,7 @@ export default function Feedcard({post }) {
                                             className="flex-1"
                                         />
 
-                                        <Button onClick={sendComment} className='bg-blue-500 font-bold'>
+                                        <Button onClick={HandleComments} className='bg-blue-500 font-bold'>
                                             Send
                                         </Button>
                                     </div>

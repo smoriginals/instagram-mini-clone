@@ -1,5 +1,5 @@
-﻿import React, {} from "react";
-import { User } from "lucide-react";
+﻿import React, { } from "react";
+import { User,Trash} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
     Drawer,
@@ -10,13 +10,16 @@ import {
 } from "@/components/ui/drawer";
 import Editprofile from "../Profile/Editprofile";
 import { useGlobal } from "../../Context/GlobalContext";
+import { usePosts } from "../../Context/PostContext";
 
 export default function ProfileIcon() {
     const navigate = useNavigate();
     const { user } = useGlobal();
-
+    const { posts } = usePosts();
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
     if (!user) return null; // prevent crash BEFORE login
+
+    const myPosts = posts.filter((post) => post.userId?._id === user?._id)
 
     return (
         <>
@@ -36,7 +39,7 @@ export default function ProfileIcon() {
                         <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow">
                             <div className="relative h-32 w-32 overflow-hidden rounded-full border-6 border-double border-green-600 flex justify-center items-center">
                                 <img
-                                    src={user?.userProfile||sampleImage }
+                                    src={user?.userProfile || sampleImage}
                                     alt="Profile Avatar"
                                     className="h-28 w-28 object-cover rounded-full"
                                 />
@@ -80,9 +83,24 @@ export default function ProfileIcon() {
 
                         {/* Posts Grid */}
                         <div className="mt-4 grid w-full max-w-md grid-cols-3 gap-2">
-                            {[...Array(12)].map((_, i) => (
-                                <div key={i} className="aspect-square rounded-xl border border-gray-600 bg-gray-300"></div>
-                            ))}
+                            {/*{[...Array(posts.length)].map((_, i) => (*/}
+                            {/*    <div key={i} className="aspect-square rounded-xl border border-gray-600 bg-gray-300"></div>*/}
+                            {/*))}*/}
+                            {
+                                myPosts.map((post) => (
+                                    <div
+                                        key={post._id}
+                                        className="aspect-square rounded-xl border border-gray-600 overflow-hidden"
+                                    >
+                                        <img
+                                            src={post.image}
+                                            alt="post"
+                                            className="h-full w-full object-cover"
+                                        />
+                                        <Trash className='absolute inset-0 left-3' key={post.Id} fill='red' stroke='red'/>
+                                    </div>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4 w-full max-w-md cursor-pointer rounded-md border border-gray-600 p-4 text-center shadow" onClick={() => { navigate('/settings') }}>

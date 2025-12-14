@@ -7,7 +7,7 @@ export const PostProvider = ({ children }) => {
 
     //const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(false);
-
+    
     const [posts, setPosts] = useState(() => {
         const saved = localStorage.getItem("posts");
         return saved ? JSON.parse(saved) : [];
@@ -78,12 +78,10 @@ export const PostProvider = ({ children }) => {
         }
 
     };
-    const ResetPosts = () => {
-        setPosts([]);
-    };
+
 
     return (
-        <PostContext.Provider value={{ posts, createPost, fetchPosts, ResetPosts }}>
+        <PostContext.Provider value={{ posts, createPost, fetchPosts }}>
             {children}
         </PostContext.Provider>
     );

@@ -30,8 +30,19 @@ const UserPosts = new Schema({
     // 👍 multiple comments (referenced from comment model)
     comments: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "UserSignup",
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "UserSignup",
+                required: true
+            },
+            text: {
+                type: String,
+                required: true
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
         }
     ],
     // 👍 multiple users can save this post

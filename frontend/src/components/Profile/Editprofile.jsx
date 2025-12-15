@@ -140,33 +140,6 @@ export default function Editprofile() {
                     />
                 </div>
 
-                {/* Gender */}
-                {/*<div className="">*/}
-                {/*    <label className="text-sm font-medium">Gender</label>*/}
-                {/*    <Select>*/}
-                {/*        <SelectTrigger>*/}
-                {/*            <SelectValue placeholder="Select gender" />*/}
-                {/*        </SelectTrigger>*/}
-                {/*        <SelectContent className='border'>*/}
-                {/*            <SelectItem value="male">Male</SelectItem>*/}
-                {/*            <SelectItem value="female">Female</SelectItem>*/}
-                {/*            <SelectItem value="other">Other</SelectItem>*/}
-                {/*            <SelectItem value="prefer-not">Prefer not to say</SelectItem>*/}
-                {/*        </SelectContent>*/}
-                {/*    </Select>*/}
-                {/*</div>*/}
-
-                {/* Website */}
-                {/*<div className="">*/}
-                {/*    <label className="px-2 text-sm font-medium">Website</label>*/}
-                {/*    <Input placeholder="https://yourwebsite.com" className='border border-gray-400' />*/}
-                {/*</div>*/}
-
-                {/* Email */}
-                {/*<div className="">*/}
-                {/*    <label className="px-2 text-sm font-medium">Email</label>*/}
-                {/*    <Input placeholder="your@email.com" className='border border-gray-400' />*/}
-                {/*</div>*/}
 
                 <DialogFooter className="mt-2">
                     <DialogClose asChild>

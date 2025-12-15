@@ -29,7 +29,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Image, SendHorizontal, Loader } from "lucide-react";
+import { Image, SendHorizontal, Loader2 } from "lucide-react";
 import toast from 'react-hot-toast';
 import { useGlobal } from "../../Context/GlobalContext"
 import { usePosts } from '../../Context/PostContext';
@@ -183,7 +183,7 @@ export default function AddPost() {
                                             <button type="button" className='rounded-full border border-gray-600 p-1.5 active:bg-black active:text-white ' onClick={HandleSubmitPost} disabled={loading}>
 
                                                 {/*<SendHorizontal />*/}
-                                                {loading ? <Loader className="animate-spin" /> : <SendHorizontal />}
+                                                {loading ? <Loader2 className="animate-spin" /> : <SendHorizontal />}
 
                                             </button>
                                         </div>

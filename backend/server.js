@@ -11,6 +11,10 @@ import adduserpostRoute from './Routes/adduserpost.route.js';
 import getuserpostsRoute from './Routes/getuserposts.route.js';
 import userpostslikeRoute from './Routes/userpostslike.route.js';
 import usercommentRoute from './Routes/usercomment.route.js';
+import deleteuserpostRoute from './Routes/deleteuserpost.route.js';
+
+
+
 dotenv.config();
 connectDB();
 
@@ -32,11 +36,15 @@ app.use('/api/user', deleteuserRoute);
 app.use('/api/user', profilepictureRoute);
 //Above 5 endpoints use for user sign up,login,profile updation(Minimal)
 
-
+//Bottom 5 endpoints use for user post,deletepost,like,unlike,comment(Minimal)
 app.use('/api/user/post', adduserpostRoute);
-app.use('/api/user/post', getuserpostsRoute);
-app.use('/api/user/post', userpostslikeRoute)
 app.use('/api/user/post', usercommentRoute);
+app.use('/api/user/post', getuserpostsRoute);
+app.use('/api/user/post', userpostslikeRoute);
+app.use('/api/user/post', deleteuserpostRoute);
+//Above 5 endpoints use for user post,deletepost,like,unlike,comment(Minimal)
+
+
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 

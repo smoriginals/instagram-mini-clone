@@ -15,7 +15,7 @@ export default function Storybar() {
                 <div className="flex h-24 w-24 flex-col items-center justify-center p-1.5">
 
                     {/* Avatar Wrapper */}
-                    <div className="border-5 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-double border-pink-500">
+                    <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-5 border-double border-pink-500">
                         <img
                             src={`${user?.userProfile||sampleImage}` }
                             alt="User Avatar"

@@ -1,13 +1,13 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
-
+import { useGlobal } from './GlobalContext';
 const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
 
     //const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(false);
-    
+    const { user } = useGlobal();
     const [posts, setPosts] = useState(() => {
         const saved = localStorage.getItem("posts");
         return saved ? JSON.parse(saved) : [];
@@ -36,6 +36,8 @@ export const PostProvider = ({ children }) => {
     }, [])
 
     //console.log("loading:",posts,loading)
+
+
     // Create a new Post
     const createPost = async (file, title, caption, userId) => {
 
@@ -79,9 +81,16 @@ export const PostProvider = ({ children }) => {
 
     };
 
+    //Delete Post
+    const deletePost = async (postId) => {
+
+        await axios.delete(`http://localhost:5000/api/user/post/${postId}`, { data: {userId:user._id}})
+
+        setPosts(prev => prev.filter(p => p._id !== postId));
+    }
 
     return (
-        <PostContext.Provider value={{ posts, createPost, fetchPosts }}>
+        <PostContext.Provider value={{ posts, createPost, fetchPosts, deletePost }}>
             {children}
         </PostContext.Provider>
     );

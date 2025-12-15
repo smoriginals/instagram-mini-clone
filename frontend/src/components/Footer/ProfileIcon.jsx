@@ -1,5 +1,5 @@
 ﻿import React, { } from "react";
-import { User,Trash} from "lucide-react";
+import { User, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
     Drawer,
@@ -15,11 +15,16 @@ import { usePosts } from "../../Context/PostContext";
 export default function ProfileIcon() {
     const navigate = useNavigate();
     const { user } = useGlobal();
-    const { posts } = usePosts();
+    const { posts ,deletePost} = usePosts();
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
     if (!user) return null; // prevent crash BEFORE login
 
     const myPosts = posts.filter((post) => post.userId?._id === user?._id)
+
+
+    const DeletePost = (postId)=> {
+        deletePost(postId);
+    }
 
     return (
         <>
@@ -90,14 +95,14 @@ export default function ProfileIcon() {
                                 myPosts.map((post) => (
                                     <div
                                         key={post._id}
-                                        className="aspect-square rounded-xl border border-gray-600 overflow-hidden"
+                                        className="relative aspect-square rounded-xl border border-gray-600 overflow-hidden"
                                     >
                                         <img
                                             src={post.image}
                                             alt="post"
                                             className="h-full w-full object-cover"
                                         />
-                                        <Trash className='absolute inset-0 left-3' key={post.Id} fill='red' stroke='red'/>
+                                        <Trash className='absolute top-0 right-0 p-1 opacity-70 cursor-pointer' key={post._Id} fill='red' stroke='' onClick={()=>DeletePost(post._id)} />
                                     </div>
                                 ))
                             }

@@ -6,14 +6,17 @@ import './index.css'
 import { GlobalProvider } from './Context/GlobalContext.jsx';
 import { PostProvider } from './Context/PostContext.jsx';
 import { Toaster } from 'react-hot-toast';
+import { StoryProvider } from './Context/StoryContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
             <GlobalProvider>
                 <PostProvider>
-                    <Toaster position="top-center" />
-                    <App />
+                    <StoryProvider>
+                        <Toaster position="top-center" />
+                        <App />
+                    </StoryProvider>
                 </PostProvider>
             </GlobalProvider>
         </BrowserRouter>

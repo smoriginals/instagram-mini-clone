@@ -5,9 +5,14 @@ const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
 
-    //const [posts, setPosts] = useState([])
+
+    // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
+    //console.log("loading:",posts,loading)
+
     const { user } = useGlobal();
+
+    //const [posts, setPosts] = useState([])
     const [posts, setPosts] = useState(() => {
         const saved = localStorage.getItem("posts");
         return saved ? JSON.parse(saved) : [];
@@ -35,7 +40,6 @@ export const PostProvider = ({ children }) => {
         fetchPosts();
     }, [])
 
-    //console.log("loading:",posts,loading)
 
 
     // Create a new Post

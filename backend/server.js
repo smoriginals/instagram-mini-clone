@@ -16,6 +16,10 @@ import userpostslikeRoute from './Routes/userpostslike.route.js';
 import usercommentRoute from './Routes/usercomment.route.js';
 import deleteuserpostRoute from './Routes/deleteuserpost.route.js';
 
+import uploaduserstoryRoute from './Routes/uploaduserstory.route.js';
+import showuserstoryRoute from './Routes/showuserstory.route.js';
+
+
 
 
 dotenv.config();
@@ -47,6 +51,10 @@ app.use('/api/user/post', userpostslikeRoute);
 app.use('/api/user/post', deleteuserpostRoute);
 //Above 5 endpoints use for user post,deletepost,like,unlike,comment(Minimal)
 
+
+app.use('/api/user/story', uploaduserstoryRoute);
+app.use('/api/user/story', showuserstoryRoute);
+//app.use('/api/user/story', deleteuserstoryRoute);
 
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));

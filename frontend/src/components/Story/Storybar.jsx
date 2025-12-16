@@ -28,7 +28,7 @@ export default function Storybar() {
 
                 <div className="flex gap-2 overflow-x-auto p-1.5 transition-all duration-300 ease-in-out [scrollbar-width:none] [scroll-behavior:smooth] [&::-webkit-scrollbar]:hidden">
 
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((user, index) => (
+                    {[...Array(20)].map((user, index) => (
                         <div key={index} className="flex flex-shrink-0 flex-col items-center justify-start gap-1">
                             <div className="border-3 h-16 w-16 overflow-hidden rounded-full border-pink-500">
                                 <img

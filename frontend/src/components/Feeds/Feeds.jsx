@@ -6,8 +6,8 @@ export default function Feeds() {
 
 
     const { posts, loading } = usePosts();
-
     //console.log("This is render in feeds.jsx Total posts:", posts);
+
 
     return (
         <>
@@ -19,7 +19,6 @@ export default function Feeds() {
 
                     ))
                 }
-                
             </div>
         </>
     )

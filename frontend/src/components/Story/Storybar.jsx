@@ -1,11 +1,16 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import AddStoryIcon from './AddStoryIcon';
 import { useGlobal } from '../../Context/GlobalContext';
+import { useStory } from '../../Context/StoryContext';
 
 export default function Storybar() {
 
     const { OpenStoryDrawer, user } = useGlobal();
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
+
+    const { hasStory, verifyStory } = useStory();
+
+    verifyStory(user._id);
 
     return (
         <>
@@ -15,7 +20,7 @@ export default function Storybar() {
                 <div className="flex h-24 w-24 flex-col items-center justify-center p-1.5">
 
                     {/* Avatar Wrapper */}
-                    <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-5 border-double border-pink-500">
+                    <div className={`flex h-16 w-16 items-center justify-center overflow-hidden rounded-full ${hasStory ?'border-5 border-double border-pink-500':''}`}>
                         <img
                             src={`${user?.userProfile||sampleImage}` }
                             alt="User Avatar"

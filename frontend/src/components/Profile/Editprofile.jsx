@@ -22,12 +22,14 @@ import {
 import { useGlobal } from "../../Context/GlobalContext";
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useStory } from "../../Context/StoryContext";
 export default function Editprofile() {
 
     const navigate = useNavigate();
 
     const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
-
+    const { hasStory, verifyStory } = useStory();
+    verifyStory(user._id);
     const [hasUploading, setHasUploading] = useState(false);
 
     const [profileData, setProfileData] = useState({
@@ -106,7 +108,7 @@ export default function Editprofile() {
                     <img
                         src={`${user?.userProfile || 'https://i.pravatar.cc/150?img=5'}`}
                         alt="Profile"
-                        className="h-18 w-18 rounded-full border-2 border-pink-500 object-cover p-0.5"
+                        className={`h-18 w-18 rounded-full ${hasStory?'border-2 border-pink-500':''} object-cover p-0.5`}
                     />
 
                     {/*//Handle Image upload here*/}

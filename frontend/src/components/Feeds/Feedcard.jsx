@@ -13,11 +13,16 @@ import {
 } from "@/components/ui/sheet";
 import { useGlobal } from '../../Context/GlobalContext';
 import axios from 'axios';
+import { useStory } from '../../Context/StoryContext';
 
 export default function Feedcard({ post }) {
 
     // eslint-disable-next-line no-unused-vars
     const { user } = useGlobal();
+
+    const { hasStory, verifyStory } = useStory();
+    verifyStory(user._id);
+
 
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
 
@@ -91,7 +96,7 @@ export default function Feedcard({ post }) {
 
                     {/*feed card top user photo*/}
                     <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-l border-r border-t border-gray-600 p-2 pt-3'>
-                        <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-full ${hasStory?'border-2 border-pink-500':''}`}>
                             <img
                                 src={`${post.userId?.userProfile || sampleImage}`}
                                 alt="User Avatar"
@@ -153,7 +158,7 @@ export default function Feedcard({ post }) {
                                     <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
                                         {comments.map((comment) => (
                                             <div key={comment._id} className="flex items-start gap-2">
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500">
+                                                <div className={`flex h-8 w-8 items-center justify-center rounded-full ${hasStory?'border-2 border-pink-500':''}`}>
                                                     <img
                                                         src={`${comment.user?.userProfile || sampleImage}`}
                                                         alt="User Avatar"
@@ -234,7 +239,7 @@ export default function Feedcard({ post }) {
 
                     {/*Show Comments*/}
                     <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-b border-l border-r border-gray-600 px-2 pb-2'>
-                        <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-full ${hasStory?"border-2 border-pink-500":''}`}>
                             <img
                                 src={`${post.userId?.userProfile || sampleImage}`}
                                 alt="User Avatar"

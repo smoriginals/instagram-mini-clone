@@ -1,5 +1,5 @@
-﻿import React, { useEffect, useState } from "react";
-import { PlayCircle } from "lucide-react";
+﻿import React, { useRef, useState,useEffect } from "react";
+import { PlayCircle, Loader2 } from "lucide-react";
 import {
     Drawer,
     DrawerTrigger,
@@ -11,64 +11,104 @@ import {
 import { Button } from "@/components/ui/button";
 import { useGlobal } from "../../Context/GlobalContext";
 import { useStory } from '../../Context/StoryContext';
-import { Loader2 } from 'lucide-react'
+
+
+
 export default function StoryIcon() {
 
     const { user } = useGlobal();
     const { viewStory } = useStory();
-
-    const [stories, setStories] = useState([]);
-    const [loading, setLoading] = useState(false);
-
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
 
-    //useEffect(() => {
+    const STORY_TIMEOUT = 5000; //ms
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    //    if (!user?._id) return;
-
-    //    const fetchStory = async () => {
-    //        setLoading(true);
-    //        const res = await viewStory(user._id);
-    //        if (res.success) {
-    //            setStories(res.story);
-    //        }
-    //        setLoading(false);
-    //        console.log("image recieve data:",res);
-    //    };
-
-    //    fetchStory();
-
-    //}, [user]);
-
-
+    // eslint-disable-next-line no-unused-vars
+    const [progress, setProgress] = useState(0);
+    const intervalRef = useRef(null);
+    const timeoutRef = useRef(null);
+    const [stories, setStories] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
+
+    const startStory = () => {
+
+        clearTimers();
+        setProgress(0);
+
+        intervalRef.current = setInterval(() => {
+            setProgress((prev) => (prev < 100 ? prev + 2 : 100));
+        }, STORY_TIMEOUT / 50)
+
+        timeoutRef.current = setTimeout(() => {
+            nextStory();
+        }, STORY_TIMEOUT);
+    }
+
+
+    const nextStory = () => {
+        clearTimers();
+        
+        setCurrentIndex((prev) => {
+            if (prev < stories.length - 1) {
+                setTimeout(startStory, 50);
+                return prev + 1;
+            } else {
+                handleClose();
+                return prev;
+            }
+        });
+    }
+    const clearTimers = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+    }
+
     const handleOpen = async (isOpen) => {
+        
         setOpen(isOpen);
 
-        if (isOpen && user?._id && stories.length === 0) {
+        if (isOpen && user?._id) {
             setLoading(true);
             const res = await viewStory(user._id);
-            console.log("Image recieving:", res)
-            if (res.success) {
+            console.log("Storys Data:", res);
+            if (res.success && res.story.length > 0) {
                 setStories(res.story);
+                setCurrentIndex(0);
+                setProgress(0);
+                
             }
             setLoading(false);
         }
+
+        if (!isOpen) {
+            handleClose();
+        }
     };
 
-    
-    //useEffect(() => {
-    //    const fill = 0;
-    //    setInterval(() => {
-    //        console.log("alex", fill)
-    //        for (const i = 0; i <= ; fill) {
-    //            console.log("data chechk:",fill)
-    //        }
-    //    },100)
+    const handleClose = () => {
+        clearTimers();
+        setOpen(false);
+        setStories([]);
+        setCurrentIndex(0);
+        setProgress(0);
+    };
 
-    //},[setOpen])
+    useEffect(() => {
+        if (!open) return;
+        if (stories.length === 0) return;
 
+        startStory();
+
+        return () => {
+            clearTimers();
+        };
+    }, [currentIndex, open, stories.length]);
 
     return (
         <>
@@ -82,11 +122,20 @@ export default function StoryIcon() {
                     {/* Rounded Progress Bar */}
                     <div className="mt-3 flex w-full justify-center px-6 gap-1 flex-row">
                         {
-                            stories.map((story) => {
+                            stories.map((story,index) => {
 
                                 return (
                                     < div key={story._id} className="h-1 w-full overflow-hidden rounded-full bg-white" >
-                                        <div className="h-full w-[40%] rounded-full bg-pink-500"></div>
+                                        <div className="h-full rounded-full bg-pink-500"
+                                            style={{
+                                                width:
+                                                    index < currentIndex
+                                                        ? "100%"
+                                                        : index === currentIndex
+                                                            ? `${progress}%`
+                                                            : "0%",
+                                            }}
+                                        ></div>
                                     </div>
                                 )
                                    
@@ -107,16 +156,12 @@ export default function StoryIcon() {
 
                     {/* Story Photo */}
                     <div className="mt-4 flex h-[80vh] w-full justify-center overflow-auto px-6">
-                        {/*<img*/}
-                        {/*    src="https://i.pravatar.cc/700"*/}
-                        {/*    alt="story"*/}
-                        {/*    className="h-full w-full rounded-md border border-gray-600 object-cover"*/}
-                        {/*/>*/}
+                        
                         {loading ? (
                             <Loader2 className='animate-spin' />
                         ) : stories.length > 0 ? (
                             <img
-                                src={stories[0].image}
+                                src={stories[currentIndex]?.image}
                                 alt="story"
                                 className="h-full w-full rounded-md border border-gray-600 object-cover"
                             />

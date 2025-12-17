@@ -1,8 +1,7 @@
-import cron from 'node-cron';
 import userstoryModel from '../Models/userstory.model.js';
 import cloudinary from '../Middleware/cloudinary.js';
 
-export default async function cleanupExpireStory(){
+export default async function cleanupExpireStory() {
     try {
 
         console.log("cron is running, Story cleaner...")
@@ -16,7 +15,8 @@ export default async function cleanupExpireStory(){
         for (const story of expiredStories) {
             //Delete from the cloude.
             if (story.imageId) {
-                await cloudinary.uploader.destroy(story.imageId)
+                const result = await cloudinary.uploader.destroy(story.imageId)
+                console.log("Cloudinary delete:", story.imageId, result);
             }
             //Deleting in DATABASE
             await userstoryModel.findByIdAndDelete(story._id);

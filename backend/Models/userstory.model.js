@@ -15,15 +15,7 @@ const userStory = new mongoose.Schema(
             type: String,
             required: true,
         },
-        expiresAt: {
-            type: Date,
-            default: () => Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now,
-            expires: 60 * 60 * 24, // 🔥 auto delete after 24h
-        },
+        
     },
     { timestamps: true }
 );

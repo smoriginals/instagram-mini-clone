@@ -18,13 +18,13 @@ export default async function viewUserStory(req, res) {
         const visibleforday = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
         const story = await userstoryModel.find({
-            userId:id,
-            createdAt: {$gte:visibleforday},
-        }).sort({createdAt:1})
+            userId: id,
+            createdAt: { $gte: visibleforday },
+        }).sort({ createdAt: 1 })
 
-        return res.status(200).json({success:true,user,story})
+        return res.status(200).json({ success: true, user, story })
     }
-    catch(error) {
-        res.status(500).json({success:false,message:'server error'})
+    catch (error) {
+        res.status(500).json({ success: false, message: 'server error' })
     }
 }

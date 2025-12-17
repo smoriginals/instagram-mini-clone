@@ -29,7 +29,10 @@ await connectDB();
 
 
 cleanupExpireStory();
-cron.schedule("0 * * * *", cleanupExpireStory);
+
+cron.schedule("0 * * * *", async () => {
+    await cleanupExpireStory();
+});
 
 const app = express();
 app.use(express.json());

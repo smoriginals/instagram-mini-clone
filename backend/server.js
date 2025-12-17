@@ -2,6 +2,8 @@ import express from 'express';
 import connectDB from './db.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cron from 'node-cron';
+import cleanupExpireStory from './Jobs/storycleanup.job.js';
 
 import usersignupRoute from './Routes/usersignup.route.js';
 import userloginRoute from './Routes/userlogin.route.js';
@@ -23,10 +25,15 @@ import showuserstoryRoute from './Routes/showuserstory.route.js';
 
 
 dotenv.config();
-connectDB();
+await connectDB();
+
+
+cleanupExpireStory();
+cron.schedule("0 * * * *", cleanupExpireStory);
 
 const app = express();
 app.use(express.json());
+
 
 const PORT = process.env.SERVER_PORT;
 app.use(cors({

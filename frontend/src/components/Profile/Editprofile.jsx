@@ -23,13 +23,16 @@ import { useGlobal } from "../../Context/GlobalContext";
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from "../../Context/StoryContext";
+
 export default function Editprofile() {
 
     const navigate = useNavigate();
-
     const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
+
     const { hasStory, verifyStory } = useStory();
     verifyStory(user._id);
+
+
     const [hasUploading, setHasUploading] = useState(false);
 
     const [profileData, setProfileData] = useState({

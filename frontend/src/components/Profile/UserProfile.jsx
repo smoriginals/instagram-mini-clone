@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, Upload, LayoutDashboard, RefreshCw, Loader2 } from 'lucide-react';
+import { ChevronRight, Upload, LayoutDashboard, ChevronLeft, RefreshCw, Loader2 } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -64,20 +64,7 @@ export default function UserProfile() {
         }
         toast.success('Profile Updated')
         navigate('/settings');
-        //const res = await UpdateUserProfile({
-        //    _id: user?._id,
-        //    name: profileData.name,
-        //    username: profileData.username,
-        //    bio: profileData.bio
-        //});
-
-        //if (!res.ok) {
-        //    toast.error(res.message);
-        //    return;
-        //}
-
-        //toast.success("Profile Updated");
-        //navigate("/profile");
+        
     };
 
     const HandleProfilePictureUpload = async (file) => {
@@ -107,6 +94,10 @@ export default function UserProfile() {
 
     return (
         <>
+            <div className='px-2 mt-4'>
+                <ChevronLeft size={30} onClick={() => { navigate('/settings') }} />
+            </div>
+
             <div className='flex h-full w-full flex-col px-2 pt-6'>
 
                 <h1 className="px-2 text-4xl font-bold">Edit Profile</h1>
@@ -114,9 +105,10 @@ export default function UserProfile() {
 
                 <div className="mt-2 space-y-1 rounded-lg border border-gray-600 p-2">
 
-                    <h1 className="text-xl font-bold">User Profile</h1>
+                    <h1 className="text-xl font-bold px-2">User Profile</h1>
 
-                    <div className='p-2 border border-gray-600 rounded-md flex justify-between items-center flex-row'>
+                    {/*User Profile Photo*/}
+                    <div className='p-2 flex justify-between items-center flex-row'>
 
                         <img
                             src={user?.userProfile || sampleImage}
@@ -133,23 +125,25 @@ export default function UserProfile() {
                         </label>
 
                     </div>
+                    {/*User Profile Photo*/}
+
 
                     {/*Name*/}
-                    <div className='border border-gray-600 p-2 rounded-md'>
+                    <div className='p-2'>
                         <p className='p-1 text-md font-bold'>Name</p>
                         <Input type="text" name="name" value={profileData.name} onChange={HandleChange} disabled={hasUploading} placeholder="Name" />
                     </div>
                     {/*Name*/}
 
                     {/*Username*/}
-                    <div className='border border-gray-600 p-2 rounded-md'>
+                    <div className='p-2'>
                         <p className='p-1 text-md font-bold'>Username</p>
                         <Input type="text" name="username" value={profileData.username} onChange={HandleChange} disabled={hasUploading} placeholder="@example.xyz" />
                     </div>
                     {/*Username*/}
 
                     {/*Bio*/}
-                    <div className='border border-gray-600 p-2 rounded-md'>
+                    <div className='p-2'>
                         <p className='p-1 text-md font-bold'>Bio</p>
                         <Textarea type="text" placeholder="We are going to Parish on this Weekend..." name="bio" value={profileData.bio} onChange={HandleChange} disabled={hasUploading} />
                     </div>
@@ -159,21 +153,24 @@ export default function UserProfile() {
                 </div>
 
                 <div className="mt-2 space-y-1 rounded-lg border border-gray-600 p-2">
-                    <h1 className="text-xl font-bold">Security</h1>
+                    <h1 className="text-xl font-bold px-2">Security</h1>
                     {/*Email Handle*/}
-                    <div className='border border-gray-600 p-2 rounded-md'>
+                    <div className='p-2'>
                         <p className='p-1 text-md font-bold'>Email</p>
                         <Input type="text" placeholder="example@email.com" name='email' value={profileData.email} onChange={HandleChange} />
                     </div>
                     {/*Email Handle*/}
 
-                    <div className='border border-gray-600 p-2 rounded-md space-y-2'>
+                    {/*Password*/}
+                    <div className='p-2 space-y-2'>
                         <p className='p-1 text-md font-bold'>Password</p>
-                        <Input type="text" placeholder="Enter Password" />
-                        <Input type="text" placeholder="Re-Enter Password" />
+                        <Input type="text" placeholder="Enter Password" disabled={hasUploading} />
+                        <Input type="text" placeholder="Re-Enter Password" disabled={hasUploading}/>
                     </div>
+                    {/*Password*/}
 
-                    <div className="flex flex-col justify-start gap-4 border border-gray-600 rounded-md p-2">
+                    {/*Privacy*/}
+                    <div className="flex flex-col justify-start gap-4 p-2">
                         <div className='flex items-center justify-between space-x-2'>
                             <Label className='text-xl'>Private Profile</Label>
                             <Switch />
@@ -183,15 +180,18 @@ export default function UserProfile() {
                             <Switch />
                         </div>
                     </div>
-
+                    {/*Privacy*/}
                 </div>
 
                 
                 <div className='flex flex-col gap-2 mt-4'>
+
                     <Button type="submit" disabled={hasUploading} onClick={HandleSaveProfileData}>Save Profile</Button>
+
                     <Button variant="outline" type="button" disabled={hasUploading} onClick={() => { navigate('/settings') }}>
                         Back to Settings
                     </Button>
+
                     <p className='text-sm font-light text-gray-400 text-center p-1'>Your profile changes are ready to be saved. Let's keep your information up to date.
                     </p>
                 </div>

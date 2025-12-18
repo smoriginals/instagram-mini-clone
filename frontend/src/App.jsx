@@ -1,6 +1,5 @@
-import React, { useEffect,useState } from 'react';
+import React, {  } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Button } from "@/components/ui/button"
 import Homescreen from './pages/Homescreen';
 import Profilepage from "./pages/Profilepage";
 import Navbar from './components/Navbar/Navbar';
@@ -15,25 +14,13 @@ import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import { useLocation } from 'react-router-dom';
 import Secure from './pages/Secure';
+import UserProfile from './components/Profile/UserProfile';
 
 export default function App() {
 
-    const [mode, setMode] = useState(() => {
-        return localStorage.getItem("theme") || "light";
-    });
-
-    useEffect(() => {
-        if (mode === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-        localStorage.setItem("theme", mode);
-    }, [mode]);
-
-
+   
     const location = useLocation();
-    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings','/smos','/dashboard'];
+    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings', '/smos', '/dashboard','/editprofile'];
     const shouldHideComponents = hideComponentsOnThisRoutes.includes(location.pathname);
 
     return (
@@ -46,9 +33,10 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path='/home' element={<Homescreen />} />
                 <Route path='/profile' element={<Profilepage />} />
+                <Route path='/editprofile' element={<UserProfile/> }/>
                 <Route path='/notifications' element={<Notifications />} />
                 <Route path='/messages' element={<Message />} />
-                <Route path='/settings' element={<Settings mode={mode} setMode={setMode}  />} />
+                <Route path='/settings' element={<Settings />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path='/admin' element={<Admin/> }/>
                 <Route path='/smos' element={<Secure/> }/>

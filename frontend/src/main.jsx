@@ -7,6 +7,7 @@ import { GlobalProvider } from './Context/GlobalContext.jsx';
 import { PostProvider } from './Context/PostContext.jsx';
 import { Toaster } from 'react-hot-toast';
 import { StoryProvider } from './Context/StoryContext.jsx';
+import { ThemeProvider } from './Context/ThemeContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -14,8 +15,10 @@ createRoot(document.getElementById('root')).render(
             <GlobalProvider>
                 <PostProvider>
                     <StoryProvider>
-                        <Toaster position="top-center" />
-                        <App />
+                        <ThemeProvider>
+                            <Toaster position="top-center" />
+                            <App />
+                        </ThemeProvider>
                     </StoryProvider>
                 </PostProvider>
             </GlobalProvider>

@@ -102,6 +102,7 @@ export default function Dashboard() {
     };
 
     const [hasUploading, setHasUploading] = useState(false);
+
     const HandleProfilePictureUpload = async (file) => {
 
         setHasUploading(true);

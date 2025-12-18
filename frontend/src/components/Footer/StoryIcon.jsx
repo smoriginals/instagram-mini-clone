@@ -17,8 +17,7 @@ import { useStory } from '../../Context/StoryContext';
 export default function StoryIcon() {
 
     const { user } = useGlobal();
-    const { viewStory, hasStory, verifyStory } = useStory();
-    verifyStory(user._id);
+    const { viewStory  } = useStory();
 
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
 
@@ -149,7 +148,7 @@ export default function StoryIcon() {
                     {/* Username */}
                     <div className="mt-4 flex items-center justify-start gap-2 px-6 text-center">
                         <div className='flex items-center justify-start gap-2'>
-                            <div className={`flex h-8 w-8 items-center justify-center rounded-full ${hasStory?'border-2 border-pink-500':''}`}>
+                            <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                                 <img src={`${user?.userProfile || sampleImage}`} alt='User Avatar' className='h-6 w-6 rounded-full object-cover' />
                             </div>
                             <p className="text-lg font-semibold tracking-wide">{user?.name}</p>

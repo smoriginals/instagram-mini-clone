@@ -1,7 +1,6 @@
 import React, {  } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Homescreen from './pages/Homescreen';
-import Profilepage from "./pages/Profilepage";
 import Navbar from './components/Navbar/Navbar';
 import Bottombar from './components/Footer/Bottombar';
 import Notfound from './pages/Notfound';
@@ -15,12 +14,15 @@ import Admin from './pages/Admin';
 import { useLocation } from 'react-router-dom';
 import Secure from './pages/Secure';
 import UserProfile from './components/Profile/UserProfile';
+import Privacy from './pages/Privacy';
+import MyPosts from './components/Profile/MyPosts';
+import DownloadData from './pages/DownloadData';
 
 export default function App() {
 
    
     const location = useLocation();
-    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings', '/smos', '/dashboard','/editprofile'];
+    const hideComponentsOnThisRoutes = ['/login', '/', '/admin', '/settings', '/smos', '/dashboard', '/editprofile', '/privacy', '/myposts', '/download'];
     const shouldHideComponents = hideComponentsOnThisRoutes.includes(location.pathname);
 
     return (
@@ -32,12 +34,14 @@ export default function App() {
                 <Route path="/" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path='/home' element={<Homescreen />} />
-                <Route path='/profile' element={<Profilepage />} />
                 <Route path='/editprofile' element={<UserProfile/> }/>
                 <Route path='/notifications' element={<Notifications />} />
                 <Route path='/messages' element={<Message />} />
+                <Route path='/myposts' element={<MyPosts/>}/>
                 <Route path='/settings' element={<Settings />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path='/privacy' element={<Privacy />} />
+                <Route path='/download' element={<DownloadData/>}/>
                 <Route path='/admin' element={<Admin/> }/>
                 <Route path='/smos' element={<Secure/> }/>
                 <Route path='*' element={<Notfound />} />

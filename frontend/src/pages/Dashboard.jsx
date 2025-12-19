@@ -1,291 +1,163 @@
-﻿import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import {
-    Heart,
-    MessageCircle,
-    Share2,
-    ImageIcon,
-    Users,
-    UserPlus,
-    Edit,
-} from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-    Field,
-    FieldDescription,
-    FieldGroup,
-    FieldLabel,
-    FieldLegend,
-    FieldSeparator,
-    FieldSet,
-} from "@/components/ui/field"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Camera } from "lucide-react";
-import { BookmarkIcon, HeartIcon, Send, MessageCircleMore } from "lucide-react"
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from "@/components/ui/toggle-group"
+﻿import React from "react";
+import { ChevronLeft, User, Heart, MessageCircle, Send, Bookmark, SendHorizontal } from 'lucide-react';
 import { useGlobal } from "../Context/GlobalContext";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+
+
 export default function Dashboard() {
 
-    const { user, UpdateUserProfile, UploadProfilePicture } = useGlobal();
+
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({
-
-        _id: user?._id || '',
-        name: user?.name || '',
-        username: user?.username || '',
-        bio: user?.bio || '',
-        email: user?.email || '',
-        password: '',
-        confirmPassword: ''
-    });
-
-    const HandleChange = (e) => {
-        const { name, value } = e.target;
-        setUserData((prev => ({ ...prev, [name]: value })));
-    }
-
-    const HandleSubmit = async () => {
-        if (!userData.name || !userData.username || !userData.email) {
-            toast.error("Please fill in all required fields.");
-            return;
-        }
-
-        if (userData.password !== userData.confirmPassword) {
-            toast.error("Passwords do not match");
-            return;
-        }
-
-        const paylode = {
-            _id: userData._id,
-            name: userData.name,
-            username: userData.username,
-            bio: userData.bio,
-            email: userData.email,
-        };
-
-        if (userData.password.trim().length > 0) {
-            paylode.password = userData.password;
-        }
-
-        const res = await UpdateUserProfile(paylode);
-        if (!res.ok) {
-            toast.error(res.message);
-            return;
-        }
-        toast.success("Profile Updated Successfully");
-        navigate('/dashboard');
-    };
-
-    const [hasUploading, setHasUploading] = useState(false);
-
-    const HandleProfilePictureUpload = async (file) => {
-
-        setHasUploading(true);
-
-        const toastId = toast.loading("Uploading Profile Picture...");
-
-        const res = await UploadProfilePicture(file, user?._id);
-
-        if (res.success) {
-            setHasUploading(false);
-        }
-
-        if (!res.success) {
-
-            toast.error(res.message, { id: toastId });
-
-            return;
-        }
-
-        toast.success('Profile Picture Updated', { id: toastId });
-
-    }
-
+    // eslint-disable-next-line no-unused-vars
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
+
+    const { DeleteUser, user } = useGlobal();
+
+    const DeleteUserProfile = async () => {
+        if (!user?._id) {
+            toast.error("User id Missing");
+            return;
+        }
+        const res = await DeleteUser(user._id);
+        if (!res) {
+            toast.error(res.error);
+            return;
+        }
+        toast.success("Account Deleted Successfully")
+        console.log("Deleting user with ID:", user._id);
+
+        navigate('/');
+
+    }
+
+
     return (
         <>
-            <div className="my-4 w-full p-3">
-                <h1 className='text-4xl font-bold'>Dashboard</h1>
+            <div className='px-2 mt-4'>
+                <ChevronLeft size={30} onClick={() => { navigate('/settings') }} />
+            </div>
 
-                <Card className="mt-4 mb-6 w-full border border-gray-600">
+            <div className='flex h-full w-full flex-col px-2'>
 
-                    <CardHeader>
-                        <CardTitle>Profile</CardTitle>
-                        <CardDescription>
-                            <p className='text-md font-semibold'>Update your profile Picture.</p>
-                        </CardDescription>
-                        {/*<CardAction>*/}
-                        {/*    <button type="file" accept="image/*" id="imgPick"  className='flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-gray-600' onChange={(e) => { HandleProfilePictureUpload(e.target.files[0]) }} disabled={hasUploading} >*/}
+                <h1 className="px-2 text-4xl font-bold">Dashboard</h1>
 
-                        {/*        <img src={user?.userProfile || sampleImage} alt="user Avatar" className='h-auto w-auto rounded-full object-cover'*/}
-                        {/*        />*/}
 
-                        {/*    </button>*/}
-                        {/*</CardAction>*/}
-                        <CardAction>
-                            <label htmlFor="imgPick" className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-gray-600">
-                                <img src={user?.userProfile || sampleImage} alt="user Avatar" className="h-20 w-20 rounded-full border-4 border-double border-gray-400 object-cover" />
-                            </label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                id="imgPick"
-                                className="hidden"
-                                onChange={(e) => HandleProfilePictureUpload(e.target.files[0])}
-                                disabled={hasUploading}
+                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                    <h1 className="text-xl font-bold px-2">User Profile</h1>
+                    {/*UserProfile*/}
+                    <div className="flex justify-between items-center">
+                        <div className='flex justify-start gap-2 flex-row'><User /><p>{user?.name}</p></div>
+                        <div>
+                            <img
+                                src={user?.userProfile || sampleImage}
+                                alt="Profile"
+                                className='h-18 w-18 rounded-full object-cover border border-gray-600'
                             />
-                        </CardAction>
-                    </CardHeader>
-
-                    <CardContent>
-                        <CardTitle>Lifetime Data</CardTitle>
-
-                        <ToggleGroup type="multiple" variant="outline" spacing={2} size="sm" className='flex flex-wrap justify-start py-2'>
-
-                            <ToggleGroupItem
-                                value="star"
-                                aria-label="Toggle star"
-                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-red-500 data-[state=on]:*:[svg]:stroke-black"
-                            >
-                                <HeartIcon />
-                                Likes
-                            </ToggleGroupItem>
-
-                            <ToggleGroupItem
-                                value="heart"
-                                aria-label="Toggle heart"
-                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-black data-[state=on]:*:[svg]:stroke-black"
-                            >
-                                <Send />
-                                Shares
-                            </ToggleGroupItem>
-
-                            <ToggleGroupItem
-                                value="bookmark"
-                                aria-label="Toggle bookmark"
-                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-yellow-500 data-[state=on]:*:[svg]:stroke-black"
-                            >
-                                <BookmarkIcon />
-                                Saves
-                            </ToggleGroupItem>
-
-                            <ToggleGroupItem
-                                value="comment"
-                                aria-label="Toggle comment"
-                                className="border border-gray-600 data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-blue-500 data-[state=on]:*:[svg]:stroke-black"
-                            >
-
-                                <MessageCircleMore />
-                                Comments
-                            </ToggleGroupItem>
-
-                        </ToggleGroup>
-                    </CardContent>
-
-                </Card>
-
-                <form>
-                    <FieldGroup>
-                        <FieldSet>
-                            <FieldLegend className='mt-4 text-xl font-bold'>Privacy Setting</FieldLegend>
-                            {/*<FieldDescription>*/}
-                            {/*    All transactions are secure and encrypted*/}
-                            {/*</FieldDescription>*/}
-                            <FieldGroup>
-                                <Field>
-                                    <FieldLabel className='text-md font-bold'>
-                                        Name
-                                    </FieldLabel>
-                                    <Input placeholder="Your Name" name='name' value={userData.name} onChange={HandleChange} className='border border-gray-600' />
-                                </Field>
-                                <Field>
-                                    <FieldLabel className='text-md font-bold'>
-                                        Username
-                                    </FieldLabel>
-                                    <Input placeholder="Username" name='username' value={userData.username} onChange={HandleChange} className='border border-gray-600' />
-                                </Field>
-                                <Field>
-                                    <FieldLabel className='text-md font-bold'>
-                                        Email
-                                    </FieldLabel>
-                                    <Input placeholder="example@email.com" name='email' value={userData.email} onChange={HandleChange} className='border border-gray-600' />
-                                </Field>
-                                <Field>
-                                    <FieldLabel className='text-md font-bold'>
-                                        Password
-                                    </FieldLabel>
-
-                                    <Input placeholder="New Password"
-                                        name="password"
-                                        type="password"
-                                        value={userData.password || ""}
-                                        onChange={HandleChange}
-                                        className="border border-gray-600"
-                                    />
-
-                                    <Input placeholder="Re-Enter Password"
-                                        name="confirmPassword"
-                                        type="password"
-                                        value={userData.confirmPassword || ""}
-                                        onChange={HandleChange}
-                                        className="border border-gray-600"
-                                    />
-
-                                </Field>
-                                <Field>
-                                    <FieldLabel className='text-md font-bold'>
-                                        Bio
-                                    </FieldLabel>
-                                    <Textarea placeholder="Update your bio..." name='bio' value={userData.bio} onChange={HandleChange} className='border border-gray-600' />
-                                </Field>
-                            </FieldGroup>
-
-                        </FieldSet>
-
-                        <div className="flex flex-col justify-start gap-4">
-                            <div className='flex items-center justify-between space-x-2'>
-                                <Label className='text-xl'>Private Profile</Label>
-                                <Switch />
-                            </div>
-                            <div className='flex items-center justify-between space-x-2'>
-                                <Label className='text-xl'>Step-To-Verification</Label>
-                                <Switch />
-                            </div>
                         </div>
+                    </div>
+                    {/*UserProfile*/}
+                </div>
+                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                    <h1 className="text-xl font-bold px-2">Analytics</h1>
+                    {/*Analytics*/}
+                    <div className="flex justify-center items-center gap-2 my-2">
 
-                        <Field orientation="vertical">
-                            <Button type="button" className='border border-gray-600' onClick={HandleSubmit}>Submit</Button>
-                            <Button variant="outline" type="button" className='border border-gray-600' onClick={() => { navigate('/settings') }}>
-                                Back to Settings
-                            </Button>
-                        </Field>
-                    </FieldGroup>
-                </form>
+                        <div className='flex flex-col justify-center items-center p-2 rounded-md gap-1 border border-gray-600'>
+                            <Heart />
+                            <p className='text-sm text-center'>20k Likes</p>
+                        </div>
+                        <div className='flex flex-col justify-center items-center p-2 rounded-md gap-1 border border-gray-600'>
+                            <MessageCircle />
+                            <p className='text-sm text-center'>20k Comments</p>
+                        </div>
+                        <div className='flex flex-col justify-center items-center p-2 rounded-md gap-1 border border-gray-600'>
+                            <Send />
+                            <p className='text-sm text-center'>20k Shares</p>
+                        </div>
+                        <div className='flex flex-col justify-center items-center p-2 rounded-md gap-1 border border-gray-600'>
+                            <Bookmark />
+                            <p className='text-sm text-center'>20k Save</p>
+                        </div>
+                    </div>
+                    {/*Analytics*/}
+                </div>
+
+                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                    <h1 className="text-xl font-bold px-2">Support</h1>
+                    {/*Help & Contact*/}
+                    <div className="">
+                        <p className="px-2">Contact & Support</p>
+                        <div className='flex flex-col items-center p-1 gap-2'>
+                            <Input type="email" placeholder="Email" />
+                            <Textarea placeholder="Type your message here." />
+                            <Button className='w-full text-md'>Send</Button>
+                        </div>
+                        <p className="text-xs text-center">Send use eamil, and we will respond to your request.</p>
+                    </div>
+                    {/*Help & Contact*/}
+                </div>
+
+                {/*Admin*/}
+                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                    {/*Help & Contact*/}
+                    <h1 className="text-xl font-bold px-2">Admin Login</h1>
+
+                    <Button className="w-full text-md my-1" onClick={() => { navigate('/admin') }}>
+                        Login as Admin
+                    </Button>
+                    {/*Help & Contact*/}
+                </div>
+                {/*Admin*/}
+
+
+
+                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                    <h1 className="text-xl font-bold px-2">Account Deactivation</h1>
+                    {/*Delete Account*/}
+                    <div className="flex justify-center items-center gap-2 my-2">
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button className="text-md h-11 w-full rounded-md border border-gray-600 py-2 font-semibold shadow">Delete Account
+                                </Button>
+
+                            </AlertDialogTrigger>
+
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete your
+                                        account and remove your data from our servers.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel className='text-md bg-gray-50 font-semibold'>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction className='text-md bg-red-500 font-semibold' onClick={DeleteUserProfile}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                       
+                    </div>
+                    {/*Delete Account*/}
+                </div>
+                <footer>
+                    <p className='text-sm text-center p-2'>&copy; 2025 SM ORIGINALS. All rights reserved.</p>
+                </footer>
             </div>
         </>
     );

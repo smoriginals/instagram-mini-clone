@@ -103,7 +103,7 @@ export default function UserProfile() {
                 <h1 className="px-2 text-4xl font-bold">Edit Profile</h1>
 
 
-                <div className="mt-2 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
 
                     <h1 className="text-xl font-bold px-2">User Profile</h1>
 
@@ -169,18 +169,6 @@ export default function UserProfile() {
                     </div>
                     {/*Password*/}
 
-                    {/*Privacy*/}
-                    <div className="flex flex-col justify-start gap-4 p-2">
-                        <div className='flex items-center justify-between space-x-2'>
-                            <Label className='text-xl'>Private Profile</Label>
-                            <Switch />
-                        </div>
-                        <div className='flex items-center justify-between space-x-2'>
-                            <Label className='text-xl'>Step-To-Verification</Label>
-                            <Switch />
-                        </div>
-                    </div>
-                    {/*Privacy*/}
                 </div>
 
                 

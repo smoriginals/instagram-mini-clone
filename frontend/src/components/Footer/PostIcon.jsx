@@ -31,21 +31,11 @@ export default function PostIcon() {
 
                     <div className="flex flex-col gap-2 px-4 text-lg">
 
-                        {/*<button className="flex items-center font-semibold gap-3 p-3 rounded-lg cursor-pointer hover:bg-blue-900"*/}
-                        {/*    onClick={() => uploadPhoto.current.click()}*/}
-                        {/*>*/}
-                        {/*    <Image /> Add a Post*/}
-                        {/*</button>*/}
-
                         <AddPost/>
 
                         <button className="flex items-center font-semibold gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-600" onClick={OpenStoryDrawer}>
                             <BookOpen  /> Add a Story
                         </button>
-
-                        {/*<button className="flex font-semibold tems-center gap-3 p-3 rounded-lg ">*/}
-                        {/*    <PlusCircle /> Post*/}
-                        {/*</button>*/}
 
                     </div>
 

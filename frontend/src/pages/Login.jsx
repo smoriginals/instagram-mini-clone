@@ -29,12 +29,6 @@ export default function Login() {
         toast.success("Login Successful");
         navigate("/home");
 
-        //if (!res.ok) {
-        //    console.log("❌ Login failed:", toast.error(res.message));
-        //    return;
-        //}
-        //console.log("✅ Login Success:", toast.success(res.user));
-        
         navigate("/home"); // move to home after login
         console.table(form);
     }

@@ -93,22 +93,18 @@ export default function ProfileIcon() {
 
 
                             <div className="mt-4 flex gap-6 text-center">
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800'>
+                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => {navigate('/myposts')} }>
                                     <p className="text-lg font-bold">120</p>
                                     <p className="text-sm">Posts</p>
                                 </div>
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800'>
+                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
                                     <p className="text-lg font-bold">2.5k</p>
                                     <p className="text-sm">Followers</p>
                                 </div>
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800'>
+                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
                                     <p className="text-lg font-bold">180</p>
                                     <p className="text-sm">Following</p>
                                 </div>
-                            </div>
-
-                            <div className='mt-4'>
-                                <Editprofile />
                             </div>
 
                         </div>

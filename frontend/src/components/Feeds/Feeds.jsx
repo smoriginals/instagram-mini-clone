@@ -4,11 +4,8 @@ import { usePosts } from "../../Context/PostContext.jsx";
 import { Loader2 } from 'lucide-react'
 export default function Feeds() {
 
-
     const { posts, loading } = usePosts();
-    //console.log("This is render in feeds.jsx Total posts:", posts);
-
-
+   
     return (
         <>
             <div className='mb-15 flex h-full w-full flex-col flex-nowrap gap-2 p-1 pt-2 transition-all duration-300 ease-in-out [scroll-behavior:smooth]'>

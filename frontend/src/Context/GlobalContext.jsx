@@ -4,7 +4,6 @@ const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
 
-
     // Story Drawer Handle
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
     const CloseStoryDrawer = () => setStoryDrawerOpen(false);

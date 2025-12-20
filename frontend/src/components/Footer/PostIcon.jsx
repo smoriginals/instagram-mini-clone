@@ -17,9 +17,12 @@ export default function PostIcon() {
     const { OpenStoryDrawer } = useGlobal();
     const uploadPhoto = useRef(null);
 
+
+
     return (
         <>
             <Drawer>
+                
                 <DrawerTrigger asChild>
                     <PlusCircle className="w-10 h-10 hover:scale-120 transition-all duration-300 ease-in-out" />
                 </DrawerTrigger>

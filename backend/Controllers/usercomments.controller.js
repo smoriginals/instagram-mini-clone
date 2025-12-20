@@ -18,14 +18,19 @@ export default async function userComments(req, res) {
         post.comments.push({ user: userId, text })
         await post.save();
 
-        await post.populate('comments.user', 'name userProfile')
+        //await post.populate('comments.user', 'name userProfile')
+        const popComments = await post.populate({
+            path: 'comments.user',
+            select:'name userProfile',
+        })
 
         return res.status(200).json({
             success: true,
-            comments:post.comments
+            //comments:post.comments
+            comments:popComments.comments,
         })
     }
     catch (error) {
-        return res.ststus(400).json({success:false,message:error.message})
+        return res.status(400).json({success:false,message:error.message})
     }
 }

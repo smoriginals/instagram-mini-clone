@@ -32,12 +32,10 @@ export default async function deleteUser(req,res) {
 
         await usersignupModel.findByIdAndDelete(_id);
 
-
-
         res.json({ ok: true, message: "User and all related data deleted successfully" });
     }
     catch (error) {
-        res.status(400).json({ message: "Network Error", error:error.message })
+        res.status(400).json({ success:false,message: "Network Error", error:error.message })
     }
    
 }

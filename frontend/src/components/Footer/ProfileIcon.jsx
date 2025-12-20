@@ -2,7 +2,6 @@
 import { User, Trash, ArrowLeft, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import Editprofile from "../Profile/Editprofile";
 import { useGlobal } from "../../Context/GlobalContext";
 
 import UserTheme from "../Theme/UserTheme";
@@ -39,6 +38,7 @@ export default function ProfileIcon() {
     }
     const DeletePost = () => {
         console.log("Delete")
+            
     }
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
 
@@ -79,7 +79,7 @@ export default function ProfileIcon() {
                     <div className="flex h-full w-full flex-col items-center overflow-y-auto p-2">
                         {/* Profile Header */}
                         <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow">
-                            <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-3 border-green-500">
+                            <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-3 border-green-500" onClick={() => {navigate('/editprofile') } }>
                                 <img
                                     src={user?.userProfile || sampleImage}
                                     alt="Profile Avatar"
@@ -153,7 +153,7 @@ export default function ProfileIcon() {
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
                                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction className='hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out' onClick={() => console.log("delete story", story._id)}>Continue</AlertDialogAction>
+                                                        <AlertDialogAction className='hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out' onClick={DeletePost}>Continue</AlertDialogAction>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
                                             </AlertDialog>

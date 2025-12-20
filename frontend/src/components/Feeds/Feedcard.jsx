@@ -21,7 +21,12 @@ export default function Feedcard({ post }) {
     const { user } = useGlobal();
 
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
-
+    const getAvatar = () => {
+        if (user && user._id === post.userId?._id) {
+            return user.userProfile || sampleImage;
+        }
+        return post.userId?.userProfile || sampleImage;
+    };
 
     const [input, setInput] = useState("");
 
@@ -86,7 +91,7 @@ export default function Feedcard({ post }) {
                     <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-l border-r border-t border-gray-600 p-2 pt-3'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
-                                src={`${post.userId?.userProfile || sampleImage}`}
+                                src={getAvatar()}
                                 alt="User Avatar"
                                 className="h-6 w-6 rounded-full object-cover"
                             />
@@ -96,7 +101,7 @@ export default function Feedcard({ post }) {
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
-                    <div className="aspect-square w-full border-l border-r border-gray-600 p-1">
+                    <div className="h-3/5 aspect-square w-full border-l border-r border-gray-600 p-1">
                         <img
                             src={post.image || "https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"}
                             alt="User Avatar"
@@ -143,23 +148,53 @@ export default function Feedcard({ post }) {
                                     </DrawerHeader>
 
                                     {/* Comments List */}
-                                    <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
-                                        {comments.map((comment) => (
-                                            <div key={comment._id} className="flex items-start gap-2">
-                                                <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
-                                                    <img
-                                                        src={`${comment.user?.userProfile || sampleImage}`}
-                                                        alt="User Avatar"
-                                                        className="h-6 w-6 rounded-full object-cover"
-                                                    />
-                                                </div>
+                                    {/*<div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">*/}
+                                    {/*    {comments.map((comment) => (*/}
+                                    {/*        <div key={comment._id} className="flex items-start gap-2">*/}
+                                    {/*            <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>*/}
+                                    {/*                <img*/}
+                                    {/*                    src={`${comment.user?.userProfile || getAvatar()}`}*/}
+                                    {/*                    alt="User Avatar"*/}
+                                    {/*                    className="h-6 w-6 rounded-full object-cover"*/}
+                                    {/*                />*/}
+                                    {/*            </div>*/}
 
-                                                <div>
-                                                    <p className="text-sm font-semibold">{comment.user?.name}</p>
-                                                    <p className="text-sm text-gray-700">{comment.text}</p>
+                                    {/*            <div>*/}
+                                    {/*                <p className="text-sm font-semibold">{comment.user?.name}</p>*/}
+                                    {/*                <p className="text-sm text-gray-700">{comment.text}</p>*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    ))}*/}
+                                    {/*</div>*/}
+
+                                    {/* Comments List */}
+                                    <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
+                                        {comments.map((comment) => {
+                                            // 1. Check if this specific comment was written by the logged-in user
+                                            const isMyComment = user?._id === (comment.user?._id || comment.userId);
+
+                                            // 2. Determine the profile pic: Global state for "me", DB state for "others"
+                                            const commentProfilePic = isMyComment
+                                                ? (user?.userProfile || sampleImage)
+                                                : (comment.user?.userProfile || sampleImage);
+
+                                            return (
+                                                <div key={comment._id || Math.random()} className="flex items-start gap-2">
+                                                    <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
+                                                        <img
+                                                            src={commentProfilePic} // <--- Updated variable
+                                                            alt="User Avatar"
+                                                            className="h-6 w-6 rounded-full object-cover"
+                                                        />
+                                                    </div>
+
+                                                    <div>
+                                                        <p className="text-sm font-semibold">{comment.user?.name || "User"}</p>
+                                                        <p className="text-sm text-gray-700">{comment.text}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
 
                                     {/* Input */}
@@ -229,7 +264,7 @@ export default function Feedcard({ post }) {
                     <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-b border-l border-r border-gray-600 px-2 pb-2'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
-                                src={`${post.userId?.userProfile || sampleImage}`}
+                                src={getAvatar()}
                                 alt="User Avatar"
                                 className="h-6 w-6 rounded-full object-cover"
                             />

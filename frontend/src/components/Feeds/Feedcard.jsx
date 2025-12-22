@@ -108,7 +108,7 @@ export default function Feedcard({ post }) {
                         <img
                             src={post.image || "https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"}
                             alt="User Avatar"
-                            className="h-auto w-full rounded-sm object-contain"
+                            className="h-80 w-full rounded-sm object-contain"
                         />
                     </div>
                     {/*main user feed photo*/}

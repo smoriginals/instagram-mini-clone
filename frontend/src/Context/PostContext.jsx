@@ -55,12 +55,12 @@ export const PostProvider = ({ children }) => {
 
             const res = await axios.post("http://localhost:5000/api/user/post/addpost",
                 formData,
-                {
-                    headers:
-                    {
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
+                //{
+                //    //headers:
+                //    //{
+                //    //    "Content-Type": "multipart/form-data"
+                //    //}
+                //}
             );
 
             if (res.data.success) {

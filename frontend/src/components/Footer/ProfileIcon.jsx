@@ -3,7 +3,7 @@ import { User, Trash, ArrowLeft, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useGlobal } from "../../Context/GlobalContext";
-
+import { usePosts } from "../../Context/PostContext";
 import UserTheme from "../Theme/UserTheme";
 import { useStory } from "../../Context/StoryContext";
 
@@ -26,28 +26,18 @@ export default function ProfileIcon() {
     const navigate = useNavigate();
     const { user, LogoutUser } = useGlobal();
     const { viewStory } = useStory();
-
+    const { posts } = usePosts();
     const [openDrawer, setOpenDrawer] = useState(false);
     const [stories, setStories] = useState([]);
     const [deletingId, setDeletingId] = useState(null);
-
-
+    const [postAndStory, setPostAndStory] = useState();
 
     const HandleDrawer = () => {
         setOpenDrawer((prev) => !prev); // closes drawer
     }
-    const DeleteStory = async(story) => {
-        //try {
-        //    const res = await axios.delete(`http://localhost:5000/api/user/story/${story._id}`, { data: {userId:user._id}})
-        //    if (res.data.success) {
-        //        toast.success("Story Deleted");
-        //        setStories(prev=>prev.filter(s=>s._id!==story._id))
-        //    }
-        //} catch (error) {
-        //    console.log(error.response?.data || error.message);
-        //    toast.error("Failed to delete story");
-        //}
 
+    const DeleteStory = async(story) => {
+       
         try {
             setDeletingId(story._id);
 
@@ -69,6 +59,10 @@ export default function ProfileIcon() {
             
     }
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
+
+    useEffect(() => {
+        setPostAndStory(posts.length + stories.length);
+    }, [posts.length, stories.length]);
 
 
     useEffect(() => {
@@ -122,15 +116,15 @@ export default function ProfileIcon() {
 
                             <div className="mt-4 flex gap-6 text-center">
                                 <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => {navigate('/myposts')} }>
-                                    <p className="text-lg font-bold">120</p>
+                                    <p className="text-lg font-bold">{postAndStory}</p>
                                     <p className="text-sm">Posts</p>
                                 </div>
                                 <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
-                                    <p className="text-lg font-bold">2.5k</p>
+                                    <p className="text-lg font-bold">0</p>
                                     <p className="text-sm">Followers</p>
                                 </div>
                                 <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
-                                    <p className="text-lg font-bold">180</p>
+                                    <p className="text-lg font-bold">0</p>
                                     <p className="text-sm">Following</p>
                                 </div>
                             </div>

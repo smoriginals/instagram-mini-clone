@@ -91,7 +91,7 @@ export default function Feedcard({ post }) {
                 <div className='flex h-1/2 w-full flex-col items-center justify-center'>
 
                     {/*feed card top user photo*/}
-                    <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-l border-r border-t border-gray-600 p-2 pt-3'>
+                    <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-2 pt-3'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
                                 src={getAvatar()}
@@ -104,17 +104,17 @@ export default function Feedcard({ post }) {
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
-                    <div className="h-80 w-full border-l border-r border-gray-600 p-1">
+                    <div className="h-auto w-full border-r border-l border-gray-600 p-1">
                         <img
                             src={post.image || "https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"}
                             alt="User Avatar"
-                            className="h-80 w-full rounded-sm object-contain border border-gray-600"
+                            className="h-auto w-full rounded-sm object-contain"
                         />
                     </div>
                     {/*main user feed photo*/}
 
 
-                    <div className='flex h-10 w-full items-center justify-between gap-2 border-l border-r border-gray-600 p-1'>
+                    <div className='flex h-10 w-full items-center justify-between gap-2 border-r border-l border-gray-600 p-1'>
                         <div className='flex h-10 items-center justify-center gap-1'>
 
                             {/*Like Button*/}
@@ -264,7 +264,7 @@ export default function Feedcard({ post }) {
                     </div>
 
                     {/*Show Comments*/}
-                    <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-b border-l border-r border-gray-600 px-2 pb-2'>
+                    <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-r border-b border-l border-gray-600 px-2 pb-2'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
                                 src={getAvatar()}

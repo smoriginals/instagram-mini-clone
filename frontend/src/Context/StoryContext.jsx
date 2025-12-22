@@ -8,6 +8,16 @@ export const StoryProvider = ({ children }) => {
     const { user } = useGlobal();
 
     const uploadStory = async (file) => {
+
+        //if (!user?._id) return;
+        if (!user?._id) {
+            throw new Error("User not logged in");
+        }
+
+        if (!file) {
+            throw new Error("Image required");
+        }
+
         const formData = new FormData();
         formData.append("image", file);
         formData.append("userId", user._id);
@@ -15,7 +25,7 @@ export const StoryProvider = ({ children }) => {
         const res = await axios.post(
             "http://localhost:5000/api/user/story/uploadstory",
             formData,
-            { headers: { "Content-Type": "multipart/form-data" } }
+            //{ headers: { "Content-Type": "multipart/form-data" } }
         );
 
         return res.data;

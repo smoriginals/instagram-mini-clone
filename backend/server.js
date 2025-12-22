@@ -30,7 +30,7 @@ await connectDB();
 
 cleanupExpireStory();
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("*/5 * * * *", async () => {
     await cleanupExpireStory();
 });
 

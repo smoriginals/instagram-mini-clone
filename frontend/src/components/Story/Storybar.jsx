@@ -52,7 +52,19 @@ export default function Storybar() {
     // Upload (you’ll connect API later)
     const handleUpload = async () => {
       
-        if (!file) return;
+        //if (!file) return;
+
+        if (!user?._id) {
+            toast.error("Please login first");
+            return;
+        }
+
+        if (!file) {
+            toast.error("Please select an image");
+            return;
+        }
+
+        //if (!user?._id) return;
         try {
 
             setUploading(true);
@@ -63,10 +75,14 @@ export default function Storybar() {
             if (res.success) {
                 handleRemove();
                 toast.success('Story Added');
+            } else {
+                toast.error(res.message);
             }
 
         } catch (error) {
-            console.log(error)
+            toast.error(error.message);
+        } finally {
+            setUploading(false);
         }
        
     };
@@ -84,8 +100,8 @@ export default function Storybar() {
                         <Drawer>
 
                             <DrawerTrigger asChild>
-                                <button className='h-16 w-16 rounded-full border-2 border-pink-500 p-0.5 flex justify-center items-center'>
-                                    <img src={`${user?.userProfile || sampleImage}`} alt='user profile' className='rounded-full object-cover border border-gray-600 h-14 w-14 aspect-square'
+                                <button className='flex h-16 w-16 items-center justify-center rounded-full border-2 border-pink-500 p-0.5'>
+                                    <img src={`${user?.userProfile || sampleImage}`} alt='user profile' className='aspect-square h-14 w-14 rounded-full border border-gray-600 object-cover'
                                     />
                                 </button>
                             </DrawerTrigger>
@@ -110,30 +126,30 @@ export default function Storybar() {
                                                 <Image size={30} />
                                             </button>
 
-                                            <p className='text-center py-1 text-xl font-bold'>Choose</p>
+                                            <p className='py-1 text-center text-xl font-bold'>Choose</p>
                                         </>
                                     )}
 
                                     {/* PREVIEW */}
                                     {preview && (
-                                        <div className="relative h-96 w-full rounded-md overflow-hidden">
+                                        <div className="relative h-96 w-full overflow-hidden rounded-md">
                                             <img
                                                 src={preview}
                                                 alt="story-preview"
-                                                className="h-80 w-full object-contain border border-gray-600 rounded-md"
+                                                className="h-80 w-full rounded-md border border-gray-600 object-contain"
                                             />
 
-                                            <div className="absolute bottom-2 right-2 flex gap-2">
+                                            <div className="absolute right-2 bottom-2 flex gap-2">
                                                 <button
                                                     onClick={handleRemove}
-                                                    className="bg-black/60 p-2 rounded-md"
+                                                    className="rounded-md bg-black/60 p-2"
                                                     disabled={uploading}>
                                                     <X color="white" />
                                                 </button>
 
                                                 <button
                                                     onClick={handleUpload}
-                                                    className="bg-blue-600 p-2 rounded-md" disabled={uploading}
+                                                    className="rounded-md bg-blue-600 p-2" disabled={uploading}
                                                 >
                                                     {uploading ? <Loader2 className='animate-spin text-white' /> : <ArrowUpFromLine color="white" />}
 
@@ -171,7 +187,7 @@ export default function Storybar() {
 
                     {[...Array(20)].map((user, index) => (
                         <div key={index} className="flex flex-shrink-0 flex-col items-center justify-start gap-1">
-                            <div className="border-3 h-16 w-16 overflow-hidden rounded-full border-pink-500">
+                            <div className="h-16 w-16 overflow-hidden rounded-full border-3 border-pink-500">
                                 <img
                                     src={`https://i.pravatar.cc/150?img=${index + 1}`}
                                     className="h-auto w-auto rounded-full object-cover"

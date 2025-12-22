@@ -164,7 +164,7 @@ export default function StoryIcon() {
                             <img
                                 src={stories[currentIndex]?.image}
                                 alt="story"
-                                className="h-full w-full rounded-md border border-gray-600 object-cover"
+                                className="h-full w-full rounded-md border border-gray-600 object-contain"
                             />
                         ) : (
                             <p>No story available</p>

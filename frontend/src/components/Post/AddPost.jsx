@@ -162,7 +162,7 @@ export default function AddPost() {
                                                     <img
                                                         src={preview}
                                                         alt="Preview"
-                                                        className="h-full w-full object-cover"
+                                                        className="h-full w-full object-contain"
                                                     />
                                                 ) : (
                                                     <p className="text-gray-600 text-lg font-bold p-2">No image selected</p>

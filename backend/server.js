@@ -20,7 +20,7 @@ import deleteuserpostRoute from './Routes/deleteuserpost.route.js';
 
 import uploaduserstoryRoute from './Routes/uploaduserstory.route.js';
 import showuserstoryRoute from './Routes/showuserstory.route.js';
-
+import deleteuserstoryRoute from './Routes/deleteuserstory.route.js';
 
 
 
@@ -30,7 +30,7 @@ await connectDB();
 
 cleanupExpireStory();
 
-cron.schedule("0 * * * *", async () => {
+cron.schedule("* * * * *", async () => {
     await cleanupExpireStory();
 });
 
@@ -64,7 +64,7 @@ app.use('/api/user/post', deleteuserpostRoute);
 
 app.use('/api/user/story', uploaduserstoryRoute);
 app.use('/api/user/story', showuserstoryRoute);
-//app.use('/api/user/story', deleteuserstoryRoute);
+app.use('/api/user/story', deleteuserstoryRoute);
 
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));

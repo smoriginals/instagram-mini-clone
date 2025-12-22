@@ -19,8 +19,8 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-
-
+import axios from 'axios';
+import toast from 'react-hot-toast';
 export default function ProfileIcon() {
 
     const navigate = useNavigate();
@@ -29,15 +29,43 @@ export default function ProfileIcon() {
 
     const [openDrawer, setOpenDrawer] = useState(false);
     const [stories, setStories] = useState([]);
-
+    const [deletingId, setDeletingId] = useState(null);
 
 
 
     const HandleDrawer = () => {
         setOpenDrawer((prev) => !prev); // closes drawer
     }
-    const DeletePost = () => {
-        console.log("Delete")
+    const DeleteStory = async(story) => {
+        //try {
+        //    const res = await axios.delete(`http://localhost:5000/api/user/story/${story._id}`, { data: {userId:user._id}})
+        //    if (res.data.success) {
+        //        toast.success("Story Deleted");
+        //        setStories(prev=>prev.filter(s=>s._id!==story._id))
+        //    }
+        //} catch (error) {
+        //    console.log(error.response?.data || error.message);
+        //    toast.error("Failed to delete story");
+        //}
+
+        try {
+            setDeletingId(story._id);
+
+            const res = await axios.delete(
+                `http://localhost:5000/api/user/story/${story._id}`,
+                { data: { userId: user._id } }
+            );
+
+            if (res.data.success) {
+                toast.success("Story Deleted");
+                setStories(prev => prev.filter(s => s._id !== story._id));
+            }
+        } catch (error) {
+            toast.error("Failed to delete story");
+            console.log(error.response?.data || error.message);
+        } finally {
+            setDeletingId(null);
+        }
             
     }
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
@@ -70,9 +98,9 @@ export default function ProfileIcon() {
                 <DrawerContent>
                     <DrawerHeader>
                         <DrawerTitle className="flex flex-row items-center justify-between">
-                            <ArrowLeft className='active:text-blue-500 rounded-full cursor-pointer transition-all duration-300 ease-in-out hover:scale-110' onClick={HandleDrawer} />
+                            <ArrowLeft className='cursor-pointer rounded-full transition-all duration-300 ease-in-out hover:scale-110 active:text-blue-500' onClick={HandleDrawer} />
                             <p className='text-lg font-bold'> Profile</p>
-                            <Settings className='active:text-blue-500 cursor-pointer transition-all duration-300 ease-in-out hover:scale-110' onClick={() => { navigate('/settings') }} />
+                            <Settings className='cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:text-blue-500' onClick={() => { navigate('/settings') }} />
                         </DrawerTitle>
                     </DrawerHeader>
 
@@ -141,7 +169,7 @@ export default function ProfileIcon() {
 
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
-                                                    <Trash className="absolute top-0 right-0 cursor-pointer p-1" fill='red' />
+                                                    <Trash className="absolute top-0 right-0 cursor-pointer p-1" fill='red' disabled={deletingId === story._id} />
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>
                                                     <AlertDialogHeader>
@@ -153,7 +181,7 @@ export default function ProfileIcon() {
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
                                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction className='hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out' onClick={DeletePost}>Continue</AlertDialogAction>
+                                                        <AlertDialogAction className='transition-all duration-300 ease-in-out hover:bg-red-500 hover:text-white' disabled={deletingId === story._id} onClick={() => DeleteStory(story)}>{deletingId === story._id ? "Deleting..." : "Continue"}</AlertDialogAction>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
                                             </AlertDialog>
@@ -178,7 +206,7 @@ export default function ProfileIcon() {
 
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
-                                    <h2 className="text-lg font-bold text-red-400 transition-all duration-300 ease-in-out hover:text-red-500 flex justify-between items-center">Log Out<LogOut /></h2>
+                                    <h2 className="flex items-center justify-between text-lg font-bold text-red-400 transition-all duration-300 ease-in-out hover:text-red-500">Log Out<LogOut /></h2>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
@@ -189,7 +217,7 @@ export default function ProfileIcon() {
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                        <AlertDialogAction className='hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out' onClick={() => { LogoutUser(); navigate('/login'); }}>Continue</AlertDialogAction>
+                                        <AlertDialogAction className='transition-all duration-300 ease-in-out hover:bg-red-500 hover:text-white' onClick={() => { LogoutUser(); navigate('/login'); }}>Continue</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>

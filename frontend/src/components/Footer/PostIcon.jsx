@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Image, BookOpen, PlusCircle} from "lucide-react";
+import { BookOpen, PlusCircle} from "lucide-react";
 import {
     Drawer,
     DrawerTrigger,
@@ -9,15 +9,11 @@ import {
     DrawerClose,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { useGlobal } from "../../Context/GlobalContext";
 import AddPost from "../Post/AddPost";
 
 export default function PostIcon() {
 
-    const { OpenStoryDrawer } = useGlobal();
     const uploadPhoto = useRef(null);
-
-
 
     return (
         <>
@@ -35,10 +31,6 @@ export default function PostIcon() {
                     <div className="flex flex-col gap-2 px-4 text-lg">
 
                         <AddPost/>
-
-                        <button className="flex items-center font-semibold gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-600" onClick={OpenStoryDrawer}>
-                            <BookOpen  /> Add a Story
-                        </button>
 
                     </div>
 

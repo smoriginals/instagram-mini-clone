@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ChevronRight, Upload, LayoutDashboard, ChevronLeft, RefreshCw, Loader2 } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,7 +45,7 @@ export default function UserProfile() {
         const payload = { _id: profileData._id };
 
         if (profileData.name !== user.name) payload.name = profileData.name;
-        if (profileData.username !== user.usernme) payload.username = profileData.username;
+        if (profileData.username !== user.username) payload.username = profileData.username;
         if (profileData.bio !== user.bio) payload.bio = profileData.bio;
         if (profileData.email !== user.email) payload.email = profileData.email;
 
@@ -86,7 +86,7 @@ export default function UserProfile() {
             return;
         }
 
-        toast.success('Profile Picture Updated', { id: toastId });
+        toast.success('Profile Picture Uploded', { id: toastId });
 
     }
 
@@ -94,7 +94,7 @@ export default function UserProfile() {
 
     return (
         <>
-            <div className='px-2 mt-4'>
+            <div className='mt-4 px-2'>
                 <ChevronLeft size={30} onClick={() => { navigate('/settings') }} />
             </div>
 
@@ -105,10 +105,10 @@ export default function UserProfile() {
 
                 <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
 
-                    <h1 className="text-xl font-bold px-2">User Profile</h1>
+                    <h1 className="px-2 text-xl font-bold">User Profile</h1>
 
                     {/*User Profile Photo*/}
-                    <div className='p-2 flex justify-between items-center flex-row'>
+                    <div className='flex flex-row items-center justify-between p-2'>
 
                         <img
                             src={user?.userProfile || sampleImage}
@@ -130,21 +130,21 @@ export default function UserProfile() {
 
                     {/*Name*/}
                     <div className='p-2'>
-                        <p className='p-1 text-md font-bold'>Name</p>
+                        <p className='text-md p-1 font-bold'>Name</p>
                         <Input type="text" name="name" value={profileData.name} onChange={HandleChange} disabled={hasUploading} placeholder="Name" />
                     </div>
                     {/*Name*/}
 
                     {/*Username*/}
                     <div className='p-2'>
-                        <p className='p-1 text-md font-bold'>Username</p>
+                        <p className='text-md p-1 font-bold'>Username</p>
                         <Input type="text" name="username" value={profileData.username} onChange={HandleChange} disabled={hasUploading} placeholder="@example.xyz" />
                     </div>
                     {/*Username*/}
 
                     {/*Bio*/}
                     <div className='p-2'>
-                        <p className='p-1 text-md font-bold'>Bio</p>
+                        <p className='text-md p-1 font-bold'>Bio</p>
                         <Textarea type="text" placeholder="We are going to Parish on this Weekend..." name="bio" value={profileData.bio} onChange={HandleChange} disabled={hasUploading} />
                     </div>
                     {/*Bio*/}
@@ -153,26 +153,28 @@ export default function UserProfile() {
                 </div>
 
                 <div className="mt-2 space-y-1 rounded-lg border border-gray-600 p-2">
-                    <h1 className="text-xl font-bold px-2">Security</h1>
+                    <h1 className="px-2 text-xl font-bold">Security</h1>
                     {/*Email Handle*/}
                     <div className='p-2'>
-                        <p className='p-1 text-md font-bold'>Email</p>
+                        <p className='text-md p-1 font-bold'>Email</p>
                         <Input type="text" placeholder="example@email.com" name='email' value={profileData.email} onChange={HandleChange} />
                     </div>
                     {/*Email Handle*/}
 
                     {/*Password*/}
-                    <div className='p-2 space-y-2'>
-                        <p className='p-1 text-md font-bold'>Password</p>
-                        <Input type="text" placeholder="Enter Password" disabled={hasUploading} />
-                        <Input type="text" placeholder="Re-Enter Password" disabled={hasUploading}/>
+                    <div className='space-y-2 p-2'>
+                        <p className='text-md p-1 font-bold'>Password</p>
+
+                        <Input type="password" name='password' value={profileData.password} onChange={HandleChange} placeholder="Enter Password" disabled={hasUploading} />
+
+                        <Input type="password" name="confirmPassword" value={profileData.confirmPassword} onChange={HandleChange} placeholder="Re-Enter Password" disabled={hasUploading}/>
                     </div>
                     {/*Password*/}
 
                 </div>
 
                 
-                <div className='flex flex-col gap-2 mt-4'>
+                <div className='mt-4 flex flex-col gap-2'>
 
                     <Button type="submit" disabled={hasUploading} onClick={HandleSaveProfileData}>Save Profile</Button>
 
@@ -180,7 +182,7 @@ export default function UserProfile() {
                         Back to Settings
                     </Button>
 
-                    <p className='text-sm font-light text-gray-400 text-center p-1'>Your profile changes are ready to be saved. Let's keep your information up to date.
+                    <p className='p-1 text-center text-sm font-light text-gray-400'>Your profile changes are ready to be saved. Let's keep your information up to date.
                     </p>
                 </div>
             </div>

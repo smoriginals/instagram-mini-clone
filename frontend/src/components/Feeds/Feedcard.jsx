@@ -77,7 +77,10 @@ export default function Feedcard({ post }) {
         if (!user) return;
         setLike(post.likes?.includes(user?._id));
         setLikeCount(post.likes?.length || 0);
+        if (post.comments) {
         setComments(post.comments||[])
+        }
+
     },[post.likes,user?._id,post.comments])
 
     return (
@@ -101,11 +104,11 @@ export default function Feedcard({ post }) {
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
-                    <div className="h-3/5 aspect-square w-full border-l border-r border-gray-600 p-1">
+                    <div className="h-80 w-full border-l border-r border-gray-600 p-1">
                         <img
                             src={post.image || "https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"}
                             alt="User Avatar"
-                            className="h-full w-full rounded-sm object-cover border border-gray-600"
+                            className="h-80 w-full rounded-sm object-contain border border-gray-600"
                         />
                     </div>
                     {/*main user feed photo*/}
@@ -134,7 +137,7 @@ export default function Feedcard({ post }) {
                                             <MessageCircle size={20} />
                                         </button>
 
-                                        <p className='text-md font-medium'>{comments.length}</p>
+                                        <p className='text-md font-medium'>{comments?.length}</p>
                                     </div>
                                 </DrawerTrigger>
 

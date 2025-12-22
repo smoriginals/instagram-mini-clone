@@ -1,10 +1,10 @@
-import userstoryModel from '../Models/userstory.model.js';
+﻿import userstoryModel from '../Models/userstory.model.js';
 import cloudinary from '../Middleware/cloudinary.js';
 
 export default async function cleanupExpireStory() {
     try {
 
-        console.log("cron is running, Story cleaner...")
+        console.log("CRON Initiating...")
 
         const expireTime = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -13,18 +13,29 @@ export default async function cleanupExpireStory() {
         })
 
         for (const story of expiredStories) {
-            //Delete from the cloude.
+            //Delete from the cloud.
+
             if (story.imageId) {
-                const result = await cloudinary.uploader.destroy(story.imageId)
-                console.log("Cloudinary delete:", story.imageId, result);
+                try {
+                    const result = await cloudinary.uploader.destroy(story.imageId)
+                }
+                catch (error) {
+                    console.error(
+                        "Cloudinary delete failed for:",
+                        story.imageId,
+                        cloudErr.message
+                    );
+                    continue; // 🚨 skip DB delete, retry next CRON
+                }
+                //console.log("Cloudinary delete:", story.imageId, result);
             }
             //Deleting in DATABASE
             await userstoryModel.findByIdAndDelete(story._id);
 
         }
-        console.log(`Deleted Expired Stories | Left : ${expiredStories.length} `);
+        console.log(`Current User Story's'.: ${expiredStories.length}`);
 
     } catch (error) {
-        console.log("field to cleanup the stories", error.message);
+        console.log("Failed to cleanup the stories", error.message);
     }
 }

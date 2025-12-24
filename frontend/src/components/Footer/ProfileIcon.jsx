@@ -19,64 +19,34 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import axios from 'axios';
-import toast from 'react-hot-toast';
+//import axios from 'axios';
+//import toast from 'react-hot-toast';
 export default function ProfileIcon() {
 
     const navigate = useNavigate();
     const { user, LogoutUser } = useGlobal();
-    const { viewStory } = useStory();
+    const { stories, viewStory, deleteStory, deletingId } = useStory();
     const { posts } = usePosts();
     const [openDrawer, setOpenDrawer] = useState(false);
-    const [stories, setStories] = useState([]);
-    const [deletingId, setDeletingId] = useState(null);
-    const [postAndStory, setPostAndStory] = useState();
-
+    
     const HandleDrawer = () => {
         setOpenDrawer((prev) => !prev); // closes drawer
     }
 
-    const DeleteStory = async(story) => {
-       
-        try {
-            setDeletingId(story._id);
+    const DeleteStory = async(storyId) => {
 
-            const res = await axios.delete(
-                `http://localhost:5000/api/user/story/${story._id}`,
-                { data: { userId: user._id } }
-            );
-
-            if (res.data.success) {
-                toast.success("Story Deleted");
-                setStories(prev => prev.filter(s => s._id !== story._id));
-            }
-        } catch (error) {
-            toast.error("Failed to delete story");
-            console.log(error.response?.data || error.message);
-        } finally {
-            setDeletingId(null);
-        }
+        deleteStory(storyId);
             
     }
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
-
-    useEffect(() => {
-        setPostAndStory(posts.length + stories.length);
-    }, [posts.length, stories.length]);
-
+    const postAndStory = posts.length + stories.length;
 
     useEffect(() => {
 
-        if (!user?._id) return;
-
-        const fetchStories = async () => {
-            const res = await viewStory(user._id);
-            if (res?.story) {
-                setStories(res.story);
-            }
-        };
-
-        fetchStories();
+       
+        if (user?._id) {
+            viewStory(user._id)
+        }
     }, [user?._id, viewStory]);
 
     if (!user) return null; // prevent crash BEFORE login
@@ -141,7 +111,7 @@ export default function ProfileIcon() {
                         </div>
 
                         {/*Story Highlights*/}
-                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-4 shadow">
+                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 shadow p-2.5">
                             <h2 className="text-md font-semibold">Story Highlights</h2>
 
                             {stories.length === 0 ? (
@@ -149,7 +119,7 @@ export default function ProfileIcon() {
                                     No stories uploaded yet
                                 </p>
                             ) : (
-                                <div className="grid w-full grid-cols-3 gap-1 py-2">
+                                <div className="grid w-full grid-cols-3 gap-2 mt-2">
                                     {stories.map((story) => (
                                         <div
                                             key={story._id}
@@ -175,7 +145,10 @@ export default function ProfileIcon() {
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
                                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction className='transition-all duration-300 ease-in-out hover:bg-red-500 hover:text-white' disabled={deletingId === story._id} onClick={() => DeleteStory(story)}>{deletingId === story._id ? "Deleting..." : "Continue"}</AlertDialogAction>
+
+                                                        <AlertDialogAction className='transition-all duration-300 ease-in-out hover:bg-red-500 hover:text-white' disabled={deletingId === story._id} onClick={() => DeleteStory(story._id)}>{deletingId === story._id ? "Deleting..." : "Continue"}
+                                                        </AlertDialogAction>
+
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
                                             </AlertDialog>

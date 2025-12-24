@@ -16,7 +16,6 @@ import { Plus, Camera, Image, X, ArrowUpFromLine, Loader2 } from "lucide-react";
 import { useGlobal } from '../../Context/GlobalContext';
 
 import { useStory } from "../../Context/StoryContext";
-
 import toast from 'react-hot-toast';
 
 export default function Storybar() {
@@ -51,36 +50,25 @@ export default function Storybar() {
 
     // Upload (you’ll connect API later)
     const handleUpload = async () => {
-      
-        //if (!file) return;
-
-        if (!user?._id) {
-            toast.error("Please login first");
-            return;
-        }
-
+        //if there is no !file & !User logged in return;
         if (!file) {
             toast.error("Please select an image");
             return;
         }
-
-        //if (!user?._id) return;
+        if (!user?._id) {
+            toast.error("Please Login First");
+            return;
+        }
+       
+        setUploading(true);
+        
         try {
-
-            setUploading(true);
             const res = await uploadStory(file);
-            setUploading(false);
-
-
-            if (res.success) {
+            if (res?.success) {
                 handleRemove();
-                toast.success('Story Added');
-            } else {
-                toast.error(res.message);
             }
-
         } catch (error) {
-            toast.error(error.message);
+            console.log(error.response?.data || error.message)
         } finally {
             setUploading(false);
         }
@@ -151,7 +139,7 @@ export default function Storybar() {
                                                     onClick={handleUpload}
                                                     className="rounded-md bg-blue-600 p-2" disabled={uploading}
                                                 >
-                                                    {uploading ? <Loader2 className='animate-spin text-white' /> : <ArrowUpFromLine color="white" />}
+                                                {uploading ? <ArrowUpFromLine className='animate-pulse text-white' /> : <ArrowUpFromLine color="white" />}
 
                                                 </button>
                                             </div>

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../Context/GlobalContext";
-import toast from "react-hot-toast";
+
 export default function Signup() {
 
     const navigate = useNavigate();
@@ -24,14 +24,12 @@ export default function Signup() {
     const HandleSubmit = async () => {
 
         const res = await createUser(userData);
-
-        if (!res.ok) {
-            toast.error(res.message);
+        if (!res?.ok) {
             return;
         }
-        toast.success("Account created!");
         navigate("/login");
     };
+
 
 
     return (

@@ -1,6 +1,7 @@
 ﻿import { createContext, useContext, useState } from "react";
 import axios from 'axios';
 const GlobalContext = createContext();
+import toast from 'react-hot-toast';
 
 export const GlobalProvider = ({ children }) => {
 
@@ -21,47 +22,92 @@ export const GlobalProvider = ({ children }) => {
         }
     })
 
+
     // Create User Function
     const createUser = async (userData) => {
+
+        if (!userData?.email || !userData?.password || !userData?.name || !userData?.username) {
+            toast.error("All fields are required");
+            return { ok: false, message: "Missing fields" };
+        }
+
+        const createPromise = axios.post("http://localhost:5000/api/user/create", userData)
+
+        toast.promise(createPromise, {
+            loading: 'Creating Acconut',
+            success: 'Account Created',
+            error:'Failed to Create Account'
+        })
+
         try {
-            const res = await axios.post(
-                "http://localhost:5000/api/user/create",
-                userData
-            );
-            console.log(res);
+            const res=await createPromise;
+
+            if (!res.data.success) {
+                return { ok: false, message: res.data?.message || "Signup failed" };
+            }
             setUser(res.data.newUser);
             localStorage.setItem("user", JSON.stringify(res.data.newUser));
+
             return { ok: true, user: res.data.newUser };
 
-        } catch (error) {
-            return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
+        catch (error) {
+            return {
+                ok: false,
+                message: error.response?.data?.message || "Network Error"
+            };
+
+        }
+        
     };
 
     // Login User Function
     const LoginUser = async (loginData) => {
-        try {
-            const res = await axios.post("http://localhost:5000/api/user/login", loginData);
-            // ❗ Save logged-in user here
-            setUser(res.data.user);
-            localStorage.setItem("user", JSON.stringify(res.data.user));
 
-            return { ok: true, user: res.data.user };
-            //return { ok: true, data: res.data };
+        if (!loginData.email||!loginData.password) {
+            toast.error("All fields are required");
+            return { ok: false, message: "Missing fields" };
         }
-        catch (error) {
-            return { ok: false, message: error.response?.data?.message || "Network Error" };
+
+        const loginPromise = axios.post("http://localhost:5000/api/user/login", loginData)
+
+        toast.promise(loginPromise, {
+            loading: 'Loggin...',
+            success: 'Logged in',
+            error: 'Failed to Login!'
+
+        })
+        try {
+
+            const res = await loginPromise;
+            if (!res.data.success) {
+               
+                return { ok: false, message: res.data.message }
+            }
+            setUser(res.data.user);
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            return {ok:true,message:res.data.user}
+        } catch (error) {
+            return {
+                ok: false,
+                message:error.response?.data?.message||'Network Error'
+            }
         }
+
     }
 
     // Logout User Function
     const LogoutUser = () => {
         setUser(null);
         localStorage.removeItem("user");
+        toast.success("Logout Successfully");
     };
 
     //Update User profile function
     const UpdateUserProfile = async (updatedData) => {
+
+
+
         try {
             const res = await axios.put("http://localhost:5000/api/user/updateProfile", updatedData);
             setUser(res.data.updatedUser);
@@ -71,20 +117,36 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: error.response?.data?.message || "Network Error" };
         }
     }
+
     // Delete User function
     const DeleteUser = async (_id) => {
-        try {
-            const res = await axios.delete("http://localhost:5000/api/user/deleteuser", { data: { _id } });
-            setUser(null);
-            localStorage.removeItem('user');
-            return { ok: true, user: res.data.message };
-        }
-        catch (error) {
-            return { ok: false, message: error.response?.data?.message || "Network Error" };
-        }
-    }
-    //Upload User Profile Picture
 
+        if (!_id) {
+            return { ok: false, message: "User id missing" };
+        }
+
+        const deletePromise = axios.delete("http://localhost:5000/api/user/deleteuser", { data: { _id } });
+
+        toast.promise(deletePromise, {
+            loading: 'Deleting Account',
+            success: 'Account Deleted',
+            error:'Failed to Delete Account!'
+        })
+        try {
+            const res = await deletePromise;
+            if (res.data.success) {
+                setUser(null);
+                localStorage.removeItem('user');
+            }
+            return { ok: true, message: res.data.message }
+        } catch (error) {
+            return {ok:false,message:error.response?.data?.message||'Network Error'}
+        }
+       
+    }
+
+
+    //Upload User Profile Picture
     const UploadProfilePicture = async (file, userId) => {
 
         try {
@@ -103,6 +165,7 @@ export const GlobalProvider = ({ children }) => {
                     userProfile: res.data.url,
                     userProfileId: res.data.user.userProfileId
                 }));
+
             }
 
             return res.data;

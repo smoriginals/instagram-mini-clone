@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../Context/GlobalContext";
-import toast from "react-hot-toast";
 export default function Login() {
+
     const navigate = useNavigate();
 
     const { LoginUser } = useGlobal();
@@ -13,32 +13,30 @@ export default function Login() {
         email: "",
         password: "",
     })
+
     const HandleChange = (e) => {
 
         setForm({ ...form, [e.target.name]: e.target.value });
     }
+
     const HandleSubmit = async () => {
 
         const res = await LoginUser(form);
 
         if (!res.ok) {
-            toast.error(res.message);
             return;
-        } 
-
-        toast.success("Login Successful");
-        navigate("/home");
+        }
 
         navigate("/home"); // move to home after login
-        
     }
+
     return (
         <div className="flex h-dvh w-full flex-col items-center justify-center p-4">
             {/* Instagram Logo */}
 
             <div className="w-full max-w-sm rounded-xl border border-gray-600 p-6">
-                
-            <h1 className="mb-6 text-center text-4xl font-bold">Instagram</h1>
+
+                <h1 className="mb-6 text-center text-4xl font-bold">Instagram</h1>
                 <Input placeholder="Username or email" name='email' className="mb-3 rounded-full border border-gray-600 px-5" onChange={HandleChange} />
                 <Input type="password" placeholder="Password" name='password' className="mb-4 rounded-full border border-gray-600 px-5" onChange={HandleChange} />
 

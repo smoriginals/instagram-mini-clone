@@ -50,15 +50,6 @@ export default function Storybar() {
 
     // Upload (you’ll connect API later)
     const handleUpload = async () => {
-        //if there is no !file & !User logged in return;
-        if (!file) {
-            toast.error("Please select an image");
-            return;
-        }
-        if (!user?._id) {
-            toast.error("Please Login First");
-            return;
-        }
        
         setUploading(true);
         

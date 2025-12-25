@@ -61,10 +61,11 @@ app.use('/api/user/post', userpostslikeRoute);
 app.use('/api/user/post', deleteuserpostRoute);
 //Above 5 endpoints use for user post,deletepost,like,unlike,comment(Minimal)
 
-
+//Bottom 3 endpoints use for user add story,deletestory,view(Minimal)
 app.use('/api/user/story', uploaduserstoryRoute);
 app.use('/api/user/story', showuserstoryRoute);
 app.use('/api/user/story', deleteuserstoryRoute);
+//Above 3 endpoints use for user add story,deletestory,view(Minimal)
 
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));

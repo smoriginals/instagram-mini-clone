@@ -16,13 +16,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import toast from 'react-hot-toast'
+
 
 export default function Dashboard() {
 
 
     const navigate = useNavigate();
-    const [deleting, setDeleting] = useState(false);
 
     // eslint-disable-next-line no-unused-vars
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
@@ -30,34 +29,12 @@ export default function Dashboard() {
     const { DeleteUser, user } = useGlobal();
 
     const DeleteUserProfile = async () => {
-        if (!user?._id) {
-            toast.error("User id missing");
-            return;
-        }
+        if (!user?._id) return;
 
-        setDeleting(true);
+        const res = await DeleteUser(user._id);
 
-        const toastId = toast.loading("Deleting account...");
-
-        try {
-            const res = await DeleteUser(user._id);
-
-            if (!res?.ok) {
-                throw new Error(res?.message || "Delete failed");
-            }
-
-            toast.success("Account deleted successfully", {
-                id: toastId,
-            });
-
+        if (res?.ok) {
             navigate("/");
-
-        } catch (err) {
-            toast.error(err.message || "Something went wrong", {
-                id: toastId,
-            });
-        } finally {
-            setDeleting(false);
         }
     };
 

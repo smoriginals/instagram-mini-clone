@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react"
+﻿import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Drawer,
@@ -30,8 +30,8 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Image, SendHorizontal, Loader2 } from "lucide-react";
-import toast from 'react-hot-toast';
-import { useGlobal } from "../../Context/GlobalContext"
+//import toast from 'react-hot-toast';
+//import { useGlobal } from "../../Context/GlobalContext"
 import { usePosts } from '../../Context/PostContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,9 +40,8 @@ import { useNavigate } from 'react-router-dom';
 export default function AddPost() {
 
     const navigate = useNavigate();
-
-    const { user } = useGlobal();
     const { createPost } = usePosts();
+    //const { user } = useGlobal();
 
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState(null);
@@ -54,63 +53,61 @@ export default function AddPost() {
         image: null,
     });
 
+    //cleanup Preview URL
+    useEffect(() => {
+        return () => {
+            if (preview) {
+                URL.revokeObjectURL(preview)
+            }
+        }
+    },[preview])
+
     const HandleChange = (e) => {
 
         const { name, value, files } = e.target
 
         if (name === 'image') {
-
             const file = files[0];
+            if (!file) return;
+
             setPostData(prev => ({ ...prev, image: file }))
             setPreview(URL.createObjectURL(file))
-
         } else {
             setPostData(prev => ({ ...prev, [name]: value }))
         }
     }
 
-    const HandleSubmitPost = async (e) => {
-        
-        e.preventDefault();
+    const HandleSubmitPost = async () => {
+        //e.preventDefault();
+        if (loading) return;
 
         if (!postData.title || !postData.image || !postData.caption) {
-            toast.error('All fields are required!')
             return;
         }
 
         setLoading(true);
 
-        const response = await createPost(
-            postData.image,
-            postData.title,
-            postData.caption,
-            user._id
-        );
+        try {
 
-        setLoading(false);
+            const res = await createPost(postData.image, postData.title, postData.caption);
 
-        console.log(response);
+            if (res?.success) {
+                setOpen(false);
+                setPostData({
+                    title: '',
+                    caption: '',
+                    image: null
+                })
 
-        if (!response.success || response.success !== true) {
-            toast.error('field to upload...');
-            return;
+                setPreview(null);
+                setTimeout(() => navigate('/home'), 360);
+            }
+        } catch (error) {
+            console.log(error.response?.data || error.message);
+        } finally {
+            setLoading(false);
         }
-
-        toast.success('post added successfully');
-        setOpen(false);
-
-        setPostData({
-            title: "",
-            image: null,
-            caption: "",
-        })
-
-        setPreview(null);
-
-        setTimeout(() => {
-            navigate("/home");
-        }, 500);
-
+        
     };
 
 
@@ -140,10 +137,11 @@ export default function AddPost() {
                                             Post Title
                                         </FieldLabel>
                                         <Input
-                                            placeholder="#Asia to Russia📍"
+                                            placeholder="Post Title..."
                                             className='border border-gray-600'
                                             name='title'
                                             onChange={HandleChange}
+                                            disabled={loading}
                                         />
                                     </Field>
                                     <Field>
@@ -178,12 +176,16 @@ export default function AddPost() {
                                         </FieldLabel>
 
                                         <div className='flex items-center justify-between gap-2 p-1'>
-                                            <Input placeholder="Add a Caption for Your Post..." className="resize-none rounded-full border border-gray-600 px-4" name='caption' onChange={HandleChange}
+                                            <Input placeholder="Add a Caption for Your Post..."
+                                                className="resize-none rounded-full border border-gray-600 px-4"
+                                                name='caption' 
+                                                onChange={HandleChange} 
+                                                disabled={loading}
                                             />
                                             <button type="button" className='rounded-full border border-gray-600 p-1.5 active:bg-black active:text-white ' onClick={HandleSubmitPost} disabled={loading}>
 
                                                 {/*<SendHorizontal />*/}
-                                                {loading ? <Loader2 className="animate-spin" /> : <SendHorizontal />}
+                                                {loading ? <SendHorizontal className="animate-pulse" /> : <SendHorizontal />}
 
                                             </button>
                                         </div>

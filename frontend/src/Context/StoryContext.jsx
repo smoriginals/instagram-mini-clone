@@ -16,9 +16,10 @@ export const StoryProvider = ({ children }) => {
 
         //if (!user?._id) return;
         if (!user?._id||!file) {
-            throw new Error("User not logged in & Image required");
+            toast.error("Eiter you not loggin or select wrong file!");
+            return;
         }
-
+       
         const formData = new FormData();
         formData.append("image", file);
         formData.append("userId", user._id);
@@ -36,12 +37,6 @@ export const StoryProvider = ({ children }) => {
         if (res.data?.success) {
             setStories((prev)=>[res.data.story,...prev])
         }
-
-        //const res = await axios.post(
-        //    "http://localhost:5000/api/user/story/uploadstory",
-        //    formData,
-        //    //{ headers: { "Content-Type": "multipart/form-data" } }
-        //);
 
         return res.data;
     };

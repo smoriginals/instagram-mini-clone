@@ -32,7 +32,7 @@ export default async function createUserPost(req, res) {
 
         user.posts.push(newPost._id);
         await user.save();
-
+        
         return res.status(200).json({
             success: true,
             message: "Post Uploaded Successfully",

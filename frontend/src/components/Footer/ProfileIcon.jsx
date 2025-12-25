@@ -6,7 +6,6 @@ import { useGlobal } from "../../Context/GlobalContext";
 import { usePosts } from "../../Context/PostContext";
 import UserTheme from "../Theme/UserTheme";
 import { useStory } from "../../Context/StoryContext";
-
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,8 +18,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-//import axios from 'axios';
-//import toast from 'react-hot-toast';
+
 export default function ProfileIcon() {
 
     const navigate = useNavigate();
@@ -28,22 +26,31 @@ export default function ProfileIcon() {
     const { stories, viewStory, deleteStory, deletingId } = useStory();
     const { posts } = usePosts();
     const [openDrawer, setOpenDrawer] = useState(false);
-    
+
     const HandleDrawer = () => {
         setOpenDrawer((prev) => !prev); // closes drawer
     }
 
-    const DeleteStory = async(storyId) => {
+    const DeleteStory = async (storyId) => {
 
         deleteStory(storyId);
-            
+
     }
     const sampleImage = 'https://i.pravatar.cc/150?img=65';
-    const postAndStory = posts.length + stories.length;
+
+
+    const totalPosts = posts.filter((post) =>
+        post.userId?._id === user?._id || post.userId === user?._id
+    );
+    const totalStories = stories.filter((story) =>
+        story.userId?._id === user?._id || story.userId === user?._id
+    );
+
+    const postAndStory = totalPosts.length + totalStories.length;
 
     useEffect(() => {
 
-       
+
         if (user?._id) {
             viewStory(user._id)
         }
@@ -71,7 +78,7 @@ export default function ProfileIcon() {
                     <div className="flex h-full w-full flex-col items-center overflow-y-auto p-2">
                         {/* Profile Header */}
                         <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow">
-                            <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-3 border-green-500" onClick={() => {navigate('/editprofile') } }>
+                            <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-3 border-green-500" onClick={() => { navigate('/editprofile') }}>
                                 <img
                                     src={user?.userProfile || sampleImage}
                                     alt="Profile Avatar"
@@ -85,7 +92,7 @@ export default function ProfileIcon() {
 
 
                             <div className="mt-4 flex gap-6 text-center">
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => {navigate('/myposts')} }>
+                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
                                     <p className="text-lg font-bold">{postAndStory}</p>
                                     <p className="text-sm">Posts</p>
                                 </div>

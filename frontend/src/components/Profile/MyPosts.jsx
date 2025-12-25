@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { ChevronLeft, Trash } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../Context/GlobalContext';
@@ -15,43 +15,41 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import toast from 'react-hot-toast';
+//import toast from 'react-hot-toast';
 
 export default function MyPosts() {
 
-    // eslint-disable-next-line no-unused-vars
     const { user } = useGlobal();
-    const { posts, deletePost } = usePosts();
-    const [deletingId, setDeletingId] = useState(null);
-
-
     const navigate = useNavigate();
+
+    const { posts, deletePost, fetchPosts } = usePosts();
+
+    const [deletingId, setDeletingId] = useState(null);
 
     const sampleImage = 'https://i.pravatar.cc/150?img=5';
 
-    const DeletePost = async (postId) => {
-        setDeletingId(postId);
-        //try {
-        //    const res = await deletePost(postId)
-        //    if (res.data.success) {
-        //        toast.success('Post is Deleted');
+    const myPosts = posts.filter(
+        (post) => post.userId?._id === user?._id
+    );
 
-        //    }
-        //}
-        //catch (error) {
-        //    console.log('Error to delete Post', error.message);
-        //}
-        await toast.promise(
-            deletePost(postId),   // your context function
-            {
-                loading: "Deleting post...",
-                success: "Post deleted successfully",
-                error: "Failed to delete post"
-            }
-        );
+    const DeletePost = async (postId) => {
+
+        if (!postId || deletingId) {
+            return;
+        }
+
+        setDeletingId(postId);
+        await deletePost(postId);
         setDeletingId(null);
     }
 
+    useEffect(() => {
+
+
+        if (user?._id) {
+            fetchPosts(user._id)
+        }
+    }, [user?._id, fetchPosts]);
 
     return (
         <>
@@ -65,12 +63,12 @@ export default function MyPosts() {
 
                 {/* Theme */}
                 <div className="relative mt-3 flex flex-wrap gap-2.5 rounded-lg border border-gray-600 p-4">
-                    {posts.length === 0 ? (
+                    {myPosts.length === 0 ? (
                         <p className="mx-auto text-sm text-gray-400">
                             No Posts Found
                         </p>
                     ) : (
-                        posts.map((post) => (
+                        myPosts.map((post) => (
                             <div
                                 key={post._id}
                                 className="relative h-24 w-24 overflow-hidden rounded-md border border-gray-600"

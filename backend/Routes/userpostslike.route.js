@@ -1,7 +1,8 @@
 import express from 'express';
 import addLikes from '../Controllers/addlikes.controller.js';
-const router = express.Router();
+import Auth from '..//Middleware/auth.js';
 
-router.post('/:id/like', addLikes);
+const router = express.Router();
+router.post('/:id/like',Auth, addLikes);
 
 export default router;

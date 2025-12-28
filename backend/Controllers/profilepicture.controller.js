@@ -4,7 +4,6 @@ import usersignupModel from '../Models/usersignup.model.js';
 
 export default async function profilePicture(req, res) {
 
-
     try {
 
         if (!req.file) {

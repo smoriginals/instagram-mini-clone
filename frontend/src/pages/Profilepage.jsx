@@ -1,14 +1,16 @@
-import React from "react";
+﻿import React from "react";
 import { Link,useNavigate } from "react-router-dom";
 import Editprofile from "../components/Profile/Editprofile.jsx";
 import { useGlobal } from "../Context/GlobalContext.jsx";
 import { usePosts } from "../Context/PostContext.jsx";
+import userIcon from '../../assets/user.png';
+
 export default function Profilepage() {
 
     const navigate = useNavigate();
     const { user } = useGlobal();
     const { posts } = usePosts();
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+    const sampleImage = userIcon;
 
 
     const myPosts = posts.filter(
@@ -19,10 +21,10 @@ export default function Profilepage() {
     return (
         <>
 
-            <div className="w-full min-h-screen flex flex-col items-center p-6 py-20">
+            <div className="flex min-h-screen w-full flex-col items-center p-6 py-20">
                 {/* Profile Header */}
-                <div className="w-full max-w-md shadow-md rounded-2xl p-6 flex flex-col items-center border border-gray-600">
-                    <div className="relative h-32 w-32 rounded-full overflow-hidden shadow-md">
+                <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow-md">
+                    <div className="relative h-32 w-32 overflow-hidden rounded-full shadow-md">
                         <img
                             src={user?.userProfile||sampleImage }
                             alt="Profile Avatar"
@@ -32,10 +34,10 @@ export default function Profilepage() {
 
 
                     <h1 className="mt-4 text-xl font-semibold">{user?.name}</h1>
-                    <p className="text-gray-500 text-sm">{user?.username}</p>
+                    <p className="text-sm text-gray-500">{user?.username}</p>
 
 
-                    <div className="flex gap-6 mt-4 text-center">
+                    <div className="mt-4 flex gap-6 text-center">
                         <div>
                             <p className="text-lg font-bold">120</p>
                             <p className="text-xs text-gray-500">Posts</p>
@@ -58,16 +60,16 @@ export default function Profilepage() {
 
 
                 {/* Bio Section */}
-                <div className="w-full max-w-md mt-4 p-4 rounded-2xl shadow border border-gray-600">
-                    <h2 className="font-semibold text-lg">About</h2>
-                    <p className="text-sm text-gray-600 mt-1">
+                <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-4 shadow">
+                    <h2 className="text-lg font-semibold">About</h2>
+                    <p className="mt-1 text-sm text-gray-600">
                         {user?.bio}
                     </p>
                 </div>
 
 
                 {/* Posts Grid */}
-                <div className="w-full max-w-md mt-4 grid grid-cols-3 gap-2">
+                <div className="mt-4 grid w-full max-w-md grid-cols-3 gap-2">
                     {/*{[...Array(posts.length)].map((_, i) => (*/}
                     {/*    <div key={i} className="aspect-square rounded-xl border border-gray-600">*/}
                     {/*        <img src={_.userId.userProfile } className='h-auto w-auto object-cover'/>*/}
@@ -77,7 +79,7 @@ export default function Profilepage() {
                         myPosts.map((post) => (
                             <div
                                 key={post._id}
-                                className="aspect-square rounded-xl border border-gray-600 overflow-hidden"
+                                className="aspect-square overflow-hidden rounded-xl border border-gray-600"
                             >
                                 <img
                                     src={post.image}
@@ -89,8 +91,8 @@ export default function Profilepage() {
                     }
                 </div>
 
-                <div className="border border-gray-600 w-full max-w-md mt-4 p-4 rounded-md shadow text-center cursor-pointer hover:bg-gray-200" onClick={() => { navigate('/settings')} }>
-                    <button className='font-bold text-md cursor-pointer'>Setting</button>
+                <div className="mt-4 w-full max-w-md cursor-pointer rounded-md border border-gray-600 p-4 text-center shadow hover:bg-gray-200" onClick={() => { navigate('/settings')} }>
+                    <button className='text-md cursor-pointer font-bold'>Setting</button>
                 </div>
 
             </div>

@@ -18,7 +18,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-
+import userIcon from '../../assets/user.png';
 export default function ProfileIcon() {
 
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function ProfileIcon() {
         deleteStory(storyId);
 
     }
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+    const sampleImage =userIcon;
 
 
     const totalPosts = posts.filter((post) =>
@@ -118,7 +118,7 @@ export default function ProfileIcon() {
                         </div>
 
                         {/*Story Highlights*/}
-                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 shadow p-2.5">
+                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-2.5 shadow">
                             <h2 className="text-md font-semibold">Story Highlights</h2>
 
                             {stories.length === 0 ? (
@@ -126,7 +126,7 @@ export default function ProfileIcon() {
                                     No stories uploaded yet
                                 </p>
                             ) : (
-                                <div className="grid w-full grid-cols-3 gap-2 mt-2">
+                                <div className="mt-2 grid w-full grid-cols-3 gap-2">
                                     {stories.map((story) => (
                                         <div
                                             key={story._id}

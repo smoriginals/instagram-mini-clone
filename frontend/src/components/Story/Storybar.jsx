@@ -1,5 +1,4 @@
 ﻿import React, { useState, useRef } from "react"
-
 import {
     Drawer,
     DrawerClose,
@@ -16,13 +15,14 @@ import { Plus, Camera, Image, X, ArrowUpFromLine, Loader2 } from "lucide-react";
 import { useGlobal } from '../../Context/GlobalContext';
 
 import { useStory } from "../../Context/StoryContext";
-import toast from 'react-hot-toast';
-
+import userIcon from '../../assets/user.png';
+import { useNavigate } from 'react-router-dom';
 export default function Storybar() {
 
-    const { user } = useGlobal();
+    const { user, users } = useGlobal();
+    const sampleImage = userIcon;
 
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+    const navigate = useNavigate();
 
     const { uploadStory } = useStory();
     const cameraRef = useRef(null);
@@ -50,9 +50,9 @@ export default function Storybar() {
 
     // Upload (you’ll connect API later)
     const handleUpload = async () => {
-       
+
         setUploading(true);
-        
+
         try {
             const res = await uploadStory(file);
             if (res?.success) {
@@ -63,8 +63,9 @@ export default function Storybar() {
         } finally {
             setUploading(false);
         }
-       
+
     };
+
 
     return (
         <>
@@ -75,7 +76,7 @@ export default function Storybar() {
 
                     {/* Avatar Wrapper */}
                     <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
-                       
+
                         <Drawer>
 
                             <DrawerTrigger asChild>
@@ -88,54 +89,54 @@ export default function Storybar() {
                             <DrawerContent className="flex flex-col gap-2 p-2">
                                 <h1 className='text-center text-xl font-bold'>Add Story</h1>
 
-                               
-                                    {!preview && (
-                                        <>
+
+                                {!preview && (
+                                    <>
+                                        <button
+                                            onClick={() => cameraRef.current.click()}
+                                            className="p-2 border border-gray-600 rounded flex justify-center items-center"
+                                        >
+                                            <Camera size={30} />
+                                        </button>
+
+                                        <button
+                                            onClick={() => galleryRef.current.click()}
+                                            className="p-2 border border-gray-600 rounded flex justify-center items-center"
+                                        >
+                                            <Image size={30} />
+                                        </button>
+
+                                        <p className='py-1 text-center text-xl font-bold'>Choose</p>
+                                    </>
+                                )}
+
+                                {/* PREVIEW */}
+                                {preview && (
+                                    <div className="relative h-96 w-full overflow-hidden rounded-md">
+                                        <img
+                                            src={preview}
+                                            alt="story-preview"
+                                            className="h-80 w-full rounded-md border border-gray-600 object-contain"
+                                        />
+
+                                        <div className="absolute right-2 bottom-2 flex gap-2">
                                             <button
-                                                onClick={() => cameraRef.current.click()}
-                                                className="p-2 border border-gray-600 rounded flex justify-center items-center"
-                                            >
-                                                <Camera size={30} />
+                                                onClick={handleRemove}
+                                                className="rounded-md bg-black/60 p-2"
+                                                disabled={uploading}>
+                                                <X color="white" />
                                             </button>
 
                                             <button
-                                                onClick={() => galleryRef.current.click()}
-                                                className="p-2 border border-gray-600 rounded flex justify-center items-center"
+                                                onClick={handleUpload}
+                                                className="rounded-md bg-blue-600 p-2" disabled={uploading}
                                             >
-                                                <Image size={30} />
-                                            </button>
-
-                                            <p className='py-1 text-center text-xl font-bold'>Choose</p>
-                                        </>
-                                    )}
-
-                                    {/* PREVIEW */}
-                                    {preview && (
-                                        <div className="relative h-96 w-full overflow-hidden rounded-md">
-                                            <img
-                                                src={preview}
-                                                alt="story-preview"
-                                                className="h-80 w-full rounded-md border border-gray-600 object-contain"
-                                            />
-
-                                            <div className="absolute right-2 bottom-2 flex gap-2">
-                                                <button
-                                                    onClick={handleRemove}
-                                                    className="rounded-md bg-black/60 p-2"
-                                                    disabled={uploading}>
-                                                    <X color="white" />
-                                                </button>
-
-                                                <button
-                                                    onClick={handleUpload}
-                                                    className="rounded-md bg-blue-600 p-2" disabled={uploading}
-                                                >
                                                 {uploading ? <ArrowUpFromLine className='animate-pulse text-white' /> : <ArrowUpFromLine color="white" />}
 
-                                                </button>
-                                            </div>
+                                            </button>
                                         </div>
-                                    )}
+                                    </div>
+                                )}
                             </DrawerContent>
                         </Drawer>
 
@@ -162,21 +163,39 @@ export default function Storybar() {
                     <p className="mt-1 text-xs font-bold">Your Story</p>
                 </div>
 
-                <div className="flex gap-2 overflow-x-auto p-1.5 transition-all duration-300 ease-in-out [scrollbar-width:none] [scroll-behavior:smooth] [&::-webkit-scrollbar]:hidden">
+                <div className="flex gap-2 overflow-x-auto p-1.5 transition-all duration-300 ease-in-out
+                [scrollbar-width:none] [scroll-behavior:smooth] [&::-webkit-scrollbar]:hidden">
 
-                    {[...Array(20)].map((user, index) => (
-                        <div key={index} className="flex flex-shrink-0 flex-col items-center justify-start gap-1">
+                    {/* USERS */}
+                    {users.slice(0, 5).map((user) => (
+                        <div
+                            key={user._id}
+                            className="flex flex-shrink-0 flex-col items-center justify-start gap-1"
+                        >
                             <div className="h-16 w-16 overflow-hidden rounded-full border-3 border-pink-500">
                                 <img
-                                    src={`https://i.pravatar.cc/150?img=${index + 1}`}
-                                    className="h-auto w-auto rounded-full object-cover"
-                                    alt="Story"
+                                    src={user.userProfile || sampleImage}
+                                    className="h-full w-full rounded-full object-cover"
+                                    alt={user.username}
                                 />
                             </div>
-                            <p className="text-xs font-bold">User{index + 1}</p>
+
+                            <p className="w-16 truncate text-center text-xs font-bold">
+                                {user.username}
+                            </p>
                         </div>
                     ))}
+
+                    {/* SHOW MORE BUTTON */}
+                    {users.length > 5 && (
+                        <div className="flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-gray-500 text-xs font-bold text-white" onClick={() => navigate('/explore-users')}>
+
+                            +{users.length - 5}
+                        </div>
+                       
+                    )}
                 </div>
+
 
 
             </nav>

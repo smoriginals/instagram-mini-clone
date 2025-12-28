@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useGlobal } from "../../Context/GlobalContext";
 import { useStory } from '../../Context/StoryContext';
-
+import userIcon from '../../assets/user.png';
 
 
 export default function StoryIcon() {
@@ -19,7 +19,7 @@ export default function StoryIcon() {
     const { user } = useGlobal();
     const { viewStory  } = useStory();
 
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+    const sampleImage = userIcon;
 
     const STORY_TIMEOUT = 5000; //ms
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -121,7 +121,7 @@ export default function StoryIcon() {
                 <DrawerContent>
 
                     {/* Rounded Progress Bar */}
-                    <div className="mt-3 flex w-full justify-center px-6 gap-1 flex-row">
+                    <div className="mt-3 flex w-full flex-row justify-center gap-1 px-6">
                         {
                             stories.map((story,index) => {
 

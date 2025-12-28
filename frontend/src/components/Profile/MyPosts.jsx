@@ -15,6 +15,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import userIcon from '../../assets/user.png';
 //import toast from 'react-hot-toast';
 
 export default function MyPosts() {
@@ -26,7 +27,7 @@ export default function MyPosts() {
 
     const [deletingId, setDeletingId] = useState(null);
 
-    const sampleImage = 'https://i.pravatar.cc/150?img=5';
+    const sampleImage = userIcon;
 
     const myPosts = posts.filter(
         (post) => post.userId?._id === user?._id

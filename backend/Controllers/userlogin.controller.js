@@ -1,4 +1,6 @@
 ﻿import usersignupModel from "../Models/usersignup.model.js";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export default async function loginUser(req, res) {
 
@@ -22,8 +24,22 @@ export default async function loginUser(req, res) {
             });
         }
 
-        // 2️⃣ Check password
-        if (user.password !== password) {
+        const isMatch = await bcrypt.compare(password, user.password)
+       
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: "7d" }
+        );
+
+        //// 2️⃣ Check password
+        //if (user.password !== isMatch) {
+        //    return res.status(400).json({
+        //        success: false,
+        //        message: "Wrong password",
+        //    });
+        //}
+        if (!isMatch) {
             return res.status(400).json({
                 success: false,
                 message: "Wrong password",
@@ -35,6 +51,7 @@ export default async function loginUser(req, res) {
             success: true,
             message: "Login successful",
             user,
+            token
         });
 
     } catch (error) {

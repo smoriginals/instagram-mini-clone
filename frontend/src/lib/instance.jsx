@@ -1,0 +1,35 @@
+import axios from 'axios';
+import { showLoading, hideLoading } from '../utility/loadingBridge';
+
+
+const API = axios.create(
+    { baseURL: 'http://localhost:5000/' }
+)
+
+API.interceptors.request.use((config) => {
+    showLoading();
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, (error) => {
+    hideLoading();
+    return Promise.reject(error);
+});
+
+API.interceptors.response.use((res) => {
+    hideLoading();
+    return res;
+},
+    (err) => {
+        hideLoading();
+        if (err.response?.status === 401) {
+            localStorage.clear();
+            window.location.href = '/login'
+        }
+        return Promise.reject(err);
+    }
+)
+
+export default API;

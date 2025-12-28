@@ -1,10 +1,12 @@
 ﻿import { createContext, useContext, useState } from "react";
 import axios from 'axios';
-const GlobalContext = createContext();
 import toast from 'react-hot-toast';
+import API from "../lib/instance";
+import { useEffect } from "react";
+
+const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-
     // Story Drawer Handle
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
     const CloseStoryDrawer = () => setStoryDrawerOpen(false);
@@ -86,7 +88,8 @@ export const GlobalProvider = ({ children }) => {
             }
             setUser(res.data.user);
             localStorage.setItem('user', JSON.stringify(res.data.user))
-            return {ok:true,message:res.data.user}
+            localStorage.setItem('token', res.data.token);
+            return {ok:true,message:'Login Success',user:res.data.user,token:res.data.token}
         } catch (error) {
             return {
                 ok: false,
@@ -100,6 +103,8 @@ export const GlobalProvider = ({ children }) => {
     const LogoutUser = () => {
         setUser(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.clear();
         toast.success("Logout Successfully");
     };
 
@@ -125,7 +130,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: "User id missing" };
         }
 
-        const deletePromise = axios.delete("http://localhost:5000/api/user/deleteuser", { data: { _id } });
+        const deletePromise = API.delete("/api/user/deleteuser", { data: { _id } });
 
         toast.promise(deletePromise, {
             loading: 'Deleting Account',
@@ -160,11 +165,16 @@ export const GlobalProvider = ({ children }) => {
 
             if (res.data.success) {
                 // IMPORTANT: update global user object
-                setUser(prev => ({
-                    ...prev,
-                    userProfile: res.data.url,
-                    userProfileId: res.data.user.userProfileId
-                }));
+                //setUser(prev => ({
+                //    ...prev,
+                //    userProfile: res.data.url,
+                //    userProfileId: res.data.user.userProfileId
+                //}));
+                setUser(prev => {
+                    const updated = { ...prev, userProfile: res.data.url };
+                    localStorage.setItem("user", JSON.stringify(updated));
+                    return updated;
+                });
 
             }
 
@@ -177,6 +187,28 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const res = await API.get('/api/smos/users');
+
+                if (res.data.success) {
+                    setUsers(res.data.users); // 👈 THIS ARRAY YOU SHARED
+                }
+                console.log(res.data.users)
+            } catch (error) {
+                console.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
 
     return (
         <GlobalContext.Provider
@@ -186,7 +218,7 @@ export const GlobalProvider = ({ children }) => {
                 CloseStoryDrawer,
                 createUser, user,
                 LoginUser, LogoutUser, UpdateUserProfile, DeleteUser,
-                UploadProfilePicture,
+                UploadProfilePicture,users,loading
             }}
         >
             {children}

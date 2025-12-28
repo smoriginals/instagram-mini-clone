@@ -1,4 +1,5 @@
 ﻿import usersignupModel from "../Models/usersignup.model.js";
+import bcrypt from 'bcryptjs';
 
 export default async function createUser(req, res) {
     try {
@@ -17,11 +18,13 @@ export default async function createUser(req, res) {
         if (existingUser) {
             return res.status(400).json({ success: false, message: "Email or Username already exists" });
         }
+
+        const hashing = await bcrypt.hash(password, 10);
         const newUser = new usersignupModel({
             email,
             name,
             username,
-            password
+            password: hashing,
         });
 
         await newUser.save();

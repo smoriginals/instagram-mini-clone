@@ -22,7 +22,7 @@ import uploaduserstoryRoute from './Routes/uploaduserstory.route.js';
 import showuserstoryRoute from './Routes/showuserstory.route.js';
 import deleteuserstoryRoute from './Routes/deleteuserstory.route.js';
 
-
+import fetchallusersRoute from './Routes/fetchallusers.route.js';
 
 dotenv.config();
 await connectDB();
@@ -66,6 +66,10 @@ app.use('/api/user/story', uploaduserstoryRoute);
 app.use('/api/user/story', showuserstoryRoute);
 app.use('/api/user/story', deleteuserstoryRoute);
 //Above 3 endpoints use for user add story,deletestory,view(Minimal)
+
+
+//Fetch all users that sign in my app
+app.use('/api/smos', fetchallusersRoute);
 
 //Homelocation
 app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));

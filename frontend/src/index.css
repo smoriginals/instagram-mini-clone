@@ -1,6 +1,14 @@
-﻿@import "tailwindcss";
+﻿
+@font-face {
+    font-family: Instagram;
+    src: url("../src/assets/fonts/Paci.ttf");
+}
+@theme {
+    --font-Instagram: Instagram,'sans-serif';
+   
+}
+@import "tailwindcss";
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 
 
@@ -120,12 +128,7 @@
   }
 }
 
-.dancing-script-instagram {
-    font-family: "Dancing Script", cursive;
-    font-optical-sizing: auto;
-    font-weight:normal;
-    font-style: normal;
-}
+
 
 /* popover animation */
 .popover-animate {

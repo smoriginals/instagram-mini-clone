@@ -2,6 +2,7 @@ import userpostsModel from '../Models/userposts.model.js';
 
 export default async function fetchUsersPosts(req, res) {
     try {
+
         const posts = await userpostsModel.find().populate('userId', 'name userProfile').populate({
             path: 'comments.user',
             select:'name userProfile',

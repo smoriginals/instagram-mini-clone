@@ -8,6 +8,7 @@ import { PostProvider } from './Context/PostContext.jsx';
 import { Toaster } from 'react-hot-toast';
 import { StoryProvider } from './Context/StoryContext.jsx';
 import { ThemeProvider } from './Context/ThemeContext.jsx';
+import { LoadingProvider } from './Context/LoadingContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -16,8 +17,10 @@ createRoot(document.getElementById('root')).render(
                 <PostProvider>
                     <StoryProvider>
                         <ThemeProvider>
-                            <Toaster position="top-center" />
-                            <App />
+                            <LoadingProvider>
+                                <Toaster position="top-center" />
+                                <App />
+                            </LoadingProvider>
                         </ThemeProvider>
                     </StoryProvider>
                 </PostProvider>

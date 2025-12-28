@@ -1,8 +1,11 @@
 import { createContext, useState, useContext, useCallback,useEffect } from "react";
-import axios from "axios";
+
 import toast from 'react-hot-toast';
+import API from '../lib/instance';
 import { useGlobal } from './GlobalContext';
+
 const PostContext = createContext();
+
 export const PostProvider = ({ children }) => {
 
     const { user } = useGlobal();
@@ -14,9 +17,18 @@ export const PostProvider = ({ children }) => {
     //Fetch user posts ok!
     const fetchPosts = useCallback(async () => {
 
+        //const token = localStorage.getItem('token');
+
         try {
             setLoading(true);
-            const res = await axios.get('http://localhost:5000/api/user/post/getposts');
+            const res = await API.get('/api/user/post/getposts', 
+                //{
+                //    headers: {
+                //        Authorization: `Bearer ${token}`,
+                //    },
+                //}
+            );
+
             if (res.data.success) {
                 setPosts(res.data.posts);
                 //localStorage.setItem('posts', JSON.stringify(res.data.posts))
@@ -24,8 +36,8 @@ export const PostProvider = ({ children }) => {
 
         }
         catch (error) {
-            console.error(error);
-            toast.error("Failed to load posts");
+            console.error(error.response?.data||error.message);
+            
         }
         finally {
             setLoading(false);
@@ -34,8 +46,9 @@ export const PostProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
+        if (!user) return; 
         fetchPosts();
-    }, [fetchPosts]);
+    }, [user,fetchPosts]);
 
     // Create a new Post ok!
     const createPost = async (file, title, caption) => {
@@ -53,7 +66,7 @@ export const PostProvider = ({ children }) => {
         formData.append("caption", caption);
         formData.append("userId", user._id);
 
-        const createPromise = axios.post("http://localhost:5000/api/user/post/addpost",
+        const createPromise = API.post("/api/user/post/addpost",
             formData,
         );
 
@@ -87,7 +100,7 @@ export const PostProvider = ({ children }) => {
         }
         setDeletingId(postId);
 
-        const deletePromise = axios.delete(`http://localhost:5000/api/user/post/${postId}`, {
+        const deletePromise = API.delete(`/api/user/post/${postId}`, {
             data: { userId: user._id }
         })
 

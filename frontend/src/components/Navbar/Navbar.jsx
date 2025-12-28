@@ -9,7 +9,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { Bell, MessageCircleHeart } from 'lucide-react';
+import { Bell, MessageCircleHeart, Waves,SignalMedium} from 'lucide-react';
 
 export default function Navbar() {
 
@@ -17,7 +17,7 @@ export default function Navbar() {
         <>
             <nav className="fixed top-0 right-0 left-0 z-50 h-14 bg-white dark:bg-black">
                 <div className="flex h-full items-center justify-between border-b border-gray-600 px-2">
-                    <p className="text-xl font-bold">INSTAGRAM</p>
+                    <p className="font-Instagram flex flex-row items-center gap-1 text-2xl">River<SignalMedium /></p>
 
                     <div className="flex items-center gap-3">
                         {/* Notifications */}

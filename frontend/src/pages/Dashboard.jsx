@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-
+import userIcon from '../assets/user.png';
 
 export default function Dashboard() {
 
@@ -24,7 +24,7 @@ export default function Dashboard() {
     const navigate = useNavigate();
 
     // eslint-disable-next-line no-unused-vars
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+    const sampleImage = userIcon;
 
     const { DeleteUser, user } = useGlobal();
 

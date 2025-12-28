@@ -1,7 +1,8 @@
 import express from 'express';
 import deleteUserStory from '../Controllers/deleteuserstory.controller.js';
-const router = express.Router();
+import Auth from '../Middleware/auth.js';
 
-router.delete('/:id', deleteUserStory);
+const router = express.Router();
+router.delete('/:id',Auth, deleteUserStory);
 
 export default router;

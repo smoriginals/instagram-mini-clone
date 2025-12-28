@@ -1,5 +1,5 @@
 ﻿import React, { useState,useEffect } from 'react';
-import { Heart, MessageCircle, Send, Bookmark, Link, Twitter, Facebook, MessageSquareMore } from 'lucide-react'
+import { Heart, MessageCircle, Send, Bookmark, Link, Twitter, Facebook, MessageSquareMore, Ellipsis } from 'lucide-react'
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,14 +13,15 @@ import {
 } from "@/components/ui/sheet";
 import { useGlobal } from '../../Context/GlobalContext';
 import axios from 'axios';
-
+import API from '../../lib/instance';
+import userIcon from '../../assets/user.png';
 
 export default function Feedcard({ post }) {
 
     // eslint-disable-next-line no-unused-vars
     const { user } = useGlobal();
 
-    const sampleImage = 'https://i.pravatar.cc/150?img=65';
+    const sampleImage = userIcon;
 
     const getAvatar = () => {
         //if (user && user._id === post.userId?._id) {
@@ -40,18 +41,11 @@ export default function Feedcard({ post }) {
 
     const [comments, setComments] = useState([]);
 
-    const sendComment = () => {
-        if (input.trim() === "") return;
-
-        setComments([...comments, { id: Date.now(), user: "you", text: input }]);
-        setInput("");
-    };
-
     const HandleLike = async () => {
        
         try {
 
-            const res = await axios.post(`http://localhost:5000/api/user/post/${post._id}/like`, { userId: user._id },);
+            const res = await API.post(`/api/user/post/${post._id}/like`, { userId: user._id },);
             if (res.data.success) {
                 setLike(res.data.liked);
                 setLikeCount(res.data.totalLikes)
@@ -96,7 +90,9 @@ export default function Feedcard({ post }) {
                 <div className='flex h-1/2 w-full flex-col items-center justify-center'>
 
                     {/*feed card top user photo*/}
-                    <div className='flex h-10 w-full items-center justify-start gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 p-2 pt-3'>
+                    <div className='flex h-10 w-full items-center justify-between gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 px-2'>
+
+                        <div className='flex items-center justify-start gap-1'>
                         <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
                             <img
                                 src={getAvatar()}
@@ -105,6 +101,9 @@ export default function Feedcard({ post }) {
                             />
                         </div>
                         <p>{post.userId?.name}</p>
+                        </div>
+                        
+                        <Ellipsis />
                     </div>
                     {/*feed card top user photo*/}
 
@@ -212,28 +211,28 @@ export default function Feedcard({ post }) {
                                     </button>
                                 </SheetTrigger>
 
-                                <SheetContent side="bottom" className="rounded-t-2xl">
+                                <SheetContent side="bottom" className="m-0 rounded-t-2xl">
                                     <SheetHeader>
                                         <SheetTitle className="text-2xl font-bold">Share</SheetTitle>
                                         <SheetDescription className='text-sm font-bold'>Select a platform to share</SheetDescription>
                                     </SheetHeader>
 
-                                    <div className="flex items-center justify-center gap-4 pb-8">
+                                    <div className="mb-10 flex items-center justify-center gap-2">
 
-                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <Link size={40} />
+                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                            <Link size={30} />
                                         </button>
 
-                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <MessageSquareMore size={40} />
+                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                            <MessageSquareMore size={30} />
                                         </button>
 
-                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <Facebook size={40} />
+                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                            <Facebook size={30} />
                                         </button>
 
-                                        <button className="flex h-20 w-20 items-center justify-center rounded-full border-2">
-                                            <Twitter size={40} />
+                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                            <Twitter size={30} />
                                         </button>
 
                                     </div>

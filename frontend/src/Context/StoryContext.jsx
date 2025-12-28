@@ -3,6 +3,7 @@ import axios from "axios";
 import { useGlobal } from "./GlobalContext";
 const StoryContext = createContext();
 import toast from 'react-hot-toast';
+import API from "../lib/instance";
 
 export const StoryProvider = ({ children }) => {
 
@@ -24,7 +25,7 @@ export const StoryProvider = ({ children }) => {
         formData.append("image", file);
         formData.append("userId", user._id);
 
-        const uploadPromise = axios.post("http://localhost:5000/api/user/story/uploadstory",
+        const uploadPromise = API.post("/api/user/story/uploadstory",
             formData,
             //{ headers: { "Content-Type": "multipart/form-data" } }
         )
@@ -46,8 +47,8 @@ export const StoryProvider = ({ children }) => {
         try {
             setLoadingStories(true);
 
-            const res = await axios.get(
-                `http://localhost:5000/api/user/story/view/${userId}`
+            const res = await API.get(
+                `/api/user/story/view/${userId}`
             );
 
             if (res.data?.success) {
@@ -71,7 +72,7 @@ export const StoryProvider = ({ children }) => {
         }
         setDeletingId(storyId);
 
-        const deletePromise = axios.delete(`http://localhost:5000/api/user/story/${storyId}`, {
+        const deletePromise = API.delete(`/api/user/story/${storyId}`, {
             data: { userId: user._id }
         })
         toast.promise(deletePromise, {

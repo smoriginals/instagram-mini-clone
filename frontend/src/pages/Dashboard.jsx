@@ -27,14 +27,19 @@ export default function Dashboard() {
     const sampleImage = userIcon;
 
     const { DeleteUser, user } = useGlobal();
-
+    const [deleting, setDeleting] = useState(false);
     const DeleteUserProfile = async () => {
         if (!user?._id) return;
+        setDeleting(true)
+        try {
 
-        const res = await DeleteUser(user._id);
-
-        if (res?.ok) {
-            navigate("/");
+            const res = await DeleteUser(user._id);
+            if (res?.ok) {
+                navigate("/");
+                setDeleting(false)
+            }
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -42,7 +47,7 @@ export default function Dashboard() {
     return (
         <>
             <div className='mt-4 px-2'>
-                <ChevronLeft size={30} onClick={() => { navigate('/settings') }} />
+                <ChevronLeft size={30} disabled={deleting} onClick={() => { navigate('/settings') }} />
             </div>
 
             <div className='flex h-full w-full flex-col px-2'>
@@ -98,7 +103,7 @@ export default function Dashboard() {
                         <div className='flex flex-col items-center gap-2 p-1'>
                             <Input type="email" placeholder="Email" />
                             <Textarea placeholder="Type your message here." />
-                            <Button className='text-md w-full'>Send</Button>
+                            <Button disabled={deleting} className='text-md w-full'>Send</Button>
                         </div>
                         <p className="text-center text-xs">Send use eamil, and we will respond to your request.</p>
                     </div>
@@ -110,7 +115,7 @@ export default function Dashboard() {
                     {/*Help & Contact*/}
                     <h1 className="px-2 text-xl font-bold">Admin Login</h1>
 
-                    <Button className="text-md my-1 w-full" onClick={() => { navigate('/admin') }}>
+                    <Button disabled={deleting} className="text-md my-1 w-full" onClick={() => { navigate('/admin') }}>
                         Login as Admin
                     </Button>
                     {/*Help & Contact*/}
@@ -125,7 +130,7 @@ export default function Dashboard() {
                     <div className="my-2 flex items-center justify-center gap-2">
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button className="text-md h-11 w-full rounded-md border border-gray-600 py-2 font-semibold shadow">Delete Account
+                                <Button disabled={deleting} className="text-md h-11 w-full rounded-md border border-gray-600 py-2 font-semibold shadow">Delete Account
                                 </Button>
 
                             </AlertDialogTrigger>
@@ -140,7 +145,7 @@ export default function Dashboard() {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel className='text-md bg-gray-50 font-semibold'>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction className='text-md bg-red-500 font-semibold' onClick={DeleteUserProfile}>Continue</AlertDialogAction>
+                                    <AlertDialogAction className='text-md bg-red-500 font-semibold' onClick={DeleteUserProfile} disabled={deleting}>Continue</AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

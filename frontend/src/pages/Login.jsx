@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../Context/GlobalContext";
+import { SignalMedium } from 'lucide-react';
+
 export default function Login() {
 
     const navigate = useNavigate();
@@ -36,7 +38,10 @@ export default function Login() {
 
             <div className="w-full max-w-sm rounded-xl border border-gray-600 p-6">
 
-                <h1 className="mb-6 text-center text-4xl font-bold">Instagram</h1>
+                <div className='flex justify-center items-center flex-row p-3'>
+                    <p className="font-Instagram flex flex-row items-center gap-1 text-4xl font-light ">River<SignalMedium /></p>
+                </div>
+
                 <Input placeholder="Username or email" name='email' className="mb-3 rounded-full border border-gray-600 px-5" onChange={HandleChange} />
                 <Input type="password" placeholder="Password" name='password' className="mb-4 rounded-full border border-gray-600 px-5" onChange={HandleChange} />
 

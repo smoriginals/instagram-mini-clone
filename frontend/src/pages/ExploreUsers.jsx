@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, {  } from 'react';
 import { ChevronLeft, Rss, UserRoundCheck, UserRoundPlus, UserX } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import userIcon from '../assets/user.png';
@@ -28,7 +28,10 @@ export default function ExploreUsers() {
 
     const navigate = useNavigate();
     const sampleImage = userIcon;
-    const { users } = useGlobal();
+    const { users, user:loggedIn, FollowUnFollowUsers } = useGlobal();
+    
+    const currentUser = users.filter(u => u._id !== loggedIn._id);
+   
 
     return (
         <>
@@ -59,7 +62,7 @@ export default function ExploreUsers() {
 
 
                 {
-                    users.map((user) => (
+                    currentUser.map((user) => (
 
 
                         <div key={user._id} className="flex h-12 items-center justify-between rounded-full border border-gray-600 px-1">
@@ -90,10 +93,11 @@ export default function ExploreUsers() {
                                                 </div>
                                                 <div className='text-md flex h-10 items-center justify-evenly font-semibold'>
                                                     <div className='flex flex-col items-center justify-center p-2'>
-                                                        <Rss />{user?.posts.length} Posts</div>
+                                                        <Rss />{user?.posts?.length} Posts</div>
 
-                                                    <div className='flex flex-col items-center justify-center p-2'><UserRoundCheck />{user?.following.length} Followers</div>
-                                                    <div className='flex flex-col items-center justify-center p-2'><UserX />Block</div>
+                                                    <div className='flex flex-col items-center justify-center p-2'><UserRoundCheck />{loggedIn?.following.length} Followers</div>
+
+                                                    <div className='flex flex-col items-center justify-center p-2'><UserRoundPlus />{loggedIn?.followers.length} Follow</div>
                                                 </div>
                                             </div>
 
@@ -101,7 +105,9 @@ export default function ExploreUsers() {
                                                 <DialogClose asChild>
                                                     <Button className='text-md font-bold'>Cancel</Button>
                                                 </DialogClose>
-                                                <Button type="submit" className='text-md bg-blue-500 font-bold text-white'><UserRoundPlus />Follow</Button>
+                                                <Button onClick={() => FollowUnFollowUsers(user._id)} type="submit" className='text-md bg-blue-500 font-bold text-white'><UserRoundPlus />
+                                                    {loggedIn.following.includes(user._id) ? "Following" : "Follow"}
+                                                </Button>
                                             </DialogFooter>
                                         </DialogContent>
                                     </form>

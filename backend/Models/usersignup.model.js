@@ -49,7 +49,11 @@ const UserSignup = new Schema({
     following: [
         { type: Schema.Types.ObjectId, ref: "UserSignup" }
     ],
-
+    role: {
+        type: String,
+        enum: ['user', 'owner'],
+        default:'user',
+    },
     posts: [
         { type: Schema.Types.ObjectId, ref: "Post" }
     ],

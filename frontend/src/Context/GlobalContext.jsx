@@ -38,11 +38,11 @@ export const GlobalProvider = ({ children }) => {
         toast.promise(createPromise, {
             loading: 'Creating Acconut',
             success: 'Account Created',
-            error:'Failed to Create Account'
+            error: 'Failed to Create Account'
         })
 
         try {
-            const res=await createPromise;
+            const res = await createPromise;
 
             if (!res.data.success) {
                 return { ok: false, message: res.data?.message || "Signup failed" };
@@ -60,13 +60,13 @@ export const GlobalProvider = ({ children }) => {
             };
 
         }
-        
+
     };
 
     // Login User Function
     const LoginUser = async (loginData) => {
 
-        if (!loginData.email||!loginData.password) {
+        if (!loginData.email || !loginData.password) {
             toast.error("All fields are required");
             return { ok: false, message: "Missing fields" };
         }
@@ -83,17 +83,17 @@ export const GlobalProvider = ({ children }) => {
 
             const res = await loginPromise;
             if (!res.data.success) {
-               
+
                 return { ok: false, message: res.data.message }
             }
             setUser(res.data.user);
             localStorage.setItem('user', JSON.stringify(res.data.user))
             localStorage.setItem('token', res.data.token);
-            return {ok:true,message:'Login Success',user:res.data.user,token:res.data.token}
+            return { ok: true, message: 'Login Success', user: res.data.user, token: res.data.token }
         } catch (error) {
             return {
                 ok: false,
-                message:error.response?.data?.message||'Network Error'
+                message: error.response?.data?.message || 'Network Error'
             }
         }
 
@@ -135,7 +135,7 @@ export const GlobalProvider = ({ children }) => {
         toast.promise(deletePromise, {
             loading: 'Deleting Account',
             success: 'Account Deleted',
-            error:'Failed to Delete Account!'
+            error: 'Failed to Delete Account!'
         })
         try {
             const res = await deletePromise;
@@ -145,9 +145,9 @@ export const GlobalProvider = ({ children }) => {
             }
             return { ok: true, message: res.data.message }
         } catch (error) {
-            return {ok:false,message:error.response?.data?.message||'Network Error'}
+            return { ok: false, message: error.response?.data?.message || 'Network Error' }
         }
-       
+
     }
 
 
@@ -187,6 +187,88 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    //const FollowUnFollowUsers = async (targetToFollow) => {
+
+    //    if (!user) return { success:false };
+
+    //    const followPromise = API.put(`/api/user/follow/${targetToFollow}`);
+
+    //    toast.promise(followPromise, {
+    //        loading: 'Requesting...',
+    //        success: 'Followed',
+    //        error: 'Requesting Failed!'
+    //    })
+
+    //    try {
+
+    //        const res = await followPromise;
+    //        if (res?.data?.success) {
+
+    //            setUser(prev => {
+    //                if (!prev) return prev;
+    //                const isFollowing = prev.following.includes(targetToFollow);
+    //                return {
+    //                    ...prev, following: isFollowing ? prev.following.filter(id => id !== targetToFollow) : [...prev.following, targetToFollow],
+    //                }
+    //            })
+
+    //            setUser(prev => prev.map(u => u._id === targetToFollow ? { ...u, followers: res.data.action === 'followed' ? [...u.followers, user._id] : u.followers.filter(id => id !== user._id), } : u));
+
+    //            localStorage.setItem('user', JSON.stringify(res.data.user));
+    //            return res.data.user;
+    //        }
+    //    } catch (error) {
+    //        return {ok:false,message:error.response?.data||error.message}
+    //    }
+
+    //}
+    const FollowUnFollowUsers = async (targetUserId) => {
+        if (!user) return { success: false };
+
+        try {
+            const res = await API.put(`/api/user/follow/${targetUserId}`);
+
+            if (res.data.success) {
+                // update logged-in user
+                setUser(prev => {
+                    if (!prev) return prev;
+
+                    const isFollowing = prev.following.includes(targetUserId);
+
+                    const updatedUser = {
+                        ...prev,
+                        following: isFollowing
+                            ? prev.following.filter(id => id !== targetUserId)
+                            : [...prev.following, targetUserId],
+                    };
+
+                    localStorage.setItem("user", JSON.stringify(updatedUser));
+                    return updatedUser;
+                });
+
+                // update users list (followers count)
+                setUsers(prev =>
+                    prev.map(u =>
+                        u._id === targetUserId
+                            ? {
+                                ...u,
+                                followers:
+                                    res.data.action === "followed"
+                                        ? [...u.followers, user._id]
+                                        : u.followers.filter(id => id !== user._id),
+                            }
+                            : u
+                    )
+                );
+
+                return { success: true };
+            }
+        } catch (error) {
+            return { success: false, message: error.message };
+        }
+    };
+
+
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -195,8 +277,8 @@ export const GlobalProvider = ({ children }) => {
             try {
                 const res = await API.get('/api/smos/users');
 
-                if (res.data.success) {
-                    setUsers(res.data.users); // 👈 THIS ARRAY YOU SHARED
+                if (res?.data?.success) {
+                    setUsers(res?.data?.users); // 👈 THIS ARRAY YOU SHARED
                 }
                 console.log(res.data.users)
             } catch (error) {
@@ -218,7 +300,8 @@ export const GlobalProvider = ({ children }) => {
                 CloseStoryDrawer,
                 createUser, user,
                 LoginUser, LogoutUser, UpdateUserProfile, DeleteUser,
-                UploadProfilePicture,users,loading
+                UploadProfilePicture, users, loading,
+                FollowUnFollowUsers
             }}
         >
             {children}

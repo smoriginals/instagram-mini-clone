@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { ChevronLeft, Trash } from 'lucide-react';
+import { ChevronLeft, Eraser, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../Context/GlobalContext';
 import { usePosts } from '../../Context/PostContext';
@@ -21,6 +21,7 @@ import userIcon from '../../assets/user.png';
 export default function MyPosts() {
 
     const { user } = useGlobal();
+ 
     const navigate = useNavigate();
 
     const { posts, deletePost, fetchPosts } = usePosts();
@@ -63,7 +64,7 @@ export default function MyPosts() {
                 <h1 className="px-2 text-2xl font-bold">MyPosts</h1>
 
                 {/* Theme */}
-                <div className="relative mt-3 flex flex-wrap gap-2.5 rounded-lg border border-gray-600 p-4">
+                <div className="relative mt-3 flex flex-wrap gap-1 border border-blue-600 p-1">
                     {myPosts.length === 0 ? (
                         <p className="mx-auto text-sm text-gray-400">
                             No Posts Found
@@ -72,19 +73,21 @@ export default function MyPosts() {
                         myPosts.map((post) => (
                             <div
                                 key={post._id}
-                                className="relative h-24 w-24 overflow-hidden rounded-md border border-gray-600"
+                                className="relative h-27 w-27 overflow-hidden border"
                             >
                                 <img
                                     src={post.image}
                                     alt="post"
-                                    className="h-24 w-24 rounded-md object-contain"
+                                    className="h-full w-fit rounded-md object-contain"
                                 />
-
+                                <div className='h-full w-full absolute top-0 left-0 hover:bg-gray-900 opacity-80 flex justify-center items-center'>
+                                    <div className='gap-2 hover:opacity-100 opacity-0 h-full w-full flex items-center justify-center'><Heart />{post.likes.length}</div>
+                                </div>
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                        <Trash
-                                            className="absolute right-0 bottom-0 cursor-pointer p-1"
-                                            fill="red"
+                                        <Eraser
+                                            className="absolute right-0 bottom-0 cursor-pointer p-1 hover:text-red-500"
+                                            size={30 }
                                         />
                                     </AlertDialogTrigger>
 

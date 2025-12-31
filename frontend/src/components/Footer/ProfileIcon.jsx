@@ -97,11 +97,11 @@ export default function ProfileIcon() {
                                     <p className="text-sm">Posts</p>
                                 </div>
                                 <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
-                                    <p className="text-lg font-bold">0</p>
+                                    <p className="text-lg font-bold">{user.followers.length}</p>
                                     <p className="text-sm">Followers</p>
                                 </div>
                                 <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
-                                    <p className="text-lg font-bold">0</p>
+                                    <p className="text-lg font-bold">{user.following.length}</p>
                                     <p className="text-sm">Following</p>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 ﻿import React, { useRef, useState,useEffect } from "react";
-import { PlayCircle, Loader2 } from "lucide-react";
+import { PlayCircle, Loader2, Eye } from "lucide-react";
 import {
     Drawer,
     DrawerTrigger,
@@ -156,7 +156,7 @@ export default function StoryIcon() {
                     </div>
 
                     {/* Story Photo */}
-                    <div className="mt-4 flex h-[80vh] w-full justify-center overflow-auto px-6">
+                    <div className="relative mt-4 flex h-[80vh] w-full justify-center overflow-auto px-6">
                         
                         {loading ? (
                             <Loader2 className='animate-spin' />
@@ -169,7 +169,7 @@ export default function StoryIcon() {
                         ) : (
                             <p>No story available</p>
                         )}
-
+                        <div className='absolute bottom-2 h-6 w-14 rounded-full gap-2 p-0.5 border-b-1 border-gray-600 flex justify-center items-center'><Eye size={16} /><p className='text-sm'>0</p></div>
                     </div>
 
                     {/* Close Button */}

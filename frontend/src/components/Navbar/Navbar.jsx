@@ -16,7 +16,7 @@ export default function Navbar() {
     return (
         <>
             <nav className="fixed top-0 right-0 left-0 z-50 h-14 bg-white dark:bg-black">
-                <div className="flex h-full items-center justify-between border-b border-gray-600 px-2">
+                <div className="flex h-full items-center justify-between border-b border-gray-200 px-2">
                     <p className="font-Instagram flex flex-row items-center gap-1 text-2xl">River<SignalMedium /></p>
 
                     <div className="flex items-center gap-3">

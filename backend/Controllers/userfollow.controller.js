@@ -24,7 +24,7 @@ export default async function userFollow(req, res) {
         }
         //protection of owner
         if (targetTo.role === 'owner') {
-            return res.status(401).json({
+            return res.status(403).json({
                 success: false,
                 message:'Owner cannot be follow!'
             })

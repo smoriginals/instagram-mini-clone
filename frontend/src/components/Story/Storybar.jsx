@@ -69,10 +69,10 @@ export default function Storybar() {
 
     return (
         <>
-            <nav className="mt-14 flex items-center justify-start p-1">
+            <nav className="mt-14 flex items-center justify-start p-1 border-b border-gray-200">
 
                 {/* YOUR STORY */}
-                <div className="flex h-24 w-24 flex-col items-center justify-center p-1.5 ">
+                <div className="flex h-24 w-18 flex-col items-center justify-center p-1.5">
 
                     {/* Avatar Wrapper */}
                     <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
@@ -81,7 +81,7 @@ export default function Storybar() {
 
                             <DrawerTrigger asChild>
                                 <button className='flex h-16 w-16 items-center justify-center rounded-full border-2 border-pink-500 p-0.5'>
-                                    <img src={`${user?.userProfile || sampleImage}`} alt='user profile' className='aspect-square h-14 w-14 rounded-full border border-gray-600 object-cover'
+                                    <img src={`${user?.userProfile || sampleImage}`} title='User Profile Click here to Add Story]' className='aspect-square h-14 w-14 rounded-full border border-gray-200 object-contain'
                                     />
                                 </button>
                             </DrawerTrigger>
@@ -116,7 +116,7 @@ export default function Storybar() {
                                         <img
                                             src={preview}
                                             alt="story-preview"
-                                            className="h-80 w-full rounded-md border border-gray-600 object-contain"
+                                            className="h-80 w-full rounded-md border border-gray-200 object-contain"
                                         />
 
                                         <div className="absolute right-2 bottom-2 flex gap-2">
@@ -172,10 +172,10 @@ export default function Storybar() {
                             key={user._id}
                             className="flex flex-shrink-0 flex-col items-center justify-start gap-1"
                         >
-                            <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-pink-500 mt-0.5">
+                            <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-pink-500 p-0.5">
                                 <img
                                     src={user.userProfile || sampleImage}
-                                    className="h-full w-full rounded-full object-cover"
+                                    className="h-full w-full rounded-full object-contain border border-gray-200"
                                     alt={user.username}
                                 />
                             </div>
@@ -188,15 +188,14 @@ export default function Storybar() {
 
                     {/* SHOW MORE BUTTON */}
                     {otherUsers.length < 5 && (
-                        <div className='flex justify-center items-center flex-col gap-1 mb-4'>
+                        <div className='flex justify-center items-center flex-col gap-1 mb-5'>
 
-                            <div className="flex justify-center items-center bg-gray-900 px-4 h-14 w-14 rounded-full" onClick={() => navigate('/explore-users')}>
+                            <div className="flex justify-center items-center border border-gray-300 px-4 h-14 w-14 rounded-full" onClick={() => navigate('/explore-users')}>
                                 <div >
                                     <p className='flex justify-center items-center flex-col'><Users /></p>
                                 </div>
 
                             </div>
-                            {/*<p className='text-xs font-semibold'>Other's</p>*/}
                         </div>
 
                     )}

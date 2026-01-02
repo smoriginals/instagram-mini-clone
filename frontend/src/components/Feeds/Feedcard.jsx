@@ -1,5 +1,5 @@
-﻿import React, { useState,useEffect } from 'react';
-import { Heart, MessageCircle, Send, Bookmark, Link, Twitter, Facebook, MessageSquareMore, Ellipsis } from 'lucide-react'
+﻿import React, { useState, useEffect } from 'react';
+import { Heart, MessageCircle, Send, Bookmark, Link, Twitter, Facebook, MessageSquareMore, EllipsisVertical } from 'lucide-react'
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,12 +24,9 @@ export default function Feedcard({ post }) {
     const sampleImage = userIcon;
 
     const getAvatar = () => {
-        //if (user && user._id === post.userId?._id) {
-        //    return user.userProfile || sampleImage;
-        //}
-        //return post.userId?.userProfile || sampleImage;
+
         if (user?._id === post.userId?._id) {
-            return user.userProfile || sampleImage;
+            return user?.userProfile || sampleImage;
         }
         return post.userId?.userProfile || sampleImage;
     };
@@ -42,7 +39,7 @@ export default function Feedcard({ post }) {
     const [comments, setComments] = useState([]);
 
     const HandleLike = async () => {
-       
+
         try {
 
             const res = await API.post(`/api/user/post/${post._id}/like`, { userId: user._id },);
@@ -68,7 +65,7 @@ export default function Feedcard({ post }) {
                 setInput("");
             }
         } catch (error) {
-            console.log(error.response?.data||error.message)
+            console.log(error.response?.data || error.message)
         }
     }
 
@@ -77,48 +74,47 @@ export default function Feedcard({ post }) {
         setLike(post.likes?.includes(user?._id));
         setLikeCount(post.likes?.length || 0);
         if (post.comments) {
-        setComments(post.comments||[])
+            setComments(post.comments || [])
         }
 
-    },[post.likes,user?._id,post.comments])
+    }, [post.likes, user?._id, post.comments])
 
     return (
         <>
 
-            <div className='flex h-1/2 w-full items-center justify-center'>
-
-                <div className='flex h-1/2 w-full flex-col items-center justify-center'>
+            <div className="w-full">
+                <div className="w-full flex flex-col">
 
                     {/*feed card top user photo*/}
-                    <div className='flex h-10 w-full items-center justify-between gap-2 rounded-t-2xl border-t border-r border-l border-gray-600 px-2'>
+                    <div className='flex h-10 w-full items-center justify-between border-t border-x border-gray-200 px-1'>
 
                         <div className='flex items-center justify-start gap-1'>
-                        <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
-                            <img
-                                src={getAvatar()}
-                                alt="User Avatar"
-                                className="h-6 w-6 rounded-full object-cover"
-                            />
+                            <div className='flex h-7 w-7 items-center justify-center rounded-full border border-pink-500'>
+                                <img
+                                    src={getAvatar()}
+                                    alt="User Avatar"
+                                    className="h-6 w-6 rounded-full object-contain"
+                                />
+                            </div>
+                            <p>{post.userId?.name}</p>
                         </div>
-                        <p>{post.userId?.name}</p>
-                        </div>
-                        
-                        <Ellipsis />
+
+                        <EllipsisVertical size={20} />
                     </div>
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
-                    <div className="h-auto w-full border-r border-l border-gray-600 p-1">
+                    <div className="h-auto w-full border-x border-gray-200 p-1">
                         <img
-                            src={post.image || "https://png.pngtree.com/thumb_back/fh260/background/20230411/pngtree-nature-forest-sun-ecology-image_2256183.jpg"}
-                            alt="User Avatar"
-                            className="h-80 w-full rounded-sm object-contain"
+                            src={post.image}
+                            alt="Post Image"
+                            className="w-full h-72 object-cover md:h-80"
                         />
                     </div>
                     {/*main user feed photo*/}
 
 
-                    <div className='flex h-10 w-full items-center justify-between gap-2 border-r border-l border-gray-600 p-1'>
+                    <div className='flex h-10 w-full items-center justify-between gap-2 border-x border-gray-200 px-1'>
                         <div className='flex h-10 items-center justify-center gap-1'>
 
                             {/*Like Button*/}
@@ -146,7 +142,7 @@ export default function Feedcard({ post }) {
                                 </DrawerTrigger>
 
                                 {/* Drawer Content */}
-                                <DrawerContent className="rounded-t-2xl p-4">
+                                <DrawerContent className="rounded-t-xl p-4">
 
                                     {/* Header */}
                                     <DrawerHeader className="flex items-center justify-between">
@@ -154,7 +150,7 @@ export default function Feedcard({ post }) {
 
                                     </DrawerHeader>
 
-                            
+
                                     {/* Comments List */}
                                     <div className="mt-2 h-[50vh] space-y-3 overflow-y-auto px-1">
                                         {comments.map((comment) => {
@@ -194,7 +190,7 @@ export default function Feedcard({ post }) {
                                             className="flex-1"
                                         />
 
-                                        <Button onClick={HandleComments} className='bg-blue-500 font-bold'>
+                                        <Button onClick={HandleComments} className='font-semibold'>
                                             Send
                                         </Button>
                                     </div>
@@ -246,20 +242,21 @@ export default function Feedcard({ post }) {
                             <button className='flex h-10 w-10 items-center justify-center'><Bookmark size={22} /></button>
                         </div>
                         {/*Save Button*/}
+
                     </div>
 
-                    {/*Show Comments*/}
-                    <div className='flex h-10 w-full items-center justify-start gap-1 rounded-b-2xl border-r border-b border-l border-gray-600 px-2 pb-2'>
-                        <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
+                    {/*Show Context*/}
+                    <div className='flex h-10 w-full items-center justify-start gap-1 border-x border-b border-gray-200 px-1'>
+                        <div className='flex h-7 w-7 items-center justify-center rounded-full border border-pink-500'>
                             <img
                                 src={getAvatar()}
                                 alt="User Avatar"
-                                className="h-6 w-6 rounded-full object-cover"
+                                className="h-6 w-6 rounded-full object-contain border"
                             />
                         </div>
                         <p>{post.caption}</p>
                     </div>
-                    {/*Show Comments*/}
+                    {/*Show Context*/}
                 </div>
             </div>
         </>

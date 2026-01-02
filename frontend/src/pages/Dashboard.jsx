@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import userIcon from '../assets/user.png';
+import { usePosts } from "../Context/PostContext";
 
 export default function Dashboard() {
 
@@ -27,6 +28,8 @@ export default function Dashboard() {
     const sampleImage = userIcon;
 
     const { DeleteUser, user } = useGlobal();
+    const { posts } = usePosts();
+
     const [deleting, setDeleting] = useState(false);
     const DeleteUserProfile = async () => {
         if (!user?._id) return;
@@ -43,6 +46,15 @@ export default function Dashboard() {
         }
     };
 
+
+    const myPosts = posts.filter(
+        (post) => post.userId?._id === user?._id
+    );
+
+    const likeCount = myPosts.reduce((total, post) => total + post.likes.length, 0)
+
+    const commentCount = myPosts.reduce((total, post) => total + post.comments.length, 0)
+    
 
     return (
         <>
@@ -75,22 +87,23 @@ export default function Dashboard() {
                     {/*Analytics*/}
                     <div className="my-2 flex items-center justify-center gap-2">
 
-                        <div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>
+                        <div className='w-full md:h-30 flex flex-col items-center justify-center gap-1 md:gap-6 rounded-md border border-gray-600 p-2'>
                             <Heart />
-                            <p className='text-center text-sm'>20k Likes</p>
+                            <p className='text-center text-md font-semibold'>{likeCount} Likes</p>
                         </div>
-                        <div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>
+
+                        <div className='w-full md:h-30 flex flex-col items-center justify-center gap-1 md:gap-6 rounded-md border border-gray-600 p-2'>
                             <MessageCircle />
-                            <p className='text-center text-sm'>20k Comments</p>
+                            <p className='text-center text-md font-semibold'>{commentCount} Comments</p>
                         </div>
-                        <div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>
-                            <Send />
-                            <p className='text-center text-sm'>20k Shares</p>
-                        </div>
-                        <div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>
-                            <Bookmark />
-                            <p className='text-center text-sm'>20k Save</p>
-                        </div>
+                        {/*<div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>*/}
+                        {/*    <Send />*/}
+                        {/*    <p className='text-center text-sm'>20k Shares</p>*/}
+                        {/*</div>*/}
+                        {/*<div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>*/}
+                        {/*    <Bookmark />*/}
+                        {/*    <p className='text-center text-sm'>20k Save</p>*/}
+                        {/*</div>*/}
                     </div>
                     {/*Analytics*/}
                 </div>

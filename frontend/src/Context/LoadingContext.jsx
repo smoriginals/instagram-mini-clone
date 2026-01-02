@@ -20,7 +20,7 @@ export const LoadingProvider = ({ children }) => {
 
     return (
         <LoadingContext.Provider value={{startLoading,stopLoading} }>
-            <LoadingBar color="linear-gradient(90deg, #00c6ff, #0072ff, #8e2de2)" height={4} ref={loadingRef} shadow={true }/>
+            <LoadingBar color="linear-gradient(90deg, #00c6ff, #0072ff, #8e2de2)" height={2} ref={loadingRef} shadow={true }/>
             {children}
         </LoadingContext.Provider>
     )

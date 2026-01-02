@@ -269,6 +269,33 @@ export const GlobalProvider = ({ children }) => {
     };
 
 
+    const [appUsers, setAppUsers] = useState([]);
+    const [errors, setError] = useState(null);
+
+    const SearchUsers = async (name) => {
+        if (!name.trim()) {
+            setAppUsers([]);
+            setError(null);
+            return;
+        }
+
+        try {
+            const res = await API.get(`/api/users/search?name=${name}`);
+
+            if (res.data.success) {
+                setAppUsers(res.data.searchUser);
+                setError(null);
+            } else {
+                setAppUsers([]);
+                setError(res.data.message);
+            }
+        } catch {
+            setAppUsers([]);
+            setError("Error while searching users");
+        }
+    };
+
+
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -280,9 +307,8 @@ export const GlobalProvider = ({ children }) => {
                 if (res?.data?.success) {
                     setUsers(res?.data?.users); // 👈 THIS ARRAY YOU SHARED
                 }
-                console.log(res.data.users)
             } catch (error) {
-                console.error(error.message);
+                return { ok: false, message: error.response?.data?.message }
             } finally {
                 setLoading(false);
             }
@@ -301,7 +327,9 @@ export const GlobalProvider = ({ children }) => {
                 createUser, user,
                 LoginUser, LogoutUser, UpdateUserProfile, DeleteUser,
                 UploadProfilePicture, users, loading,
-                FollowUnFollowUsers
+                FollowUnFollowUsers,
+                appUsers,
+                errors, SearchUsers
             }}
         >
             {children}

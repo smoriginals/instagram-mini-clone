@@ -15,12 +15,14 @@ import { useGlobal } from '../../Context/GlobalContext';
 import axios from 'axios';
 import API from '../../lib/instance';
 import userIcon from '../../assets/user.png';
+import ImageViewer from './ImageViewer';
+import { useStory } from '../../Context/StoryContext';
 
 export default function Feedcard({ post }) {
 
     // eslint-disable-next-line no-unused-vars
     const { user } = useGlobal();
-
+    const { stories: myStory } = useStory();
     const sampleImage = userIcon;
 
     const getAvatar = () => {
@@ -35,6 +37,7 @@ export default function Feedcard({ post }) {
 
     const [like, setLike] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
+    const [viewImage, setViewImage] = useState(null);
 
     const [comments, setComments] = useState([]);
 
@@ -79,21 +82,39 @@ export default function Feedcard({ post }) {
 
     }, [post.likes, user?._id, post.comments])
 
+
+    const openImage = (src) => {
+        setViewImage(src);
+        window.history.pushState({ imageModal: true }, "");
+    };
+
+    const closeImage = () => {
+
+        setViewImage(null);
+
+    };
+
+
+    const hasStory = (userId) => {
+        return myStory?.some(story => story.userId === userId);
+    }
+    
+
     return (
         <>
 
             <div className="w-full">
-                <div className="w-full flex flex-col">
+                <div className="flex w-full flex-col">
 
                     {/*feed card top user photo*/}
-                    <div className='flex h-10 w-full items-center justify-between border-t border-x border-gray-200 px-1'>
+                    <div className='bordermode flex h-10 w-full items-center justify-between border-x border-t px-1'>
 
                         <div className='flex items-center justify-start gap-1'>
-                            <div className='flex h-7 w-7 items-center justify-center rounded-full border border-pink-500'>
+                            <div className={`flex h-7 w-7 items-center justify-center rounded-full  ${hasStory(post.userId?._id) ? "border border-pink-500" : ""}`}>
                                 <img
                                     src={getAvatar()}
                                     alt="User Avatar"
-                                    className="h-6 w-6 rounded-full object-contain"
+                                    className="h-6 w-6 rounded-full object-cover"
                                 />
                             </div>
                             <p>{post.userId?.name}</p>
@@ -104,17 +125,20 @@ export default function Feedcard({ post }) {
                     {/*feed card top user photo*/}
 
                     {/*main user feed photo*/}
-                    <div className="h-auto w-full border-x border-gray-200 p-1">
+                    <div className="bordermode h-auto w-full border-x p-1">
                         <img
                             src={post.image}
                             alt="Post Image"
-                            className="w-full h-72 object-cover md:h-80"
+                            className="h-72 w-full object-cover md:h-80"
+                            onClick={() => openImage(post.image)}
                         />
+                        <ImageViewer src={viewImage} onClose={closeImage}/>
                     </div>
+
                     {/*main user feed photo*/}
 
 
-                    <div className='flex h-10 w-full items-center justify-between gap-2 border-x border-gray-200 px-1'>
+                    <div className='bordermode flex h-10 w-full items-center justify-between gap-2 border-x px-1'>
                         <div className='flex h-10 items-center justify-center gap-1'>
 
                             {/*Like Button*/}
@@ -146,7 +170,7 @@ export default function Feedcard({ post }) {
 
                                     {/* Header */}
                                     <DrawerHeader className="flex items-center justify-between">
-                                        <p className="text-xl font-bold">Comments</p>
+                                        <p className="text-xl font-semibold">Comments</p>
 
                                     </DrawerHeader>
 
@@ -164,7 +188,7 @@ export default function Feedcard({ post }) {
 
                                             return (
                                                 <div key={comment._id || Math.random()} className="flex items-start gap-2">
-                                                    <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
+                                                    <div className={`flex h-8 w-8 items-center justify-center rounded-full ${hasStory(comment.user?._id || comment.userId) ? "border border-pink-500" : ""}`}>
                                                         <img
                                                             src={commentProfilePic} // <--- Updated variable
                                                             alt="User Avatar"
@@ -174,7 +198,7 @@ export default function Feedcard({ post }) {
 
                                                     <div>
                                                         <p className="text-sm font-semibold">{comment.user?.name || "User"}</p>
-                                                        <p className="text-sm text-gray-700">{comment.text}</p>
+                                                        <p className="text-sm text-gray-600">{comment.text}</p>
                                                     </div>
                                                 </div>
                                             );
@@ -190,7 +214,7 @@ export default function Feedcard({ post }) {
                                             className="flex-1"
                                         />
 
-                                        <Button onClick={HandleComments} className='font-semibold'>
+                                        <Button onClick={HandleComments} className='text-md font-semibold'>
                                             Send
                                         </Button>
                                     </div>
@@ -215,19 +239,19 @@ export default function Feedcard({ post }) {
 
                                     <div className="mb-10 flex items-center justify-center gap-2">
 
-                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                        <button className="bordermode flex h-16 w-16 items-center justify-center rounded-full border">
                                             <Link size={30} />
                                         </button>
 
-                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                        <button className="bordermode flex h-16 w-16 items-center justify-center rounded-full border">
                                             <MessageSquareMore size={30} />
                                         </button>
 
-                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                        <button className="bordermode flex h-16 w-16 items-center justify-center rounded-full border">
                                             <Facebook size={30} />
                                         </button>
 
-                                        <button className="flex h-16 w-16 items-center justify-center rounded-full border-2">
+                                        <button className="bordermode flex h-16 w-16 items-center justify-center rounded-full border">
                                             <Twitter size={30} />
                                         </button>
 
@@ -246,16 +270,25 @@ export default function Feedcard({ post }) {
                     </div>
 
                     {/*Show Context*/}
-                    <div className='flex h-10 w-full items-center justify-start gap-1 border-x border-b border-gray-200 px-1'>
-                        <div className='flex h-7 w-7 items-center justify-center rounded-full border border-pink-500'>
+                    <div className="bordermode flex w-full items-center gap-2 border-x border-b px-2 py-1 shadow-md">
+                        {/* Avatar */}
+                        <div
+                            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${hasStory(post.userId?._id) ? "border border-pink-500" : ""
+                                }`}
+                        >
                             <img
                                 src={getAvatar()}
                                 alt="User Avatar"
-                                className="h-6 w-6 rounded-full object-contain border"
+                                className="h-6 w-6 rounded-full object-cover"
                             />
                         </div>
-                        <p>{post.caption}</p>
+
+                        {/* Caption */}
+                        <p className="min-w-0 flex-1 text-sm break-words">
+                            {post.caption}
+                        </p>
                     </div>
+
                     {/*Show Context*/}
                 </div>
             </div>

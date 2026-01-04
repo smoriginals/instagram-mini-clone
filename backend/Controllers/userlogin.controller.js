@@ -1,20 +1,35 @@
 ﻿import usersignupModel from "../Models/usersignup.model.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Joi from 'joi'
+
+
+const loginSchema = Joi.object({
+    email: Joi.string().email({ tlds: { allow: false } }).required(),
+    password: Joi.string().required(),
+})
+
 
 export default async function loginUser(req, res) {
 
+
+    const { error } = loginSchema.validate(req.body, {
+        abortEarly: true,//stop on first error
+    })
+    if (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.details[0].message,
+        });
+    }
+
+    const { email, password } = req.body;
+
+   
+
     try {
-        const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "Email and password required",
-            });
-        }
-
-        // 1️⃣ Check if user exists
+        // 1️ Check if user exists
         const user = await usersignupModel.findOne({ email });
 
         if (!user) {
@@ -24,21 +39,16 @@ export default async function loginUser(req, res) {
             });
         }
 
+        // 2 Give user token and check hashed pass
         const isMatch = await bcrypt.compare(password, user.password)
-       
+
         const token = jwt.sign(
-            { id: user._id,role:user.role },
+            { id: user._id, role: user.role },
             process.env.JWT_SECRET_KEY,
             { expiresIn: "7d" }
         );
 
-        //// 2️⃣ Check password
-        //if (user.password !== isMatch) {
-        //    return res.status(400).json({
-        //        success: false,
-        //        message: "Wrong password",
-        //    });
-        //}
+
         if (!isMatch) {
             return res.status(400).json({
                 success: false,
@@ -46,12 +56,12 @@ export default async function loginUser(req, res) {
             });
         }
 
-        // 3️⃣ Success
+        // 3️ Success
         res.status(200).json({
             success: true,
             message: "Login successful",
             user,
-            token
+            token,
         });
 
     } catch (error) {

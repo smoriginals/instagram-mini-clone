@@ -10,7 +10,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 
-import { Plus, Camera, Image, X, ArrowUpFromLine, Loader2, Users } from "lucide-react";
+import { Camera, Image, X, ArrowUpFromLine, Loader2, Users } from "lucide-react";
 
 import { useGlobal } from '../../Context/GlobalContext';
 
@@ -24,7 +24,7 @@ export default function Storybar() {
 
     const navigate = useNavigate();
 
-    const { uploadStory } = useStory();
+    const { uploadStory, stories } = useStory();
     const cameraRef = useRef(null);
     const galleryRef = useRef(null);
 
@@ -67,9 +67,13 @@ export default function Storybar() {
     };
     const otherUsers = users.filter(u => u._id !== user._id);
 
+    const hasStory = (userId) => {
+        return stories?.some(story => story.userId === userId);
+    }
+
     return (
         <>
-            <nav className="mt-14 flex items-center justify-start p-1 border-b border-gray-200">
+            <nav className="bordermode mt-14 flex items-center justify-start border-b p-1 shadow-md">
 
                 {/* YOUR STORY */}
                 <div className="flex h-24 w-18 flex-col items-center justify-center p-1.5">
@@ -80,33 +84,33 @@ export default function Storybar() {
                         <Drawer>
 
                             <DrawerTrigger asChild>
-                                <button className='flex h-16 w-16 items-center justify-center rounded-full border-2 border-pink-500 p-0.5'>
-                                    <img src={`${user?.userProfile || sampleImage}`} title='User Profile Click here to Add Story]' className='aspect-square h-14 w-14 rounded-full border border-gray-200 object-contain'
+                                <button className={`flex h-16 w-16 items-center justify-center rounded-full  ${hasStory(user._id) ? "border-2 border-pink-500" : ""} p-0.5`}>
+                                    <img src={`${user?.userProfile || sampleImage}`} title='User Profile Click here to Add Story]' className='bordermode aspect-square h-14 w-14 rounded-full border object-cover'
                                     />
                                 </button>
                             </DrawerTrigger>
 
                             <DrawerContent className="flex flex-col gap-2 p-2">
-                                <h1 className='text-center text-xl font-bold'>Add Story</h1>
+                                <h1 className='text-center text-xl font-semibold'>Add Story</h1>
 
 
                                 {!preview && (
                                     <>
                                         <button
                                             onClick={() => cameraRef.current.click()}
-                                            className="p-2 border border-gray-600 rounded flex justify-center items-center"
+                                            className="p-2 border bordermode rounded flex justify-center items-center"
                                         >
                                             <Camera size={30} />
                                         </button>
 
                                         <button
                                             onClick={() => galleryRef.current.click()}
-                                            className="p-2 border border-gray-600 rounded flex justify-center items-center"
+                                            className="p-2 border bordermode rounded flex justify-center items-center"
                                         >
                                             <Image size={30} />
                                         </button>
 
-                                        <p className='py-1 text-center text-xl font-bold'>Choose</p>
+                                        <p className='py-1 text-center text-xl font-semibold'>Choose</p>
                                     </>
                                 )}
 
@@ -116,7 +120,7 @@ export default function Storybar() {
                                         <img
                                             src={preview}
                                             alt="story-preview"
-                                            className="h-80 w-full rounded-md border border-gray-200 object-contain"
+                                            className="bordermode h-80 w-full rounded-md border object-contain"
                                         />
 
                                         <div className="absolute right-2 bottom-2 flex gap-2">
@@ -172,10 +176,10 @@ export default function Storybar() {
                             key={user._id}
                             className="flex flex-shrink-0 flex-col items-center justify-start gap-1"
                         >
-                            <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-pink-500 p-0.5">
+                            <div className={`h-16 w-16 overflow-hidden rounded-full  ${hasStory(user._id) ? "border-2 border-pink-500" : ""} p-0.5`}>
                                 <img
                                     src={user.userProfile || sampleImage}
-                                    className="h-full w-full rounded-full object-contain border border-gray-200"
+                                    className="bordermode h-full w-full rounded-full border object-cover"
                                     alt={user.username}
                                 />
                             </div>
@@ -187,12 +191,12 @@ export default function Storybar() {
                     ))}
 
                     {/* SHOW MORE BUTTON */}
-                    {otherUsers.length < 5 && (
-                        <div className='flex justify-center items-center flex-col gap-1 mb-5'>
+                    {otherUsers.length >= 0 && (
+                        <div className='mb-5 flex flex-col items-center justify-center gap-1'>
 
-                            <div className="flex justify-center items-center border border-gray-300 px-4 h-14 w-14 rounded-full" onClick={() => navigate('/explore-users')}>
+                            <div className="bordermode flex h-14 w-14 items-center justify-center rounded-full border px-4" onClick={() => navigate('/explore-users')}>
                                 <div >
-                                    <p className='flex justify-center items-center flex-col'><Users /></p>
+                                    <p className='flex flex-col items-center justify-center'><Users /></p>
                                 </div>
 
                             </div>

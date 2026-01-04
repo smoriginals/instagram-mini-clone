@@ -1,4 +1,4 @@
-﻿import React, {useState} from "react";
+﻿import React, { useState } from "react";
 import { ChevronLeft, User, Heart, MessageCircle, Send, Bookmark, SendHorizontal } from 'lucide-react';
 import { useGlobal } from "../Context/GlobalContext";
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import userIcon from '../assets/user.png';
+import toast from 'react-hot-toast';
 import { usePosts } from "../Context/PostContext";
+import axios from 'axios';
 
 export default function Dashboard() {
 
@@ -31,6 +33,7 @@ export default function Dashboard() {
     const { posts } = usePosts();
 
     const [deleting, setDeleting] = useState(false);
+
     const DeleteUserProfile = async () => {
         if (!user?._id) return;
         setDeleting(true)
@@ -39,22 +42,56 @@ export default function Dashboard() {
             const res = await DeleteUser(user._id);
             if (res?.ok) {
                 navigate("/");
-                setDeleting(false)
+                
             }
         } finally {
             setDeleting(false);
         }
     };
 
-
     const myPosts = posts.filter(
         (post) => post.userId?._id === user?._id
     );
 
     const likeCount = myPosts.reduce((total, post) => total + post.likes.length, 0)
-
     const commentCount = myPosts.reduce((total, post) => total + post.comments.length, 0)
-    
+
+    const [userReport, setUserReport] = useState({
+        name: '',
+        email: '',
+        message: ''
+    });
+
+    const HandleChange = (e) => {
+        setUserReport({ ...userReport, [e.target.name]: e.target.value });
+    }
+
+    const SubmitReport = async () => {
+
+        if (!userReport.name || !userReport.email || !userReport.message) {
+            toast.error('All Fields Required')
+            return;
+        }
+
+        const reportPromise = axios.post('http://localhost:5000/api/send/report', userReport);
+
+        toast.promise(reportPromise, {
+            loading: 'Sending...',
+            success: 'Report sent successfully 📩',
+            error:'Failed to Report',
+        })
+
+        try {
+            const res = await reportPromise;
+
+            if (res.data?.success) {
+                setUserReport({ name: '', email: '', message: '' });
+            }
+            return res.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Server error");
+        }
+    }
 
     return (
         <>
@@ -66,8 +103,7 @@ export default function Dashboard() {
 
                 <h1 className="px-2 text-4xl font-bold">Dashboard</h1>
 
-
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="bordermode mt-3 space-y-1 rounded-lg border p-2">
                     <h1 className="px-2 text-xl font-bold">User Profile</h1>
                     {/*UserProfile*/}
                     <div className="flex items-center justify-between">
@@ -76,55 +112,57 @@ export default function Dashboard() {
                             <img
                                 src={user?.userProfile || sampleImage}
                                 alt="Profile"
-                                className='h-18 w-18 rounded-full border border-gray-600 object-cover'
+                                className='bordermode h-18 w-18 rounded-full border object-cover'
                             />
                         </div>
                     </div>
                     {/*UserProfile*/}
                 </div>
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+
+                <div className="bordermode mt-3 space-y-1 rounded-lg border p-2">
                     <h1 className="px-2 text-xl font-bold">Analytics</h1>
                     {/*Analytics*/}
                     <div className="my-2 flex items-center justify-center gap-2">
 
-                        <div className='w-full md:h-30 flex flex-col items-center justify-center gap-1 md:gap-6 rounded-md border border-gray-600 p-2'>
+                        <div className='bordermode flex w-full flex-col items-center justify-center gap-1 rounded-md border p-2 md:h-30 md:gap-6'>
                             <Heart />
-                            <p className='text-center text-md font-semibold'>{likeCount} Likes</p>
+                            <p className='text-md text-center font-semibold'>{likeCount} Likes</p>
                         </div>
 
-                        <div className='w-full md:h-30 flex flex-col items-center justify-center gap-1 md:gap-6 rounded-md border border-gray-600 p-2'>
+                        <div className='bordermode flex w-full flex-col items-center justify-center gap-1 rounded-md border p-2 md:h-30 md:gap-6'>
                             <MessageCircle />
-                            <p className='text-center text-md font-semibold'>{commentCount} Comments</p>
+                            <p className='text-md text-center font-semibold'>{commentCount} Comments</p>
                         </div>
-                        {/*<div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>*/}
-                        {/*    <Send />*/}
-                        {/*    <p className='text-center text-sm'>20k Shares</p>*/}
-                        {/*</div>*/}
-                        {/*<div className='flex flex-col items-center justify-center gap-1 rounded-md border border-gray-600 p-2'>*/}
-                        {/*    <Bookmark />*/}
-                        {/*    <p className='text-center text-sm'>20k Save</p>*/}
-                        {/*</div>*/}
+
                     </div>
                     {/*Analytics*/}
                 </div>
 
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="bordermode mt-3 space-y-1 rounded-lg border p-2">
                     <h1 className="px-2 text-xl font-bold">Support</h1>
                     {/*Help & Contact*/}
                     <div className="">
+
                         <p className="px-2">Contact & Support</p>
+
                         <div className='flex flex-col items-center gap-2 p-1'>
-                            <Input type="email" placeholder="Email" />
-                            <Textarea placeholder="Type your message here." />
-                            <Button disabled={deleting} className='text-md w-full'>Send</Button>
+
+                            <Input type="text" name='name' placeholder="Your Name" value={userReport.name} onChange={HandleChange} />
+
+                            <Input type="email" name='email' placeholder="Your Email" value={userReport.email} onChange={HandleChange} />
+
+                            <Textarea placeholder="Type your message here." type='text' value={userReport.message} onChange={HandleChange} name='message' />
+
+                            <Button disabled={deleting} className='text-md w-full' onClick={SubmitReport}>Send</Button>
+
                         </div>
-                        <p className="text-center text-xs">Send use eamil, and we will respond to your request.</p>
+                        <p className="text-center text-xs">Send us eamil, and we will respond to your request.</p>
                     </div>
                     {/*Help & Contact*/}
                 </div>
 
                 {/*Admin*/}
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="bordermode mt-3 space-y-1 rounded-lg border p-2">
                     {/*Help & Contact*/}
                     <h1 className="px-2 text-xl font-bold">Admin Login</h1>
 
@@ -137,13 +175,13 @@ export default function Dashboard() {
 
 
 
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="bordermode mt-3 space-y-1 rounded-lg border p-2">
                     <h1 className="px-2 text-xl font-bold">Account Deactivation</h1>
                     {/*Delete Account*/}
                     <div className="my-2 flex items-center justify-center gap-2">
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button disabled={deleting} className="text-md h-11 w-full rounded-md border border-gray-600 py-2 font-semibold shadow">Delete Account
+                                <Button disabled={deleting} className="text-md bordermode h-11 w-full rounded-md border py-2 font-semibold shadow">Delete Account
                                 </Button>
 
                             </AlertDialogTrigger>
@@ -162,7 +200,7 @@ export default function Dashboard() {
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
-                       
+
                     </div>
                     {/*Delete Account*/}
                 </div>

@@ -14,7 +14,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import userIcon from '../../assets/user.png';
 //import toast from 'react-hot-toast';
 
@@ -53,30 +52,7 @@ export default function MyPosts() {
         }
     }, [user?._id, fetchPosts]);
 
-    //followers of current user
-    //const followers = user?.followers||[];
-    //const following = user?.following || [];
-
-    //const followerPosts = posts.filter(post =>
-    //    followers.includes(post.userId?._id)
-    //);
-    //const followingPosts = posts.filter(post =>
-    //    following.includes(post.userId?._id)
-    //);
-
-
-    //const uniqueByUser = (posts) => {
-    //    const map = new Map();
-    //    posts.forEach(post => {
-    //        map.set(post.userId._id, post.userId);
-    //    });
-    //    return Array.from(map.values());
-    //};
-
-    //const followersUsers = uniqueByUser(followerPosts);
-    //const followingUsers = uniqueByUser(followingPosts);
-
-    //console.table(followersUsers);
+    
     // followers of current user
     const followers = user?.followers || [];
     const following = user?.following || [];
@@ -121,7 +97,7 @@ export default function MyPosts() {
                 <h1 className="text-2xl font-bold">MyPosts</h1>
 
                 {/* My Posts */}
-                <div className="relative flex flex-wrap gap-1 border border-gray-600 p-1 h-96 overflow-y-auto">
+                <div className="bordermode relative flex h-96 flex-wrap gap-1 overflow-y-auto border p-1">
                     {myPosts.length === 0 ? (
                         <p className="mx-auto text-sm text-gray-400">
                             No Posts Found
@@ -130,15 +106,15 @@ export default function MyPosts() {
                         myPosts.map((post) => (
                             <div
                                 key={post._id}
-                                className="relative h-27 w-27 overflow-hidden border"
+                                className="relative aspect-square h-27 w-27 overflow-hidden border"
                             >
                                 <img
                                     src={post.image}
                                     alt="post"
-                                    className="h-full w-fit rounded-md object-contain"
+                                    className="h-full w-fit object-cover"
                                 />
-                                <div className='h-full w-full absolute top-0 left-0 hover:bg-gray-900 opacity-80 flex justify-center items-center'>
-                                    <div className='gap-2 text-white hover:opacity-100 opacity-0 h-full w-full flex items-center justify-center'>
+                                <div className='absolute top-0 left-0 flex h-full w-full items-center justify-center opacity-80 hover:bg-gray-900'>
+                                    <div className='flex h-full w-full items-center justify-center gap-2 text-white opacity-0 hover:opacity-100'>
                                         <Heart />{post.likes.length}
                                         <MessageCircle />{post.comments.length}
                                     </div>
@@ -183,7 +159,7 @@ export default function MyPosts() {
                 {/*Followers*/}
                 <h1 className="text-2xl font-bold">Followers</h1>
 
-                <div className="flex h-28 w-full gap-2 overflow-x-auto border border-gray-600 p-1">
+                <div className="bordermode flex h-28 w-full items-center justify-start gap-1 overflow-x-auto overflow-y-hidden border p-1">
                     {followersUsers.length === 0 ? (
                         <p className="text-sm text-gray-400">No Followers</p>
                     ) : (
@@ -191,10 +167,10 @@ export default function MyPosts() {
                             <div key={u._id} className="relative">
                                 <img
                                     src={u.userProfile || sampleImage}
-                                    className="h-26 w-26 object-contain border"
+                                    className="h-26 w-26 border object-cover"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center bg-gray-900 opacity-0 hover:opacity-80">
-                                    <p className="text-xs font-semibold text-white text-center">
+                                    <p className="text-center text-xs font-semibold text-white">
                                         {u.name}
                                     </p>
                                 </div>
@@ -208,7 +184,7 @@ export default function MyPosts() {
                 {/*Followers*/}
                 <h1 className="text-2xl font-bold">Followings</h1>
 
-                <div className="flex h-28 w-full gap-2 overflow-x-auto border border-gray-600 p-1">
+                <div className="bordermode flex h-28 w-full items-center justify-start gap-1 overflow-x-auto overflow-y-hidden border p-1">
                     {followingUsers.length === 0 ? (
                         <p className="text-sm text-gray-400">No Followings</p>
                     ) : (
@@ -216,10 +192,10 @@ export default function MyPosts() {
                             <div key={u._id} className="relative">
                                 <img
                                     src={u.userProfile || sampleImage}
-                                    className="h-26 w-26 object-contain border"
+                                    className="h-26 w-26 border object-cover"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center bg-gray-900 opacity-0 hover:opacity-80">
-                                    <p className="text-xs font-semibold text-white text-center">
+                                    <p className="text-center text-xs font-semibold text-white">
                                         {u.name}
                                     </p>
                                 </div>

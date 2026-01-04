@@ -30,7 +30,6 @@ export default async function userFollow(req, res) {
             })
         }
         //check follow status
-        //const isFollowing = loggedIn.following.includes(targetUserId);
         const isFollowing = loggedIn.following.map(id => id.toString()).includes(targetUserId);
 
         if (isFollowing) {

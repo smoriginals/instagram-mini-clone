@@ -17,7 +17,7 @@ import userIcon from '../../assets/user.png';
 export default function StoryIcon() {
 
     const { user } = useGlobal();
-    const { viewStory  } = useStory();
+    const { viewStory ,stories:myStory } = useStory();
 
     const sampleImage = userIcon;
 
@@ -32,7 +32,7 @@ export default function StoryIcon() {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
-
+    
     const startStory = () => {
 
         clearTimers();
@@ -111,17 +111,23 @@ export default function StoryIcon() {
         };
     }, [currentIndex, open, stories.length]);
 
+
+    const hasStory = (userId) => {
+        return myStory?.some(story => story.userId === userId);
+    }
+  
+
     return (
         <>
             <Drawer open={open} onOpenChange={handleOpen}>
                 <DrawerTrigger asChild>
-                    <PlayCircle className="h-7 w-7 transition-all duration-300 ease-in-out hover:scale-120" />
+                    <PlayCircle size={28} className="h-7 w-7 transition-all duration-300 ease-in-out hover:scale-120" />
                 </DrawerTrigger>
 
                 <DrawerContent>
 
                     {/* Rounded Progress Bar */}
-                    <div className="mt-3 flex w-full flex-row justify-center gap-1 px-6">
+                    <div className="mt-3 flex w-full flex-row justify-center gap-1 px-3">
                         {
                             stories.map((story,index) => {
 
@@ -146,9 +152,9 @@ export default function StoryIcon() {
                     </div>
 
                     {/* Username */}
-                    <div className="mt-4 flex items-center justify-start gap-2 px-6 text-center">
+                    <div className="mt-4 flex items-center justify-start gap-2 px-3 text-center">
                         <div className='flex items-center justify-start gap-2'>
-                            <div className='flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500'>
+                            <div className={`flex h-8 w-8 items-center justify-center rounded-full ${hasStory(user._id) ? "border border-pink-500" : "" }`}>
                                 <img src={`${user?.userProfile || sampleImage}`} alt='User Avatar' className='h-6 w-6 rounded-full object-cover' />
                             </div>
                             <p className="text-lg font-semibold tracking-wide">{user?.name}</p>
@@ -156,7 +162,7 @@ export default function StoryIcon() {
                     </div>
 
                     {/* Story Photo */}
-                    <div className="relative mt-4 flex h-[80vh] w-full justify-center overflow-auto px-6">
+                    <div className="relative mt-4 flex h-[80vh] w-full justify-center overflow-auto px-3">
                         
                         {loading ? (
                             <Loader2 className='animate-spin' />
@@ -164,17 +170,17 @@ export default function StoryIcon() {
                             <img
                                 src={stories[currentIndex]?.image}
                                 alt="story"
-                                className="h-full w-full rounded-md border border-gray-600 object-contain"
+                                className="bordermode h-full w-full rounded-md border object-cover p-1"
                             />
                         ) : (
-                            <p>No story available</p>
+                            <p className='animate-pulse'>No story available</p>
                         )}
-                        <div className='absolute bottom-2 h-6 w-14 rounded-full gap-2 p-0.5 border-b-1 border-gray-600 flex justify-center items-center'><Eye size={16} /><p className='text-sm'>0</p></div>
+                        <div className='bordermode absolute bottom-2 flex h-6 w-14 items-center justify-center gap-2 rounded-full border-b-1 p-0.5'><Eye size={16} /><p className='text-sm'>0</p></div>
                     </div>
 
                     {/* Close Button */}
-                    <DrawerClose className="px-6 py-2">
-                        <Button variant="outline" className="w-full border border-gray-600">Close</Button>
+                    <DrawerClose className="px-3 py-4">
+                        <Button variant="outline" className="bordermode w-full border">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>

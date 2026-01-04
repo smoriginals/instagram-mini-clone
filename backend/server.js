@@ -27,6 +27,9 @@ import fetchallusersRoute from './Routes/fetchallusers.route.js';
 import userfollowRoute from './Routes/userfollow.route.js';
 import searchusersRoute from './Routes/searchusers.route.js';
 
+import sendreportRoute from './Routes/sendreport.route.js';
+
+
 dotenv.config();
 await connectDB();
 
@@ -73,7 +76,10 @@ app.use('/api/user/story', deleteuserstoryRoute);
 
 //Follow/Unfollow Users
 app.use('/api/user/follow', userfollowRoute);
+// Search user to our Entire app
 app.use('/api/users', searchusersRoute);
+//send Report
+app.use('/api/send', sendreportRoute);
 
 //Fetch all users that sign in my app
 app.use('/api/smos', fetchallusersRoute);

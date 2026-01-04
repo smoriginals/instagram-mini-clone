@@ -101,17 +101,15 @@ export const GlobalProvider = ({ children }) => {
 
     // Logout User Function
     const LogoutUser = () => {
-        setUser(null);
-        localStorage.removeItem("user");
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         localStorage.clear();
         toast.success("Logout Successfully");
+        setUser(null);
     };
 
     //Update User profile function
     const UpdateUserProfile = async (updatedData) => {
-
-
 
         try {
             const res = await axios.put("http://localhost:5000/api/user/updateProfile", updatedData);
@@ -142,6 +140,7 @@ export const GlobalProvider = ({ children }) => {
             if (res.data.success) {
                 setUser(null);
                 localStorage.removeItem('user');
+                localStorage.removeItem('token');
             }
             return { ok: true, message: res.data.message }
         } catch (error) {
@@ -164,12 +163,7 @@ export const GlobalProvider = ({ children }) => {
             })
 
             if (res.data.success) {
-                // IMPORTANT: update global user object
-                //setUser(prev => ({
-                //    ...prev,
-                //    userProfile: res.data.url,
-                //    userProfileId: res.data.user.userProfileId
-                //}));
+                
                 setUser(prev => {
                     const updated = { ...prev, userProfile: res.data.url };
                     localStorage.setItem("user", JSON.stringify(updated));
@@ -179,49 +173,13 @@ export const GlobalProvider = ({ children }) => {
             }
 
             return res.data;
-            //return { ok: true, ...res.data };
         }
         catch (err) {
             return { ok: false, message: err.response?.data?.message || "Network Error" };
-            //return { ok: false, message: "upload failed", err };
+            
         }
     }
 
-    //const FollowUnFollowUsers = async (targetToFollow) => {
-
-    //    if (!user) return { success:false };
-
-    //    const followPromise = API.put(`/api/user/follow/${targetToFollow}`);
-
-    //    toast.promise(followPromise, {
-    //        loading: 'Requesting...',
-    //        success: 'Followed',
-    //        error: 'Requesting Failed!'
-    //    })
-
-    //    try {
-
-    //        const res = await followPromise;
-    //        if (res?.data?.success) {
-
-    //            setUser(prev => {
-    //                if (!prev) return prev;
-    //                const isFollowing = prev.following.includes(targetToFollow);
-    //                return {
-    //                    ...prev, following: isFollowing ? prev.following.filter(id => id !== targetToFollow) : [...prev.following, targetToFollow],
-    //                }
-    //            })
-
-    //            setUser(prev => prev.map(u => u._id === targetToFollow ? { ...u, followers: res.data.action === 'followed' ? [...u.followers, user._id] : u.followers.filter(id => id !== user._id), } : u));
-
-    //            localStorage.setItem('user', JSON.stringify(res.data.user));
-    //            return res.data.user;
-    //        }
-    //    } catch (error) {
-    //        return {ok:false,message:error.response?.data||error.message}
-    //    }
-
-    //}
     const FollowUnFollowUsers = async (targetUserId) => {
         if (!user) return { success: false };
 

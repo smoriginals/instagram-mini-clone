@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from "react";
-import { User, Trash, ArrowLeft, Settings, LogOut } from "lucide-react";
+import { User, Eraser, ArrowLeft, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useGlobal } from "../../Context/GlobalContext";
@@ -17,7 +17,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import userIcon from '../../assets/user.png';
 export default function ProfileIcon() {
 
@@ -38,7 +37,6 @@ export default function ProfileIcon() {
     }
     const sampleImage =userIcon;
 
-
     const totalPosts = posts.filter((post) =>
         post.userId?._id === user?._id || post.userId === user?._id
     );
@@ -58,12 +56,17 @@ export default function ProfileIcon() {
 
     if (!user) return null; // prevent crash BEFORE login
 
+
+    const hasStory = (userId) => {
+        return stories?.some(story => story.userId === userId);
+    }
+   
     return (
         <>
 
             <Drawer open={openDrawer} onOpenChange={setOpenDrawer}>
                 <DrawerTrigger asChild>
-                    <User className="h-8 w-8 transition-all duration-300 ease-in-out hover:scale-120" onClick={HandleDrawer} />
+                    <User size={28} className="h-8 w-8 transition-all duration-300 ease-in-out hover:scale-120" onClick={HandleDrawer} />
                 </DrawerTrigger>
 
                 <DrawerContent>
@@ -77,8 +80,8 @@ export default function ProfileIcon() {
 
                     <div className="flex h-full w-full flex-col items-center overflow-y-auto p-2">
                         {/* Profile Header */}
-                        <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-600 p-6 shadow">
-                            <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-3 border-green-500" onClick={() => { navigate('/editprofile') }}>
+                        <div className="bordermode flex w-full max-w-md flex-col items-center rounded-md border p-6 shadow">
+                            <div className={`relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full  ${hasStory(user._id) ? "border-3 border-pink-500" : "border-3 border-green-500" }`} onClick={() => { navigate('/editprofile') }}>
                                 <img
                                     src={user?.userProfile || sampleImage}
                                     alt="Profile Avatar"
@@ -91,16 +94,19 @@ export default function ProfileIcon() {
                             <p className="text-md">{user?.username}</p>
 
 
-                            <div className="mt-4 flex gap-6 text-center">
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
+                            <div className="m-2 flex w-full items-center justify-evenly gap-0.5 rounded-md p-1">
+
+                                <div className='hoverOnItems flex h-full w-full cursor-pointer flex-col items-center justify-center rounded p-2' onClick={() => { navigate('/myposts') }}>
                                     <p className="text-lg font-bold">{postAndStory}</p>
                                     <p className="text-sm">Posts</p>
                                 </div>
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
+                                
+                                <div className=' hoverOnItems flex h-full w-full cursor-pointer flex-col items-center justify-center rounded p-2' onClick={() => { navigate('/myposts') }}>
                                     <p className="text-lg font-bold">{user.followers.length}</p>
                                     <p className="text-sm">Followers</p>
                                 </div>
-                                <div className='cursor-pointer rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-gray-800' onClick={() => { navigate('/myposts') }}>
+
+                                <div className='hoverOnItems flex h-full w-full cursor-pointer flex-col items-center justify-center rounded p-2' onClick={() => { navigate('/myposts') }}>
                                     <p className="text-lg font-bold">{user.following.length}</p>
                                     <p className="text-sm">Following</p>
                                 </div>
@@ -110,7 +116,7 @@ export default function ProfileIcon() {
 
 
                         {/* Bio Section */}
-                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-4 shadow">
+                        <div className="bordermode mt-4 w-full max-w-md rounded-md border p-4 shadow">
                             <h2 className="text-lg font-semibold">About</h2>
                             <p className="mt-1 text-sm">
                                 {user?.bio}
@@ -118,7 +124,7 @@ export default function ProfileIcon() {
                         </div>
 
                         {/*Story Highlights*/}
-                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-2.5 shadow">
+                        <div className="bordermode mt-4 w-full max-w-md rounded-md border p-2.5 shadow">
                             <h2 className="text-md font-semibold">Story Highlights</h2>
 
                             {stories.length === 0 ? (
@@ -130,7 +136,7 @@ export default function ProfileIcon() {
                                     {stories.map((story) => (
                                         <div
                                             key={story._id}
-                                            className="relative aspect-square overflow-hidden rounded-xl border border-gray-600"
+                                            className="bordermode relative aspect-square overflow-hidden rounded-xl border"
                                         >
                                             <img
                                                 src={story.image}
@@ -140,7 +146,7 @@ export default function ProfileIcon() {
 
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
-                                                    <Trash className="absolute top-0 right-0 cursor-pointer p-1" fill='red' disabled={deletingId === story._id} />
+                                                    <Eraser className="absolute top-1 right-1 cursor-pointer p-1 hover:text-red-500" disabled={deletingId === story._id} />
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>
                                                     <AlertDialogHeader>
@@ -169,14 +175,14 @@ export default function ProfileIcon() {
 
 
                         {/*Dark/Ligh Mode*/}
-                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-4 shadow">
+                        <div className="bordermode mt-4 w-full max-w-md rounded-md border p-4 shadow">
                             <h2 className="text-lg font-semibold">Theme</h2>
                             <UserTheme />
                         </div>
                         {/*Dark/Ligh Mode*/}
 
                         {/*LogOut Section*/}
-                        <div className="mt-4 w-full max-w-md rounded-2xl border border-gray-600 p-4 shadow">
+                        <div className="bordermode mt-4 w-full max-w-md rounded-md border p-4 shadow">
 
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>

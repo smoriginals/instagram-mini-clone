@@ -7,7 +7,7 @@ export default function HomeIcon() {
 
     return (
         <>
-            <Home className="h-7 w-7 transition-all duration-300 ease-in-out hover:scale-120" onClick={() => { navigate('/home') }} />
+            <Home size={28} className="h-7 w-7 transition-all duration-300 ease-in-out hover:scale-120" onClick={() => { navigate('/home') }} />
         </>
     )
 }

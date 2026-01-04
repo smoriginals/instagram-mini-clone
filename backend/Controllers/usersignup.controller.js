@@ -1,17 +1,27 @@
 ﻿import usersignupModel from "../Models/usersignup.model.js";
 import bcrypt from 'bcryptjs';
+import Joi from 'joi';
+
+const signupSchema = Joi.object({
+    email: Joi.string().email().required(),
+    name: Joi.string().min(4).max(28).required(),
+    username: Joi.string().min(4).max(20).required(),
+    password: Joi.string().min(8).required(),
+})
+
 
 export default async function createUser(req, res) {
     try {
-        const { email, name, username, password } = req.body;
+        const { error, value } = signupSchema.validate(req.body);
 
-        if (!email || !password || !name || !username) {
+        if (error) {
             return res.status(400).json({
                 success: false,
-                message: "Almost there! Complete all fields to finish signing up.",
+                message: error.details[0].message||'Data Validation Failed!',
             });
         }
 
+        const { email, name, username, password } = value;
 
         const existingUser = await usersignupModel.findOne({ $or: [{ email }, { username }] });
 
@@ -20,6 +30,7 @@ export default async function createUser(req, res) {
         }
 
         const hashing = await bcrypt.hash(password, 10);
+
         const newUser = new usersignupModel({
             email,
             name,
@@ -28,18 +39,14 @@ export default async function createUser(req, res) {
         });
 
         await newUser.save();
-        //res.json({ success: true, newUser });
+       
         res.status(201).json({ success: true, newUser });
-    } catch (error) {
-        console.error("Failed to Create User", error);
-        // 3️⃣ HANDLE DUPLICATE ERROR FROM MONGOOSE (just in case)
-        if (error.code === 11000) {
-            return res.status(400).json({
-                success: false,
-                message: "Duplicate field: user already exists"
-            });
-        }
 
-        res.status(500).json({ success: false, message: "Internal Server Error" });
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
     }
 }

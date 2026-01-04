@@ -1,17 +1,18 @@
 ﻿import { createContext, useContext, useState, useCallback } from "react";
-import axios from "axios";
 import { useGlobal } from "./GlobalContext";
-const StoryContext = createContext();
 import toast from 'react-hot-toast';
 import API from "../lib/instance";
+
+const StoryContext = createContext();
 
 export const StoryProvider = ({ children }) => {
 
     const { user } = useGlobal();
+
     const [stories, setStories] = useState([]);
+
     const [loadingStories, setLoadingStories] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
-
 
     const uploadStory = async (file) => {
 
@@ -27,7 +28,6 @@ export const StoryProvider = ({ children }) => {
 
         const uploadPromise = API.post("/api/user/story/uploadstory",
             formData,
-            //{ headers: { "Content-Type": "multipart/form-data" } }
         )
         toast.promise(uploadPromise, {
             loading: "Uploading...",
@@ -36,7 +36,7 @@ export const StoryProvider = ({ children }) => {
         })
         const res = await uploadPromise;
         if (res.data?.success) {
-            setStories((prev)=>[res.data.story,...prev])
+            setStories((prev) => [res.data.story, ...prev])
         }
 
         return res.data;
@@ -53,13 +53,14 @@ export const StoryProvider = ({ children }) => {
 
             if (res.data?.success) {
                 setStories(res.data.story);
+
             }
 
             return res.data;
 
         } catch (error) {
             console.log(error.response?.data || error.message, 'Error found');
-            //return { success: false };
+           
         } finally {
             setLoadingStories(false);
         }
@@ -92,7 +93,7 @@ export const StoryProvider = ({ children }) => {
     }
 
     return (
-        <StoryContext.Provider value={{ uploadStory, viewStory, deleteStory, stories, loadingStories,deletingId }}>
+        <StoryContext.Provider value={{ uploadStory, viewStory, deleteStory, stories, loadingStories, deletingId,  }}>
             {children}
         </StoryContext.Provider>
     );

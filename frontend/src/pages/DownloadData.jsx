@@ -22,12 +22,12 @@ export default function DownloadData() {
                 <h1 className="px-2 text-center text-4xl font-bold">Download Center</h1>
 
                 {/* Theme */}
-                <div className="mt-3 flex flex-col items-center justify-center space-y-3 rounded-lg border border-gray-600 p-4">
-                    <img src={user?.userProfile || sampleImage} className=' h-28 w-28 rounded-full border-2 border-blue-500' />
+                <div className="bordermode mt-3 flex flex-col items-center justify-center space-y-3 rounded-lg border p-4">
+                    <img src={user?.userProfile || sampleImage} className='h-28 w-28 rounded-full border-2 border-blue-500 object-cover' />
 
                     <div className='flex flex-col items-center justify-center'>
-                        <h1 className='flex flex-row items-center justify-between gap-1 px-2 text-2xl'>{user?.name}<BadgeCheck fill='blue' size={30} /></h1>
-                        <h1 className='text-2xl'>{user?.username}</h1>
+                        <h1 className='flex flex-row items-center justify-between gap-1 px-2 text-2xl'>{user?.name}</h1>
+                        <h1 className='text-xl'>{user?.username}</h1>
                     </div>
                 </div>
 

@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
 import {
     Drawer,
     DrawerClose,
@@ -10,7 +9,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
     Field,
     FieldDescription,
@@ -21,27 +19,15 @@ import {
     FieldSet,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import toast from 'react-hot-toast';
 import { Image, SendHorizontal, Loader2 } from "lucide-react";
-//import toast from 'react-hot-toast';
-//import { useGlobal } from "../../Context/GlobalContext"
 import { usePosts } from '../../Context/PostContext';
 import { useNavigate } from 'react-router-dom';
-
-
 
 export default function AddPost() {
 
     const navigate = useNavigate();
     const { createPost } = usePosts();
-    //const { user } = useGlobal();
 
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState(null);
@@ -60,7 +46,7 @@ export default function AddPost() {
                 URL.revokeObjectURL(preview)
             }
         }
-    },[preview])
+    }, [preview])
 
     const HandleChange = (e) => {
 
@@ -78,10 +64,11 @@ export default function AddPost() {
     }
 
     const HandleSubmitPost = async () => {
-        //e.preventDefault();
+        
         if (loading) return;
 
         if (!postData.title || !postData.image || !postData.caption) {
+            toast.error('All Fields are required');
             return;
         }
 
@@ -107,7 +94,7 @@ export default function AddPost() {
         } finally {
             setLoading(false);
         }
-        
+
     };
 
 
@@ -116,46 +103,45 @@ export default function AddPost() {
             <Drawer open={open} onOpenChange={setOpen}>
                 <DrawerTrigger asChild>
                     {/*<button variant="outline">Add a Post</button>*/}
-                    <button className="flex cursor-pointer items-center gap-3 rounded-lg p-3 font-semibold hover:bg-gray-600"
-
+                    <button className="bordermode flex cursor-pointer items-center justify-center gap-2 rounded-md border p-2 font-semibold"
                     >
                         <Image /> Add a Post
                     </button>
                 </DrawerTrigger>
 
                 <DrawerContent>
-                    <div className="w-full overflow-y-auto p-4">
+                    <div className="w-full overflow-y-auto p-3">
                         <FieldGroup>
                             <FieldSet>
                                 <FieldLegend className='text-center font-bold'>
-                                    <p className='text-2xl'>Add New Post</p>
+                                    <p className='font-font-semibold text-xl'>Add New Post</p>
                                 </FieldLegend>
 
                                 <FieldGroup>
                                     <Field>
-                                        <FieldLabel className='px-1 text-lg font-bold'>
+                                        <FieldLabel className='px-1 text-lg font-semibold'>
                                             Post Title
                                         </FieldLabel>
                                         <Input
-                                            placeholder="Post Title..."
-                                            className='border border-gray-600'
+                                            placeholder="Add Title *"
+                                            className='bordermode border'
                                             name='title'
                                             onChange={HandleChange}
                                             disabled={loading}
                                         />
                                     </Field>
                                     <Field>
-                                        <FieldLabel className='px-1 text-lg font-bold'>
+                                        <FieldLabel className='px-1 text-lg font-semibold'>
                                             Select Media
                                         </FieldLabel>
 
-                                        <Input placeholder="Add Image or Video" className='aspect-square border border-gray-600' type='file' name='image' accept="image/*" onChange={HandleChange}
+                                        <Input placeholder="Add Image or Video" className='bordermode aspect-square border' type='file' name='image' accept="image/*" onChange={HandleChange}
                                             disabled={loading}
                                         />
 
                                         <div className='flex flex-col justify-start'>
                                             <p className='py-2 text-lg font-bold'>{loading ? "Do not Close : Uploading..." : "Media Preview"}</p>
-                                            <div className='h-96 rounded-md bg-gray-300'>
+                                            <div className='bordermode h-96 rounded-md border'>
                                                 {preview ? (
                                                     <img
                                                         src={preview}
@@ -163,7 +149,8 @@ export default function AddPost() {
                                                         className="h-full w-full object-contain"
                                                     />
                                                 ) : (
-                                                    <p className="text-gray-600 text-lg font-bold p-2">No image selected</p>
+                                                    <p className="animate-pulse p-2 text-center text-lg">No image selected</p>
+
                                                 )}
                                             </div>
                                         </div>
@@ -171,18 +158,18 @@ export default function AddPost() {
                                     </Field>
                                     <Field>
 
-                                        <FieldLabel className='px-1 text-lg font-bold'>
+                                        <FieldLabel className='px-1 text-lg font-semibold'>
                                             Caption
                                         </FieldLabel>
 
-                                        <div className='flex items-center justify-between gap-2 p-1'>
-                                            <Input placeholder="Add a Caption for Your Post..."
-                                                className="resize-none rounded-full border border-gray-600 px-4"
-                                                name='caption' 
-                                                onChange={HandleChange} 
+                                        <div className='flex items-center justify-between gap-2'>
+                                            <Input placeholder="Add Caption *"
+                                                className="bordermode resize-none rounded-md border px-4"
+                                                name='caption'
+                                                onChange={HandleChange}
                                                 disabled={loading}
                                             />
-                                            <button type="button" className='rounded-full border border-gray-600 p-1.5 active:bg-black active:text-white ' onClick={HandleSubmitPost} disabled={loading}>
+                                            <button type="button" className='bordermode rounded-full border p-1.5 active:bg-black active:text-white' onClick={HandleSubmitPost} disabled={loading}>
 
                                                 {/*<SendHorizontal />*/}
                                                 {loading ? <SendHorizontal className="animate-pulse" /> : <SendHorizontal />}

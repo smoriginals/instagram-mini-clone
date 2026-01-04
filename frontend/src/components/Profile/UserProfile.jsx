@@ -1,8 +1,7 @@
 ﻿import React, { useState } from 'react';
-import { ChevronRight, Upload, LayoutDashboard, ChevronLeft, RefreshCw, Loader2 } from 'lucide-react';
+import {  ChevronLeft} from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -116,20 +115,20 @@ export default function UserProfile() {
 
             <div className='flex h-full w-full flex-col px-2 pt-6'>
 
-                <h1 className="px-2 text-4xl font-bold">Edit Profile</h1>
+                <h1 className="text-4xl font-bold">Edit Profile</h1>
 
 
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="bordermode mt-3 space-y-1 rounded-lg border p-2">
 
                     <h1 className="px-2 text-xl font-bold">User Profile</h1>
 
                     {/*User Profile Photo*/}
-                    <div className='flex flex-row items-center justify-between p-2'>
+                    <div className='flex flex-row items-center justify-between'>
 
                         <img
                             src={preview || user?.userProfile || sampleImage}
                             alt="Profile"
-                            className={`h-18 w-18 rounded-full object-contain border border-gray-600`}
+                            className={`h-18 w-18 rounded-full object-cover border bordermode`}
                         />
 
                         <div className='flex flex-col items-end justify-end gap-2'>
@@ -137,7 +136,7 @@ export default function UserProfile() {
                             <input type="file" accept="image/*" onChange={HandlePick} className="hidden" id="imgPick" disabled={hasUploading} />
                             {/*//Handle Image upload here*/}
 
-                            <Label htmlFor="imgPick" className={`bg-gray-800 p-2 text-sm rounded-md border ${hasUploading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}>
+                            <Label htmlFor="imgPick" className={`border bordermode hoverOnItems p-2 text-sm rounded-md border ${hasUploading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}>
                                 {hasUploading ? 'Uploading...' : 'Choose..'}
                             </Label>
 
@@ -151,21 +150,21 @@ export default function UserProfile() {
 
 
                     {/*Name*/}
-                    <div className='p-2'>
+                    <div className=''>
                         <p className='text-md p-1 font-bold'>Name</p>
                         <Input type="text" name="name" value={profileData.name} onChange={HandleChange} disabled={hasUploading} placeholder="Name" />
                     </div>
                     {/*Name*/}
 
                     {/*Username*/}
-                    <div className='p-2'>
+                    <div className=''>
                         <p className='text-md p-1 font-bold'>Username</p>
                         <Input type="text" name="username" value={profileData.username} onChange={HandleChange} disabled={hasUploading} placeholder="@example.xyz" />
                     </div>
                     {/*Username*/}
 
                     {/*Bio*/}
-                    <div className='p-2'>
+                    <div className=''>
                         <p className='text-md p-1 font-bold'>Bio</p>
                         <Textarea type="text" placeholder="We are going to Parish on this Weekend..." name="bio" value={profileData.bio} onChange={HandleChange} disabled={hasUploading} />
                     </div>
@@ -174,17 +173,17 @@ export default function UserProfile() {
 
                 </div>
 
-                <div className="mt-2 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="bordermode mt-2 space-y-1 rounded-lg border p-2">
                     <h1 className="px-2 text-xl font-bold">Security</h1>
                     {/*Email Handle*/}
-                    <div className='p-2'>
+                    <div className=''>
                         <p className='text-md p-1 font-bold'>Email</p>
                         <Input type="text" placeholder="example@email.com" name='email' value={profileData.email} onChange={HandleChange} />
                     </div>
                     {/*Email Handle*/}
 
                     {/*Password*/}
-                    <div className='space-y-2 p-2'>
+                    <div className='space-y-2'>
                         <p className='text-md p-1 font-bold'>Password</p>
 
                         <Input type="password" name='password' value={profileData.password} onChange={HandleChange} placeholder="Enter Password" disabled={hasUploading} />

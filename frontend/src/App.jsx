@@ -19,6 +19,8 @@ import MyPosts from './components/Profile/MyPosts';
 import DownloadData from './pages/DownloadData';
 import Shild from './components/Shild/Shild';
 import ExploreUsers from './pages/ExploreUsers';
+import AuthRedirect from './utility/AuthRedirect';
+import River from './pages/River';
 
 export default function App() {
 
@@ -35,11 +37,15 @@ export default function App() {
 
             <Routes>
 
-                <Route path="/" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
+
+                <Route element={<AuthRedirect />}>
+                    <Route path="/" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                </Route>
 
                 <Route element={<Shild />}>
 
+                    <Route path='/river' element={<River />} />
                     <Route path='/home' element={<Homescreen />} />
                     <Route path='/editprofile' element={<UserProfile />} />
                     <Route path='/notifications' element={<Notifications />} />
@@ -51,7 +57,7 @@ export default function App() {
                     <Route path='/download' element={<DownloadData />} />
                     <Route path='/admin' element={<Admin />} />
                     <Route path='/smos' element={<Secure />} />
-                    <Route path='/explore-users' element={<ExploreUsers/> }/>
+                    <Route path='/explore-users' element={<ExploreUsers />} />
                     <Route path='*' element={<Notfound />} />
                 </Route>
             </Routes>

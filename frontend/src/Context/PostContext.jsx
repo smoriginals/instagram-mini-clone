@@ -1,5 +1,4 @@
-import { createContext, useState, useContext, useCallback,useEffect } from "react";
-
+import { createContext, useState, useContext, useCallback, useEffect } from "react";
 import toast from 'react-hot-toast';
 import API from '../lib/instance';
 import { useGlobal } from './GlobalContext';
@@ -17,27 +16,17 @@ export const PostProvider = ({ children }) => {
     //Fetch user posts ok!
     const fetchPosts = useCallback(async () => {
 
-        //const token = localStorage.getItem('token');
-
         try {
             setLoading(true);
-            const res = await API.get('/api/user/post/getposts', 
-                //{
-                //    headers: {
-                //        Authorization: `Bearer ${token}`,
-                //    },
-                //}
-            );
+            const res = await API.get('/api/user/post/getposts',);
 
             if (res.data.success) {
                 setPosts(res.data.posts);
-                //localStorage.setItem('posts', JSON.stringify(res.data.posts))
             }
 
         }
         catch (error) {
-            console.error(error.response?.data||error.message);
-            
+            console.error(error.response?.data || error.message);
         }
         finally {
             setLoading(false);
@@ -46,9 +35,9 @@ export const PostProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        if (!user) return; 
+        if (!user) return;
         fetchPosts();
-    }, [user,fetchPosts]);
+    }, [user, fetchPosts]);
 
     // Create a new Post ok!
     const createPost = async (file, title, caption) => {
@@ -58,17 +47,13 @@ export const PostProvider = ({ children }) => {
             return;
         }
 
-        //try {
-
         const formData = new FormData();
         formData.append("image", file);
         formData.append("title", title);
         formData.append("caption", caption);
         formData.append("userId", user._id);
 
-        const createPromise = API.post("/api/user/post/addpost",
-            formData,
-        );
+        const createPromise = API.post("/api/user/post/addpost", formData,);
 
         toast.promise(createPromise, {
             loading: 'Adding Post',
@@ -89,7 +74,7 @@ export const PostProvider = ({ children }) => {
             console.log(error.response?.data || error.message);
 
         }
-    } 
+    }
 
 
     //Delete Post OK!
@@ -100,9 +85,7 @@ export const PostProvider = ({ children }) => {
         }
         setDeletingId(postId);
 
-        const deletePromise = API.delete(`/api/user/post/${postId}`, {
-            data: { userId: user._id }
-        })
+        const deletePromise = API.delete(`/api/user/post/${postId}`, { data: { userId: user._id } })
 
         await toast.promise(deletePromise, {
             loading: 'Deleting Post',
@@ -118,12 +101,11 @@ export const PostProvider = ({ children }) => {
         finally {
             setDeletingId(null);
         }
-        //await axios.delete(`http://localhost:5000/api/user/post/${postId}`, { data: {userId:user._id}})
 
     }
 
     return (
-        <PostContext.Provider value={{ posts, createPost, fetchPosts, deletePost,loading,deletingId }}>
+        <PostContext.Provider value={{ posts, createPost, fetchPosts, deletePost, loading, deletingId }}>
             {children}
         </PostContext.Provider>
     );

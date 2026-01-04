@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { BookOpen, PlusCircle} from "lucide-react";
+﻿import React, { useRef } from "react";
+import { PlusCircle} from "lucide-react";
 import {
     Drawer,
     DrawerTrigger,
@@ -20,12 +20,12 @@ export default function PostIcon() {
             <Drawer>
                 
                 <DrawerTrigger asChild>
-                    <PlusCircle className="w-10 h-10 hover:scale-120 transition-all duration-300 ease-in-out" />
+                    <PlusCircle size={28} className="h-10 w-10 transition-all duration-300 ease-in-out hover:scale-120" />
                 </DrawerTrigger>
 
                 <DrawerContent>
                     <DrawerHeader>
-                        <DrawerTitle className="text-xl font-bold text-center">Create</DrawerTitle>
+                        <DrawerTitle className="text-center text-xl font-semibold">Create</DrawerTitle>
                     </DrawerHeader>
 
                     <div className="flex flex-col gap-2 px-4 text-lg">
@@ -35,7 +35,7 @@ export default function PostIcon() {
                     </div>
 
                     <DrawerClose className="p-4">
-                        <Button variant="outline" className="w-full text-xl py-6 font-semibold cursor-pointer border  border-gray-600">Close</Button>
+                        <Button className="text-md bordermode w-full cursor-pointer border p-2 font-semibold">Close</Button>
                     </DrawerClose>
 
                 </DrawerContent>
@@ -43,7 +43,7 @@ export default function PostIcon() {
             <input
                 ref={uploadPhoto}
                 type="file"
-                accept="image/*"
+                accept="image/*,video/*,audio/mpeg"
                 className="hidden"
                 onChange={(e) => console.log("Gallery picked:", e.target.files[0])}
             />

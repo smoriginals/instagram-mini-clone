@@ -9,7 +9,7 @@ export default function UserTheme() {
         <>
             <div className=" items-center space-x-2 flex justify-between ">
                 <Label className='text-sm'>Dark Mode</Label>
-                <Switch checked={theme === "dark"} onClick={toggleTheme} />
+                <Switch checked={theme === "dark"} onClick={toggleTheme}/>
             </div>
         </>
     )

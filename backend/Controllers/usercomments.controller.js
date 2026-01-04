@@ -18,7 +18,6 @@ export default async function userComments(req, res) {
         post.comments.push({ user: userId, text })
         await post.save();
 
-        //await post.populate('comments.user', 'name userProfile')
         const popComments = await post.populate({
             path: 'comments.user',
             select:'name userProfile',
@@ -26,7 +25,6 @@ export default async function userComments(req, res) {
 
         return res.status(200).json({
             success: true,
-            //comments:post.comments
             comments:popComments.comments,
         })
     }

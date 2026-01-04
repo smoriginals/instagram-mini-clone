@@ -19,7 +19,7 @@ export default function Privacy() {
                 <h1 className="px-2 text-4xl font-bold">Privacy</h1>
                
 
-                <div className="mt-3 space-y-1 rounded-lg border border-gray-600 p-2">
+                <div className="mt-3 space-y-1 rounded-lg border bordermode p-2">
 
                     <h1 className="text-xl font-bold px-2">User Profile</h1>
                     <hr></hr>

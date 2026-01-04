@@ -8,28 +8,16 @@ export default function Feeds() {
 
     return (
         <>
-            {
-                /*
-                 <div className='relative flex h-full w-full flex-col gap-4 p-1 pt-2 mb-16 transition-all duration-300 ease-in-out [scroll-behavior:smooth]'>
-                     
-                     {
-                         loading ? <Loader2 className='relative top-0 mx-auto animate-spin' /> : posts.map((post) => (
-                             <Feedcard key={post._id} post={post } />
-                         ))
-                     }
-                     </div>
-                      */
-            }
+           
             <div
                 className="
-                grid grid-cols-1
-                gap-4 p-2 mb-16
+                mb-16 grid
+                grid-cols-1 gap-4 p-2
                 md:grid-cols-2
-                xl:grid-cols-2
-            "
+                xl:grid-cols-2"
             >
                 {loading ? (
-                    <div className='h-auto p-1 w-dvw flex justify-center items-center'>
+                    <div className='flex h-auto w-dvw items-center justify-center p-1'>
                         <Loader2 className="animate-spin" />
                     </div>
                 ) : (

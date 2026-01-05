@@ -60,6 +60,7 @@ const PORT = process.env.PORT || 5000;
 //    methods: ["GET", "POST", "PUT", "DELETE"],
 //    credentials: true
 //}));
+
 app.use(cors())
 
 //Bottom 5 endpoints use for user sign up,login,profile updation(Minimal)

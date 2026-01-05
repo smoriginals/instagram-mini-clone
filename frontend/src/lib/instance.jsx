@@ -3,7 +3,7 @@ import { showLoading, hideLoading } from '../utility/loadingBridge';
 
 
 const API = axios.create(
-    { baseURL: import.meta.env.VITE_API_BASE_URL }
+    { baseURL: import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_LIVE }
 )
 
 API.interceptors.request.use((config) => {

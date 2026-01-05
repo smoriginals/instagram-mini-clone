@@ -1,5 +1,4 @@
 ﻿import { createContext, useContext, useState } from "react";
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import API from "../lib/instance";
 import { useEffect } from "react";
@@ -33,7 +32,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: "Missing fields" };
         }
 
-        const createPromise = axios.post("http://localhost:5000/api/user/create", userData)
+        const createPromise = API.post("/api/user/create", userData)
 
         toast.promise(createPromise, {
             loading: 'Creating Acconut',
@@ -71,7 +70,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: "Missing fields" };
         }
 
-        const loginPromise = axios.post("http://localhost:5000/api/user/login", loginData)
+        const loginPromise = API.post("/api/user/login", loginData)
 
         toast.promise(loginPromise, {
             loading: 'Loggin...',
@@ -112,7 +111,7 @@ export const GlobalProvider = ({ children }) => {
     const UpdateUserProfile = async (updatedData) => {
 
         try {
-            const res = await axios.put("http://localhost:5000/api/user/updateProfile", updatedData);
+            const res = await API.put("/api/user/updateProfile", updatedData);
             setUser(res.data.updatedUser);
             localStorage.setItem("user", JSON.stringify(res.data.updatedUser));
             return { ok: true, user: res.data.updatedUser };
@@ -158,7 +157,7 @@ export const GlobalProvider = ({ children }) => {
             formData.append('image', file);
             formData.append("userId", userId);
 
-            const res = await axios.post('http://localhost:5000/api/user/upload', formData, {
+            const res = await API.post('/api/user/upload', formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
 

@@ -61,7 +61,7 @@ export default function Feedcard({ post }) {
             return;
         }
         try {
-            const res = await axios.post(`http://localhost:5000/api/user/post/${post._id}/comments`, { userId: user._id, text: input })
+            const res = await API.post(`/api/user/post/${post._id}/comments`, { userId: user._id, text: input })
 
             if (res.data.success) {
                 setComments(res.data.comments);

@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button"
 import userIcon from '../assets/user.png';
 import toast from 'react-hot-toast';
 import { usePosts } from "../Context/PostContext";
-import axios from 'axios';
+import API from "../lib/instance";
 
 export default function Dashboard() {
 
@@ -73,7 +73,7 @@ export default function Dashboard() {
             return;
         }
 
-        const reportPromise = axios.post('http://localhost:5000/api/send/report', userReport);
+        const reportPromise = API.post('/api/send/report', userReport);
 
         toast.promise(reportPromise, {
             loading: 'Sending...',

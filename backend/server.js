@@ -34,17 +34,26 @@ dotenv.config();
 await connectDB();
 
 
-cleanupExpireStory();
+//cleanupExpireStory();
 
-cron.schedule("*/5 * * * *", async () => {
-    await cleanupExpireStory();
-});
+//cron.schedule("*/5 * * * *", async () => {
+//    await cleanupExpireStory();
+//});
+if (process.env.NODE_ENV === "production") {
+    console.log("CRON Initiating_P...");
+
+    cleanupExpireStory();
+
+    cron.schedule("*/5 * * * *", async () => {
+        await cleanupExpireStory();
+    });
+}
 
 const app = express();
 app.use(express.json());
 
 
-const PORT = process.env.SERVER_PORT;
+const PORT = process.env.PORT||5000;
 app.use(cors({
     origin: "*", // Allow requests from any origin
     methods: ["GET", "POST", "PUT", "DELETE"],

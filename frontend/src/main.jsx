@@ -1,4 +1,4 @@
-import {  HashRouter } from 'react-router-dom';
+import {  BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import App from './App.jsx'
@@ -12,7 +12,7 @@ import { LoadingProvider } from './Context/LoadingContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <HashRouter>
+        <BrowserRouter>
             <GlobalProvider>
                 <PostProvider>
                     <StoryProvider>
@@ -25,6 +25,6 @@ createRoot(document.getElementById('root')).render(
                     </StoryProvider>
                 </PostProvider>
             </GlobalProvider>
-        </HashRouter>
+        </BrowserRouter>
     </StrictMode>
 )

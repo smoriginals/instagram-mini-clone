@@ -3,15 +3,19 @@ import bcrypt from 'bcryptjs';
 import Joi from 'joi';
 
 const signupSchema = Joi.object({
+
     email: Joi.string().email().required(),
     name: Joi.string().min(4).max(28).required(),
     username: Joi.string().min(4).max(20).required(),
     password: Joi.string().min(8).required(),
+
 })
 
 
 export default async function createUser(req, res) {
+
     try {
+
         const { error, value } = signupSchema.validate(req.body);
 
         if (error) {
@@ -32,15 +36,25 @@ export default async function createUser(req, res) {
         const hashing = await bcrypt.hash(password, 10);
 
         const newUser = new usersignupModel({
-            email,
+            email:email.toLowerCase(),
             name,
-            username,
+            username: username.toLowerCase(),
             password: hashing,
         });
 
         await newUser.save();
        
-        res.status(201).json({ success: true, newUser });
+        res.status(201).json({
+            success: true,
+            user: {
+                _id: newUser._id,
+                email: newUser.email,
+                name: newUser.name,
+                username: newUser.username,
+                createdAt: newUser.createdAt,
+            },
+            //newUser
+        });
 
     } catch (error) {
 

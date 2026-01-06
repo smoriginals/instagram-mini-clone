@@ -3,8 +3,14 @@ import { showLoading, hideLoading } from '../utility/loadingBridge';
 
 
 const API = axios.create(
-    { baseURL: import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_LIVE }
+    {
+        baseURL: import.meta.env.VITE_API_BASE_URL,
+        withCredentials: true,
+        timeout: 15000,
+            //|| import.meta.env.VITE_LIVE
+    }
 )
+const PUBLIC_ENDPOINTS = ['/api/user/create','/api/user/login'];
 
 API.interceptors.request.use((config) => {
     showLoading();
@@ -24,8 +30,16 @@ API.interceptors.response.use((res) => {
 },
     (err) => {
         hideLoading();
-        if (err.response?.status === 401) {
-            localStorage.clear();
+
+        const isPublicEndpoint = PUBLIC_ENDPOINTS.some((endpoint) =>
+            err.config?.url?.includes(endpoint)
+        );
+
+
+        if (err.response?.status === 401 && !isPublicEndpoint) {
+            //localStorage.clear();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
             window.location.href = '/login'
         }
         return Promise.reject(err);

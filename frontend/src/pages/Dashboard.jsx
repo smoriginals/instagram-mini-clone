@@ -32,6 +32,25 @@ export default function Dashboard() {
     const { DeleteUser, user } = useGlobal();
     const { posts } = usePosts();
 
+    if (!user) return null;
+
+    const safePosts = Array.isArray(posts) ? posts : [];
+
+    const myPosts = safePosts.filter(
+        post => post.userId?._id === user._id || post.userId === user._id
+    );
+
+    const likeCount = myPosts.reduce(
+        (total, post) => total + (post.likes?.length ?? 0),
+        0
+    );
+
+    const commentCount = myPosts.reduce(
+        (total, post) => total + (post.comments?.length ?? 0),
+        0
+    );
+
+
     const [deleting, setDeleting] = useState(false);
 
     const DeleteUserProfile = async () => {
@@ -41,7 +60,8 @@ export default function Dashboard() {
 
             const res = await DeleteUser(user._id);
             if (res?.ok) {
-                navigate("/");
+                 
+                navigate("/", { replace: true });
                 
             }
         } finally {
@@ -49,12 +69,12 @@ export default function Dashboard() {
         }
     };
 
-    const myPosts = posts.filter(
-        (post) => post.userId?._id === user?._id
-    );
+    //const myPosts = posts.filter(
+    //    (post) => post.userId?._id === user?._id
+    //);
 
-    const likeCount = myPosts.reduce((total, post) => total + post.likes.length, 0)
-    const commentCount = myPosts.reduce((total, post) => total + post.comments.length, 0)
+    //const likeCount = myPosts.reduce((total, post) => total + post.likes.length, 0)
+    //const commentCount = myPosts.reduce((total, post) => total + post.comments.length, 0)
 
     const [userReport, setUserReport] = useState({
         name: '',

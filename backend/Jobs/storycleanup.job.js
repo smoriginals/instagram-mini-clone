@@ -4,7 +4,7 @@ import cloudinary from '../Middleware/cloudinary.js';
 export default async function cleanupExpireStory() {
     try {
 
-        console.log("CRON Initiating...")
+        console.log("CRON is Initiating Stand By")
 
         const expireTime = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -33,7 +33,7 @@ export default async function cleanupExpireStory() {
             await userstoryModel.findByIdAndDelete(story._id);
 
         }
-        console.log(`Current User Story's'.: ${expiredStories.length}`);
+        console.log(`CRON Online... User Story's : ${expiredStories.length}`);
 
     } catch (error) {
         console.log("Failed to cleanup the stories", error.message);

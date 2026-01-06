@@ -22,44 +22,52 @@ export default function ProfileIcon() {
 
     const navigate = useNavigate();
     const { user, LogoutUser } = useGlobal();
-    const { stories, viewStory, deleteStory, deletingId } = useStory();
-    const { posts } = usePosts();
+    const { stories=[], viewStory, deleteStory, deletingId } = useStory();
+    const { posts=[] } = usePosts();
     const [openDrawer, setOpenDrawer] = useState(false);
+
+    
 
     const HandleDrawer = () => {
         setOpenDrawer((prev) => !prev); // closes drawer
     }
-
     const DeleteStory = async (storyId) => {
-
         deleteStory(storyId);
-
     }
-    const sampleImage =userIcon;
 
-    const totalPosts = posts.filter((post) =>
+    const safePosts = posts || [];
+    const safeStories = stories || [];
+    const safeFollowers = user.followers || [];
+    const safeFollowing = user.following || [];
+
+
+    const totalPosts = safePosts.filter((post) =>
         post.userId?._id === user?._id || post.userId === user?._id
     );
-    const totalStories = stories.filter((story) =>
+    const totalStories = safeStories.filter((story) =>
         story.userId?._id === user?._id || story.userId === user?._id
     );
-
     const postAndStory = totalPosts.length + totalStories.length;
+
+    const hasStory = (userId) => {
+        //return stories?.some(story => story.userId === userId);
+        safeStories.some(
+            story => story.userId?._id === userId || story.userId === userId
+        );
+    }
+
+    const sampleImage = userIcon;
 
     useEffect(() => {
 
-
-        if (user?._id) {
+        if (user._id) {
             viewStory(user._id)
         }
-    }, [user?._id, viewStory]);
-
+    }, [user._id, viewStory]);
     if (!user) return null; // prevent crash BEFORE login
 
 
-    const hasStory = (userId) => {
-        return stories?.some(story => story.userId === userId);
-    }
+
    
     return (
         <>
@@ -102,12 +110,12 @@ export default function ProfileIcon() {
                                 </div>
                                 
                                 <div className=' hoverOnItems flex h-full w-full cursor-pointer flex-col items-center justify-center rounded p-2' onClick={() => { navigate('/myposts') }}>
-                                    <p className="text-lg font-bold">{user.followers.length}</p>
+                                    <p className="text-lg font-bold">{safeFollowers.length}</p>
                                     <p className="text-sm">Followers</p>
                                 </div>
 
                                 <div className='hoverOnItems flex h-full w-full cursor-pointer flex-col items-center justify-center rounded p-2' onClick={() => { navigate('/myposts') }}>
-                                    <p className="text-lg font-bold">{user.following.length}</p>
+                                    <p className="text-lg font-bold">{safeFollowing.length}</p>
                                     <p className="text-sm">Following</p>
                                 </div>
                             </div>
@@ -127,13 +135,13 @@ export default function ProfileIcon() {
                         <div className="bordermode mt-4 w-full max-w-md rounded-md border p-2.5 shadow">
                             <h2 className="text-md font-semibold">Story Highlights</h2>
 
-                            {stories.length === 0 ? (
+                            {safeStories.length === 0 ? (
                                 <p className="mt-2 text-sm text-gray-400">
                                     No stories uploaded yet
                                 </p>
                             ) : (
                                 <div className="mt-2 grid w-full grid-cols-3 gap-2">
-                                    {stories.map((story) => (
+                                    {safeStories.map((story) => (
                                         <div
                                             key={story._id}
                                             className="bordermode relative aspect-square overflow-hidden rounded-xl border"

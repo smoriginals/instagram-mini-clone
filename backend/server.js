@@ -1,4 +1,4 @@
-import express from 'express';
+﻿import express from 'express';
 import connectDB from './db.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -39,6 +39,7 @@ await connectDB();
 //cron.schedule("*/5 * * * *", async () => {
 //    await cleanupExpireStory();
 //});
+
 if (process.env.NODE_ENV === "production") {
     console.log("CRON Initiating_P...");
 
@@ -50,23 +51,38 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const app = express();
-app.use(express.json());
 
 
 const PORT = process.env.PORT || 5000;
 
-//app.use(cors({
-//    origin: ["http://localhost:5173"],
-//    methods: ["GET", "POST", "PUT", "DELETE"],
-//    credentials: true
-//}));
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    'http://localhost:5173',
+    'http://localhost:4173',
+].filter(Boolean);
+
 app.use(cors({
-    origin: [
-        "http://localhost:5173","https://smoriginals-river.onrender.com"
-    ],
-    credentials: true
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            //callback(new Error('CORS not allowed'));
+            callback(null, false);
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(cors())
+
+// 👇 THIS LINE IS CRITICAL
+//app.options('*', cors(), (req, res) => {
+//    res.sendStatus(204);
+//});
+
+app.use(express.json());
 
 //Bottom 5 endpoints use for user sign up,login,profile updation(Minimal)
 app.use('/api/user', usersignupRoute);
@@ -102,7 +118,7 @@ app.use('/api/send', sendreportRoute);
 app.use('/api/smos', fetchallusersRoute);
 
 //Homelocation
-app.use('/', (req, res) => res.send(`${PORT} API Port is Running...`));
+app.get('/', (req, res) => res.send(`${PORT} API Port is Running...`));
 
 //Listen to the server
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));

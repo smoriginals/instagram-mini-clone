@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from "react"
+﻿import React, { useState, useRef, useEffect } from "react"
 import {
     Drawer,
     DrawerClose,
@@ -50,7 +50,7 @@ export default function Storybar() {
 
     // Upload (you’ll connect API later)
     const handleUpload = async () => {
-
+        if (!file) return;
         setUploading(true);
 
         try {
@@ -65,11 +65,24 @@ export default function Storybar() {
         }
 
     };
-    const otherUsers = users.filter(u => u._id !== user._id);
+    //const otherUsers = users.filter(u => u._id !== user._id);
+    const safeUsers = Array.isArray(users) ? users : [];
+
+    const safeStories = Array.isArray(stories) ? stories : [];
+
+    const otherUsers = safeUsers.filter(u => u._id !== user?._id);
+
 
     const hasStory = (userId) => {
-        return stories?.some(story => story.userId === userId);
+        //return stories?.some(story => story.userId === userId);
+        if (!userId) return false;
+        return safeStories.some(story => story.userId === userId);
     }
+    useEffect(() => {
+        return () => {
+            if (preview) URL.revokeObjectURL(preview);
+        };
+    }, [preview]);
 
     return (
         <>
@@ -84,7 +97,7 @@ export default function Storybar() {
                         <Drawer>
 
                             <DrawerTrigger asChild>
-                                <button className={`flex h-16 w-16 items-center justify-center rounded-full  ${hasStory(user._id) ? "border-2 border-pink-500" : ""} p-0.5`}>
+                                <button className={`flex h-16 w-16 items-center justify-center rounded-full  ${user?._id && hasStory(user._id) ? "border-2 border-pink-500" : ""} p-0.5`}>
                                     <img src={`${user?.userProfile || sampleImage}`} title='User Profile Click here to Add Story]' className='bordermode aspect-square h-14 w-14 rounded-full border object-cover'
                                     />
                                 </button>
@@ -176,7 +189,7 @@ export default function Storybar() {
                             key={user._id}
                             className="flex flex-shrink-0 flex-col items-center justify-start gap-1"
                         >
-                            <div className={`h-16 w-16 overflow-hidden rounded-full  ${hasStory(user._id) ? "border-2 border-pink-500" : ""} p-0.5`}>
+                            <div className={`h-16 w-16 overflow-hidden rounded-full  ${user?._id && hasStory(user._id) ? "border-2 border-pink-500" : ""} p-0.5`}>
                                 <img
                                     src={user.userProfile || sampleImage}
                                     className="bordermode h-full w-full rounded-full border object-cover"
@@ -191,7 +204,7 @@ export default function Storybar() {
                     ))}
 
                     {/* SHOW MORE BUTTON */}
-                    {otherUsers.length >= 0 && (
+                    {otherUsers.length > 0 && (
                         <div className='mb-5 flex flex-col items-center justify-center gap-1'>
 
                             <div className="bordermode flex h-14 w-14 items-center justify-center rounded-full border px-4" onClick={() => navigate('/explore-users')}>

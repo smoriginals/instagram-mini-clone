@@ -30,7 +30,12 @@ export default async function userFollow(req, res) {
             })
         }
         //check follow status
-        const isFollowing = loggedIn.following.map(id => id.toString()).includes(targetUserId);
+        //const isFollowing = loggedIn.following.map(id => id.toString()).includes(targetUserId);
+        const followingList = Array.isArray(loggedIn.following)
+            ? loggedIn.following.map(id => id.toString())
+            : [];
+
+        const isFollowing = followingList.includes(targetUserId);
 
         if (isFollowing) {
             //unfollow  

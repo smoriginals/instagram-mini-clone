@@ -6,22 +6,29 @@ import { useEffect } from "react";
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
+
+    const LOCAL_HOST = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_LIVE;
+
     // Story Drawer Handle
     const [storyDrawerOpen, setStoryDrawerOpen] = useState(false);
     const CloseStoryDrawer = () => setStoryDrawerOpen(false);
     const OpenStoryDrawer = () => setStoryDrawerOpen(true);
 
     // User Profile State Management
+
     const [user, setUser] = useState(() => {
-        const storeUser = localStorage.getItem('user');
+        const storedUser = localStorage.getItem('user');
+
+        if (!storedUser) return null;
+
         try {
-            return storeUser ? JSON.parse(storeUser) : null;
-        }
-        catch {
+            return JSON.parse(storedUser);
+        } catch (err) {
+            console.error("Invalid user data in localStorage", err);
             localStorage.removeItem('user');
             return null;
         }
-    })
+    });
 
 
     // Create User Function
@@ -32,7 +39,7 @@ export const GlobalProvider = ({ children }) => {
             return { ok: false, message: "Missing fields" };
         }
 
-        const createPromise = API.post("/api/user/create", userData)
+        const createPromise = API.post('/api/user/create', userData)
 
         toast.promise(createPromise, {
             loading: 'Creating Acconut',
@@ -46,10 +53,13 @@ export const GlobalProvider = ({ children }) => {
             if (!res.data.success) {
                 return { ok: false, message: res.data?.message || "Signup failed" };
             }
-            setUser(res.data.newUser);
-            localStorage.setItem("user", JSON.stringify(res.data.newUser));
+            //setUser(res.data.user);
+            //localStorage.setItem("user", JSON.stringify(res.data.user));
 
-            return { ok: true, user: res.data.newUser };
+            return {
+                ok: true,
+                user: res.data.user
+            };
 
         }
         catch (error) {
@@ -124,7 +134,7 @@ export const GlobalProvider = ({ children }) => {
     const DeleteUser = async (_id) => {
 
         if (!_id) {
-            return { ok: false, message: "User id missing" };
+            return { ok: false, message: "User missing" };
         }
 
         const deletePromise = API.delete("/api/user/deleteuser", { data: { _id } });
@@ -136,10 +146,12 @@ export const GlobalProvider = ({ children }) => {
         })
         try {
             const res = await deletePromise;
-            if (res.data.success) {
+            if (res?.data?.success) {
                 setUser(null);
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
+                setUsers([]);
+                localStorage.clear();
+                //localStorage.removeItem('token');
+                //localStorage.removeItem('user');
             }
             return { ok: true, message: res.data.message }
         } catch (error) {
@@ -179,52 +191,93 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    //const FollowUnFollowUsers = async (targetUserId) => {
+    //    if (!user) return { success: false };
+
+    //    try {
+    //        const res = await API.put(`/api/user/follow/${targetUserId}`);
+
+    //        if (res.data.success) {
+    //            // update logged-in user
+    //            setUser(prev => {
+    //                if (!prev) return prev;
+
+    //                const isFollowing = prev.following.includes(targetUserId);
+
+    //                const updatedUser = {
+    //                    ...prev,
+    //                    following: isFollowing
+    //                        ? prev.following.filter(id => id !== targetUserId)
+    //                        : [...prev.following, targetUserId],
+    //                };
+
+    //                localStorage.setItem("user", JSON.stringify(updatedUser));
+    //                return updatedUser;
+    //            });
+
+    //            // update users list (followers count)
+    //            setUsers(prev =>
+    //                prev.map(u =>
+    //                    u._id === targetUserId
+    //                        ? {
+    //                            ...u,
+    //                            followers:
+    //                                res.data.action === "followed"
+    //                                    ? [...u.followers, user._id]
+    //                                    : u.followers.filter(id => id !== user._id),
+    //                        }
+    //                        : u
+    //                )
+    //            );
+
+    //            return { success: true };
+    //        }
+    //    } catch (error) {
+    //        return { success: false, message: error.message };
+    //    }
+    //};
     const FollowUnFollowUsers = async (targetUserId) => {
-        if (!user) return { success: false };
+        if (!user?._id || !targetUserId) return;
 
         try {
             const res = await API.put(`/api/user/follow/${targetUserId}`);
 
-            if (res.data.success) {
-                // update logged-in user
-                setUser(prev => {
-                    if (!prev) return prev;
+            if (!res.data.success) return;
 
-                    const isFollowing = prev.following.includes(targetUserId);
+            setUser(prev => {
+                if (!prev) return null;
 
-                    const updatedUser = {
-                        ...prev,
-                        following: isFollowing
-                            ? prev.following.filter(id => id !== targetUserId)
-                            : [...prev.following, targetUserId],
+                const following = Array.isArray(prev.following) ? prev.following : [];
+                const isFollowing = following.includes(targetUserId);
+
+                const updatedUser = {
+                    ...prev,
+                    following: isFollowing
+                        ? following.filter(id => id !== targetUserId)
+                        : [...following, targetUserId],
+                };
+
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                return updatedUser;
+            });
+
+            setUsers(prev =>
+                prev.map(u => {
+                    if (u._id !== targetUserId) return u;
+
+                    const followers = Array.isArray(u.followers) ? u.followers : [];
+                    return {
+                        ...u,
+                        followers: res.data.action === "followed"
+                            ? [...followers, user._id]
+                            : followers.filter(id => id !== user._id),
                     };
-
-                    localStorage.setItem("user", JSON.stringify(updatedUser));
-                    return updatedUser;
-                });
-
-                // update users list (followers count)
-                setUsers(prev =>
-                    prev.map(u =>
-                        u._id === targetUserId
-                            ? {
-                                ...u,
-                                followers:
-                                    res.data.action === "followed"
-                                        ? [...u.followers, user._id]
-                                        : u.followers.filter(id => id !== user._id),
-                            }
-                            : u
-                    )
-                );
-
-                return { success: true };
-            }
-        } catch (error) {
-            return { success: false, message: error.message };
+                })
+            );
+        } catch (err) {
+            console.error(err);
         }
     };
-
 
     const [appUsers, setAppUsers] = useState([]);
     const [errors, setError] = useState(null);

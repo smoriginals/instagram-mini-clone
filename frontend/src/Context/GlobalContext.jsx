@@ -112,9 +112,7 @@ export const GlobalProvider = ({ children }) => {
     const LogoutUser = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        localStorage.clear();
         toast.success("Logout Successfully");
-        setUser(null);
     };
 
     //Update User profile function

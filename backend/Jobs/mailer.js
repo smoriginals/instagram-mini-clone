@@ -11,5 +11,13 @@ const sender = nodemailer.createTransport({
         pass:process.env.MAIL_PASS,
     }
 })
-
+if (process.env.NODE_ENV !== 'test') {
+    sender.verify((error) => {
+        if (error) {
+            console.error('[MAILER] SMTP NOT READY:', error.message);
+        } else {
+            console.log('[MAILER] SMTP SERVER READY');
+        }
+    });
+}
 export default sender;

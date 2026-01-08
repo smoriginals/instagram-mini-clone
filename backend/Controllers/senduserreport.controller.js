@@ -16,7 +16,7 @@ export default async function sendUserReport(req, res) {
 
     try {
         await sender.sendMail({
-            from: `"River Support" <${email}>`,
+            from: `"River Support" <${process.env.MAIL_USER}>`,
             to: process.env.MAIL_USER,
             replyTo: email,
             subject: `Support Message From ${name || "user"}`,

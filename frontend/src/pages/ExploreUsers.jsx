@@ -240,7 +240,7 @@ export default function ExploreUsers() {
                                             onClick={() => FollowUnFollowUsers(u._id)}
                                             className="bg-blue-500 text-white"
                                         >
-                                            {isFollowing ? "Following" : "Follow"}
+                                            {isFollowing ? "Unfollow" : "Follow"}
                                         </Button>
                                     </DialogFooter>
                                 </DialogContent>

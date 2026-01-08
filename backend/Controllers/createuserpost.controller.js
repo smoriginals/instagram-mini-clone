@@ -12,16 +12,32 @@ export default async function createUserPost(req, res) {
         if (!req.file) {
             return res.status(400).json({success:false,message:"Upload Field!"})
         }
-
-        const postResult = await cloudinary.uploader.upload(req.file.path, {folder:'User Posts'})
         const user = await usersignupModel.findById(userId);
 
         if (!user) {
-            return res.status(404).json({success:false,message:"User Not Found"})
+            return res.status(404).json({ success: false, message: "User Not Found" })
         }
 
+        //const postResult = await cloudinary.uploader.upload(req.file.path, {folder:'User Posts'})
+        const postResult = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { folder: 'User Posts' },
+                (error, result) => {
+                    if (error) {
+                        return (reject);
+                    }
+                    resolve(result);
+                }
+            )
+            stream.end(req.file.buffer);
+        })
+
+       
+
+       
+
         // 2️⃣ Delete local image
-        fs.unlinkSync(req.file.path);
+        //fs.unlinkSync(req.file.path);
 
         const newPost = new userpostsModel({
             title, caption, userId,

@@ -4,6 +4,6 @@ import uploadStory from '../Controllers/uploadstory.controller.js';
 import Auth from '../Middleware/auth.js';
 const router = express.Router();
 
-router.post('/uploadstory',Auth, upload.single('image'), uploadStory);
+router.post('/uploadstory', upload.single('image'), Auth, uploadStory);
 
 export default router;

@@ -4,10 +4,10 @@ import { showLoading, hideLoading } from '../utility/loadingBridge';
 
 const API = axios.create(
     {
-        baseURL: import.meta.env.VITE_API_BASE_URL,
+        baseURL: import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_LIVE,
         withCredentials: true,
         timeout: 15000,
-            //|| import.meta.env.VITE_LIVE
+            
     }
 )
 const PUBLIC_ENDPOINTS = ['/api/user/create','/api/user/login'];

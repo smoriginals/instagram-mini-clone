@@ -1,11 +1,14 @@
 ﻿import userstoryModel from '../Models/userstory.model.js';
 import usersignupModel from '../Models/usersignup.model.js';
 import cloudinary from '../Middleware/cloudinary.js';
-import fs from 'fs';
+//import fs from 'fs';
 
 export default async function uploadStory(req, res) {
 
     try {
+        console.log(req.headers["content-type"]);
+        console.log(req.file);
+
         const { userId } = req.body;
         // 1️⃣ Validate user
         if (!userId) {
@@ -31,7 +34,21 @@ export default async function uploadStory(req, res) {
             })
         }
 
-        const userStory = await cloudinary.uploader.upload(req.file.path, { folder: "Story", resource_type: 'image' });
+        //const userStory = await cloudinary.uploader.upload(req.file.path, { folder: "Story", resource_type: 'image' });
+
+        const userStory = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { folder: 'Story' },
+                (error, result) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(result);
+                }
+            )
+            stream.end(req.file.buffer);
+        })
+        
         if (!userStory?.secure_url) {
             throw new Error("Cloudinary upload failed");
         }
@@ -55,11 +72,12 @@ export default async function uploadStory(req, res) {
             message: error.message || "Server not Responding..."
         });
     }
-    finally {
 
-        if (req.file?.path) {
-            fs.unlink(req.file.path, () => { });
-        }
-    }
+    //finally {
+
+    //    if (req.file?.path) {
+    //        fs.unlink(req.file.path, () => { });
+    //    }
+    //}
 
 } 

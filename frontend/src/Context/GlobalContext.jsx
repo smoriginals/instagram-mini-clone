@@ -170,7 +170,7 @@ export const GlobalProvider = ({ children }) => {
             formData.append("userId", userId);
 
             const res = await API.post('/api/user/upload', formData, {
-                headers: { "Content-Type": "multipart/form-data" }
+                //headers: { "Content-Type": "multipart/form-data" }
             })
 
             if (res.data.success) {

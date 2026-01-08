@@ -21,13 +21,13 @@ export const StoryProvider = ({ children }) => {
             toast.error("Eiter you not loggin or select wrong file!");
             return;
         }
-       
+        
         const formData = new FormData();
         formData.append("image", file);
         formData.append("userId", user._id);
 
         const uploadPromise = API.post("/api/user/story/uploadstory",
-            formData,
+            formData
         )
         toast.promise(uploadPromise, {
             loading: "Uploading...",

@@ -3,6 +3,8 @@ import connectDB from './db.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cron from 'node-cron';
+
+
 import cleanupExpireStory from './Jobs/storycleanup.job.js';
 
 import usersignupRoute from './Routes/usersignup.route.js';
@@ -23,22 +25,20 @@ import showuserstoryRoute from './Routes/showuserstory.route.js';
 import deleteuserstoryRoute from './Routes/deleteuserstory.route.js';
 
 import fetchallusersRoute from './Routes/fetchallusers.route.js';
-
 import userfollowRoute from './Routes/userfollow.route.js';
 import searchusersRoute from './Routes/searchusers.route.js';
-
 import sendreportRoute from './Routes/sendreport.route.js';
 
 
 dotenv.config();
 await connectDB();
 
+const app = express();
+//app.options( cors());
 
-//cleanupExpireStory();
 
-//cron.schedule("*/5 * * * *", async () => {
-//    await cleanupExpireStory();
-//});
+const PORT = process.env.PORT || 5000;
+
 
 if (process.env.NODE_ENV === "production") {
     console.log("CRON Initiating_P...");
@@ -50,39 +50,56 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-const app = express();
+//const allowedOrigins = [
+//    process.env.CLIENT_URL,
+//    'http://localhost:5173',
+//    'http://localhost:4173'
+//].filter(Boolean);
 
+//app.use(cors({
+//    origin: function (origin, callback) {
+//        if (!origin) return callback(null, true);
 
-const PORT = process.env.PORT || 5000;
+//        if (allowedOrigins.includes(origin)) {
+//            callback(null, true);
 
-const allowedOrigins = [
-    process.env.CLIENT_URL,
-    'http://localhost:5173',
-    'http://localhost:4173',
-].filter(Boolean);
+//        } else {
+//            //callback(new Error('CORS not allowed'));
+//            callback(null, false);
+//        }
+//        //return callback(new Error(`Cors Blocked: ${origin}`), false);
+//    },
+//    credentials: true,
+//    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//    allowedHeaders: ['Content-Type', 'Authorization']
+//}));
 
 app.use(cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
         if (!origin) return callback(null, true);
 
+        const allowedOrigins = [
+            process.env.CLIENT_URL,
+            'http://localhost:5173',
+            'http://localhost:4173'
+        ];
+
         if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            //callback(new Error('CORS not allowed'));
-            callback(null, false);
+            return callback(null, true);
         }
+
+        return callback(new Error(`CORS blocked: ${origin}`));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Authorization']
 }));
 
-// 👇 THIS LINE IS CRITICAL
-//app.options('*', cors(), (req, res) => {
-//    res.sendStatus(204);
-//});
+
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Bottom 5 endpoints use for user sign up,login,profile updation(Minimal)
 app.use('/api/user', usersignupRoute);
@@ -113,7 +130,6 @@ app.use('/api/user/follow', userfollowRoute);
 app.use('/api/users', searchusersRoute);
 //send Report
 app.use('/api/send', sendreportRoute);
-
 //Fetch all users that sign in my app
 app.use('/api/smos', fetchallusersRoute);
 

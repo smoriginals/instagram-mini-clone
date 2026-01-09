@@ -1,5 +1,6 @@
-﻿
-# 📸 Instagram Medium Clone
+# About
+
+## 📸 Instagram Medium Clone
 
 #### 📌 Project Overiew
 

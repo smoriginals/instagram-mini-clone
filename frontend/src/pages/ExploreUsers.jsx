@@ -219,9 +219,13 @@ export default function ExploreUsers() {
                                 </DialogTrigger>
 
                                 <DialogContent>
-                                    <DialogHeader>
+                                    <DialogHeader className='flex items-center justify-center'>
                                         <DialogTitle>{u.name}</DialogTitle>
                                         <DialogDescription>{u.bio}</DialogDescription>
+                                        <div>
+                                            <img src={u.userProfile} className='aspect-square h-20 w-20 rounded-full border-2' />
+                                        </div>
+                                        {/*<DialogDescription>{u.userProfile}</DialogDescription>*/}
                                     </DialogHeader>
 
                                     <div className="flex justify-evenly font-semibold">
@@ -231,6 +235,7 @@ export default function ExploreUsers() {
                                     </div>
 
                                     <DialogFooter>
+
                                         <DialogClose asChild>
                                             <Button variant="outline">Cancel</Button>
                                         </DialogClose>
@@ -242,6 +247,7 @@ export default function ExploreUsers() {
                                         >
                                             {isFollowing ? "Unfollow" : "Follow"}
                                         </Button>
+
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>

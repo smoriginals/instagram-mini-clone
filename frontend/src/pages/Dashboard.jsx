@@ -60,9 +60,9 @@ export default function Dashboard() {
 
             const res = await DeleteUser(user._id);
             if (res?.ok) {
-                 
+
                 navigate("/", { replace: true });
-                
+
             }
         } finally {
             setDeleting(false);
@@ -98,11 +98,12 @@ export default function Dashboard() {
         toast.promise(reportPromise, {
             loading: 'Sending...',
             success: 'Report sent successfully 📩',
-            error:'Failed to Report',
+            error: 'Failed to Report',
         })
 
         try {
             const res = await reportPromise;
+            console.log("Report Response:", res);
 
             if (res.data?.success) {
                 setUserReport({ name: '', email: '', message: '' });

@@ -4,7 +4,7 @@ import sender from '../Jobs/mailer.js';
 
 export default async function sendUserReport(req, res) {
 
-    
+
     const { name, email, message } = req.body;
 
     if (!email || !message || !name) {

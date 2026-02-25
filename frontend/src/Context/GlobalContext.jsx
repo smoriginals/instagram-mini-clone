@@ -3,10 +3,15 @@ import toast from 'react-hot-toast';
 import API from "../lib/instance";
 import { useEffect } from "react";
 
+import { registerLogout } from '../utility/logoutBridge';
+import { useNavigate } from 'react-router-dom';
+
+
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
 
+    const navigate = useNavigate();
     const LOCAL_HOST = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_LIVE;
 
     // Story Drawer Handle
@@ -112,8 +117,14 @@ export const GlobalProvider = ({ children }) => {
     const LogoutUser = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        setUser(null);
         toast.success("Logout Successfully");
+        navigate('/login')
     };
+
+    useEffect(() => {
+        registerLogout(LogoutUser)
+    }, [])
 
     //Update User profile function
     const UpdateUserProfile = async (updatedData) => {

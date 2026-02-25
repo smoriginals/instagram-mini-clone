@@ -98,7 +98,7 @@ export default function Dashboard() {
         toast.promise(reportPromise, {
             loading: 'Sending...',
             success: 'Report sent successfully 📩',
-            error: 'Failed to Report',
+            error: 'SUPPORT MESSAGE FALLBACK:',
         })
 
         try {
@@ -110,7 +110,7 @@ export default function Dashboard() {
             }
             return res.data;
         } catch (error) {
-            toast.error(error.response?.data?.message || "Server error");
+            toast.error(error.response?.data?.message || "Support service temporarily unavailable");
         }
     }
 

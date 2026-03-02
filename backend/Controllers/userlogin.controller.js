@@ -15,6 +15,7 @@ export default async function loginUser(req, res) {
     const { error } = loginSchema.validate(req.body, {
         abortEarly: true,//stop on first error
     })
+
     if (error) {
         return res.status(400).json({
             success: false,
@@ -48,7 +49,7 @@ export default async function loginUser(req, res) {
         const token = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_SECRET_KEY,
-            { expiresIn: "28d" }
+            { expiresIn: "20s" }
         );
 
         // 3️ Success

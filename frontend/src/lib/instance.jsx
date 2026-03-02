@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { showLoading, hideLoading } from '../utility/loadingBridge';
-
+import { useGlobal } from '../Context/GlobalContext'
 
 const API = axios.create(
     {
         baseURL: import.meta.env.VITE_API_BASE_URL,
         withCredentials: true,
         timeout: 15000,
-            
     }
 )
 const PUBLIC_ENDPOINTS = ['/api/user/create','/api/user/login'];
@@ -37,10 +36,12 @@ API.interceptors.response.use((res) => {
 
 
         if (err.response?.status === 401 && !isPublicEndpoint) {
-            //localStorage.clear();
+            const { LogoutUser } = useGlobal()
+            localStorage.clear();
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login'
+            LogoutUser();
+            //window.location.href = '/login'
         }
         return Promise.reject(err);
     }

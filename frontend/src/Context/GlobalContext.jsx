@@ -1,11 +1,9 @@
-﻿import { createContext, useContext, useState } from "react";
+﻿import { useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import toast from 'react-hot-toast';
 import API from "../lib/instance";
-import { useEffect } from "react";
 
-import { registerLogout } from '../utility/logoutBridge';
 import { useNavigate } from 'react-router-dom';
-
 
 const GlobalContext = createContext();
 
@@ -97,8 +95,8 @@ export const GlobalProvider = ({ children }) => {
 
             const res = await loginPromise;
             if (!res.data.success) {
-
                 return { ok: false, message: res.data.message }
+                
             }
             setUser(res.data.user);
             localStorage.setItem('user', JSON.stringify(res.data.user))
@@ -121,10 +119,6 @@ export const GlobalProvider = ({ children }) => {
         toast.success("Logout Successfully");
         navigate('/login')
     };
-
-    useEffect(() => {
-        registerLogout(LogoutUser)
-    }, [])
 
     //Update User profile function
     const UpdateUserProfile = async (updatedData) => {
@@ -326,6 +320,7 @@ export const GlobalProvider = ({ children }) => {
                 if (res?.data?.success) {
                     setUsers(res?.data?.users); // 👈 THIS ARRAY YOU SHARED
                 }
+               
             } catch (error) {
                 return { ok: false, message: error.response?.data?.message }
             } finally {

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useGlobal } from "../Context/GlobalContext";
+import homes from '../assets/Images/homes.png';
 
 export default function Signup() {
 
@@ -40,8 +41,8 @@ export default function Signup() {
     return (
 
         <div className="flex h-dvh w-full flex-col items-center justify-center p-4">
-
-            <div className="bordermode w-full max-w-sm rounded-xl border p-6 shadow-lg">
+            <img src={homes} alt='river banner' className='absolute h-full w-full' />
+            <div className="relative w-full max-w-sm rounded-xl border p-6 shadow-lg">
                 <div className='flex flex-row items-center justify-center p-3'>
                     <p className="font-Instagram flex flex-row items-center gap-1 text-4xl font-light">River<SignalMedium className='animate-pulse' />
                     </p>
@@ -67,14 +68,14 @@ export default function Signup() {
 
                 </form>
 
+                <div className="bordermode mt-4 w-full max-w-sm rounded-xl border p-4 text-center shadow-lg">
+                    <p className="text-sm font-light">
+                        Already have an account?
+                        <Link className="ml-1 cursor-pointer font-semibold text-blue-500 hover:underline" to='/login'>Log in</Link>
+                    </p>
+                </div>
             </div>
 
-            <div className="bordermode mt-4 w-full max-w-sm rounded-xl border p-4 text-center shadow-lg">
-                <p className="text-sm font-light">
-                    Already have an account?
-                    <Link className="ml-1 cursor-pointer font-semibold text-blue-500 hover:underline" to='/login'>Log in</Link>
-                </p>
-            </div>
         </div>
     );
 }

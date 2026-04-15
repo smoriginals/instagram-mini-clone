@@ -40,7 +40,7 @@
     "react-top-loading-bar": "^3.0.2",
     "recharts": "^3.5.0",
     "tailwind-merge": "^3.4.0",
-    "tailwindcss": "^4.2.1",
+    "tailwindcss": "^4.2.2",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
